@@ -1,0 +1,29 @@
+<!-- <div class="container">
+    <h3>This is receptionist component</h3>
+</div> -->
+
+<mat-grid-list cols="10" rowHeight="658px">
+
+  <mat-grid-tile colspan="2" class="blue" rowspan="1">
+      <div style="padding-top: 142px">
+    <receptionist-sidemenu></receptionist-sidemenu>
+  </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="8" class="" rowspan="1">
+     <router-outlet></router-outlet>
+   </mat-grid-tile>
+
+  </mat-grid-list>
+
+  <!-- <div class="container">
+      <div class="row blue">
+        <div class="col-8">
+          One of three columns
+        </div>
+        <div class="col-4">
+          One of three columns
+        </div>
+
+      </div>
+    </div> -->

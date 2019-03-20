@@ -1,0 +1,206 @@
+<div class="container scroll" style="border-top: 1000px">
+    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+
+<form (submit)="onRegister(patientRegistrationForm)" #patientRegistrationForm="ngForm">
+<!-- Start - Patient Information Panel -->
+<div class="container border border-secondary divPatientInfo">
+    <p class="font-weight-bold">Patient Information</p>
+    <!-- Start - Patient Registration Number row -->
+      <div class="form-group row">
+            <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Registration Number:</label>
+          <div class="col-sm-3">
+            <input ngModel #patientRegistrationNumber="ngModel" type="text" readonly class="form-control-plaintext" id="patientRegistrationNumber" name="patientRegistrationNumber" value="PAT/0032">
+          </div>
+      </div>
+    <!-- End - Patient Registration Number row -->
+
+    <!-- Start - First Name, Last Name, Gender -->
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="patientFirstName">First name</label>
+            <input ngModel #patientFirstName="ngModel" type="text" class="form-control" id="patientFirstName" name="patientFirstName" placeholder="First name" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label for="patientLastName">Last name</label>
+            <input ngModel #patientLastName="ngModel" type="text" class="form-control" id="patientLastName" name="patientLastName" placeholder="Last name" required>
+          </div>
+
+        <div class="col-md-4 mb-3" style="padding-left: 27px">
+            <label >Gender</label>
+            <div style="padding-top: 7px">
+            <!-- <div class="custom-control custom-radio custom-control-inline">
+                <input  [(ngModel)]="gender" type="radio" id="male" name="gender" class="custom-control-input">
+                <label class="custom-control-label" for="male">Male</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input   type="radio" id="female" name="gender" class="custom-control-input">
+                <label class="custom-control-label" for="female">Female</label>
+              </div> -->
+              <mat-radio-group ngModel #genderPatient="ngModel" name="genderPatient">
+                  <mat-radio-button value="male">Male</mat-radio-button>
+                  <mat-radio-button value="female">Female</mat-radio-button>
+               </mat-radio-group>
+
+            </div>
+          </div>
+        </div>
+ <!-- End - First Name, Last Name, Gender -->
+
+ <!-- Start - Address, City, District -->
+    <div class="form-row" style="padding-bottom: 10px">
+      <div class="col-md-7 mb-3">
+        <label for="patientAddress">Address</label>
+        <input ngModel #patientAddress="ngModel" type="text" class="form-control" id="patientAddress" name="patientAddress" placeholder="Address">
+      </div>
+      <div class="col-md-3 mb-3">
+          <label for="patientCity">City</label>
+          <input ngModel #patientCity="ngModel" type="text" class="form-control" id="patientCity" name="patientCity" placeholder="City" required>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="patientDistrict">District</label>
+          <select ngModel #patientDistrict="ngModel"class="custom-select" name="patientDistrict" id="patientDistrict" required="">
+              <option value="">Choose...</option>
+              <option value="colombo">Colombo</option>
+              <option value="gampaha">Gampaha</option>
+              <option value="kaluthara">Kaluthara</option>
+              <option value="kandy">Kandy</option>
+            </select>
+        </div>
+  </div>
+<!-- End - Address, City, District -->
+
+<!-- Start - NIC, Date of Birth, Maritall Status-->
+    <div class="form-row">
+        <div class="col-md-4 mb-3" >
+            <label for="patientNIC">NIC</label>
+            <div style="padding-top: 10px">
+               <input ngModel #patientNIC="ngModel" type="text" class="form-control" id="patientNIC" name="patientNIC" placeholder="NIC" required>
+            </div>
+        </div>
+
+          <div class="col-md-4 mb-3" style="padding-left: 50px">
+                <label for="">Date of Birth</label><br>
+            <mat-form-field >
+                 <input matInput ngModel #patientDOB="ngModel" name="patientDOB" [matDatepicker]="picker" placeholder="Choose a date">
+                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+         </div>
+
+         <div class="col-md-4 mb-3" style="padding-left: 27px">
+           <label for="maritalStatus">Marital Status</label><br>
+
+            <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required="">
+                <option value="">Choose...</option>
+                <option value="married">Married</option>
+                <option value="unmarried">Unmarried</option>
+            </select>
+         </div>
+    </div>
+<!-- End - NIC, Date of Birth, Maritall Status-->
+
+<!-- Start - Contact Number, Email-->
+    <div class="form-row">
+        <div class="col-md-4 mb-3" >
+            <label for="patientContactNumber">Contact Number</label>
+            <div style="padding-top: 10px">
+                <input  ngModel #patientContactNumber="ngModel" type="text" class="form-control" id="patientContactNumber" name="patientContactNumber" placeholder="Contact Number" required>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3" >
+            <label for="patientEmail">Email</label>
+            <div style="padding-top: 10px">
+                <input ngModel #patientEmail="ngModel" type="text" class="form-control" id="patientEmail" name="patientEmail" placeholder="Email" required>
+            </div>
+        </div>
+    </div>
+<!-- End - Contact Number, Email-->
+</div>
+<!-- End - Patient Information Panel -->
+
+<!-- Start - Guardian Information Panel -->
+<div class="container border border-secondary divGuardianInfo">
+  <p class="font-weight-bold">Responsible Party:</p>
+<!-- Start - Responsible party type -->
+   <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Responsible Party</label>
+      <div class="col-sm-10" style="padding-top: 7px">
+          <!-- <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="self" name="guardianType" class="custom-control-input">
+              <label class="custom-control-label" for="self">Self</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="parent" name="guardianType" class="custom-control-input">
+              <label class="custom-control-label" for="parent">Parent</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="guardian" name="guardianType" class="custom-control-input">
+                <label class="custom-control-label" for="guardian">Guardian</label>
+            </div> -->
+            <mat-radio-group ngModel (change)="onChange($event,patientRegistrationForm)" #guardianType="ngModel" name="guardianType">
+                <mat-radio-button value="self">Self</mat-radio-button>
+                <mat-radio-button value="parent">Parent</mat-radio-button>
+                <mat-radio-button value="guardian">Guardian</mat-radio-button>
+              </mat-radio-group>
+        </div>
+    </div>
+    <!-- End - Responsible party type -->
+    <!-- Start - First Name, Last Name, Gender -->
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label for="guardianFirstName">First name</label>
+          <input ngModel #guardianFirstName="ngModel"type="text" class="form-control" id="guardianFirstName" name="guardianFirstName" placeholder="First name" required>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="guardianLastName">Last name</label>
+          <input ngModel #guardianLastName="ngModel"  type="text" class="form-control" id="guardianLastName" name="guardianLastName" placeholder="Last name" required>
+        </div>
+
+      <div class="col-md-4 mb-3" style="padding-left: 27px">
+          <label >Gender</label>
+          <div style="padding-top: 7px">
+          <!-- <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="guardianMale" name="guardianGender" class="custom-control-input">
+              <label class="custom-control-label" for="guardianMale">Male</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="guardianFemale" name="guardianGender" class="custom-control-input">
+              <label class="custom-control-label" for="guardianFemale">Female</label>
+            </div> -->
+            <mat-radio-group ngModel #genderGuardian="ngModel" name="genderGuardian">
+               <mat-radio-button value="male">Male</mat-radio-button>
+               <mat-radio-button value="female">Female</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+<!-- End - First Name, Last Name, Gender -->
+<div class="form-row">
+    <div class="col-md-4 mb-3">
+        <label for="guardianNIC">NIC</label>
+        <input ngModel #guardianNIC="ngModel"type="text" class="form-control" id="guardianNIC" name="guardianNIC" placeholder="NIC" required>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="guardianContactNumber">Contact Number</label>
+        <input ngModel #guardianContactNumber="ngModel"type="text" class="form-control" id="guardianContactNumber" name="guardianContactNumber" placeholder="Contact Number" required>
+    </div>
+</div>
+</div>
+<!-- End - Guardian Information Panel -->
+
+<br>
+<button class="btn btn-primary" type="submit" style="margin-left: 250px">Submit form</button>
+<button class="btn btn-primary" style="margin-left: 50px">Clear Fields</button>
+<br>
+<br>
+
+</form>
+
+
+</cdk-virtual-scroll-viewport>
+
+
+</div>

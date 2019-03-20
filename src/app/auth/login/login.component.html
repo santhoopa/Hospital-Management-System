@@ -1,0 +1,47 @@
+ <mat-card class="card">
+  <mat-card-header class="header">
+    <mat-card-title>Hospital Management System - Login</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form class="form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
+         <mat-form-field class="full-width">
+           <input
+           matInput
+           placeholder="Username"
+           name="username"
+           #usernameInput="ngModel"
+           ngModel
+           required>
+         </mat-form-field>
+         <br>
+        <mat-form-field class="full-width">
+          <mat-label >Select Role</mat-label>
+          <mat-select  name="role" ngModel required>
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="receptionist">Receptionist</mat-option>
+            <mat-option value="doctor">Doctor</mat-option>
+            <mat-option value="laboratorist">Laboratorist</mat-option>
+          </mat-select>
+        </mat-form-field>
+         <br>
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          placeholder="Password"
+          type="password"
+          name="password"
+          #passwordInput="ngModel"
+          ngModel
+          required>
+        </mat-form-field>
+        <br>
+      <button class="login-button" mat-raised-button  color="primary">Login</button>
+
+
+    </form>
+
+  </mat-card-content>
+</mat-card>
+
+
