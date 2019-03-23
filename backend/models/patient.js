@@ -8,6 +8,7 @@ const patientSchema=mongoose.Schema({
   },
   gender:String,
   address:String,
+  dob:String,
   city:String,
   district:String,
   nic:String,

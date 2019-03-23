@@ -5,6 +5,7 @@ export interface Patient{
   lastname:string;
   },
   gender:string;
+  dob:string;
   address:string;
   city:string;
   district:string;

@@ -62,10 +62,10 @@
           <label for="patientDistrict">District</label>
           <select ngModel #patientDistrict="ngModel"class="custom-select" name="patientDistrict" id="patientDistrict" required="">
               <option value="">Choose...</option>
-              <option value="colombo">Colombo</option>
-              <option value="gampaha">Gampaha</option>
-              <option value="kaluthara">Kaluthara</option>
-              <option value="kandy">Kandy</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kaluthara">Kaluthara</option>
+              <option value="Kandy">Kandy</option>
             </select>
         </div>
   </div>
@@ -81,12 +81,15 @@
         </div>
 
           <div class="col-md-4 mb-3" style="padding-left: 50px">
-                <label for="">Date of Birth</label><br>
-            <mat-form-field >
+                <label for="">Date of Birth</label>
+            <!-- <mat-form-field >
                  <input matInput ngModel #patientDOB="ngModel" name="patientDOB" [matDatepicker]="picker" placeholder="Choose a date">
                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
+            <mat-form-field>
+                <input matInput ngModel #patientDOB="ngModel" name="patientDOB" type="date" >
+              </mat-form-field>
          </div>
 
          <div class="col-md-4 mb-3" style="padding-left: 27px">
@@ -94,8 +97,8 @@
 
             <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required="">
                 <option value="">Choose...</option>
-                <option value="married">Married</option>
-                <option value="unmarried">Unmarried</option>
+                <option value="Married">Married</option>
+                <option value="Unmarried">Unmarried</option>
             </select>
          </div>
     </div>
@@ -139,10 +142,10 @@
                 <input type="radio" id="guardian" name="guardianType" class="custom-control-input">
                 <label class="custom-control-label" for="guardian">Guardian</label>
             </div> -->
-            <mat-radio-group ngModel (change)="onChange($event,patientRegistrationForm)" #guardianType="ngModel" name="guardianType">
-                <mat-radio-button value="self">Self</mat-radio-button>
-                <mat-radio-button value="parent">Parent</mat-radio-button>
-                <mat-radio-button value="guardian">Guardian</mat-radio-button>
+            <mat-radio-group ngModel (change)="onChangeGuardianTypeRadioButton($event,patientRegistrationForm)" #guardianType="ngModel" name="guardianType">
+                <mat-radio-button value="Self">Self</mat-radio-button>
+                <mat-radio-button value="Parent">Parent</mat-radio-button>
+                <mat-radio-button value="Guardian">Guardian</mat-radio-button>
               </mat-radio-group>
         </div>
     </div>
@@ -171,8 +174,8 @@
               <label class="custom-control-label" for="guardianFemale">Female</label>
             </div> -->
             <mat-radio-group ngModel #genderGuardian="ngModel" name="genderGuardian">
-               <mat-radio-button value="male">Male</mat-radio-button>
-               <mat-radio-button value="female">Female</mat-radio-button>
+               <mat-radio-button value="Male">Male</mat-radio-button>
+               <mat-radio-button value="Female">Female</mat-radio-button>
             </mat-radio-group>
           </div>
         </div>

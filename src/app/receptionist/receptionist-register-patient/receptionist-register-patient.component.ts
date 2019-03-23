@@ -24,7 +24,8 @@ export class ReceptionistRegisterPatientComponent{
     //   return
     //  }
     console.log("Register Button clicked");
-    // console.log(registrationForm.value);
+     console.log(registrationForm.value.patientDOB);
+  //   console.log((registrationForm.value.patientDOB.getFullYear())+'-' + (registrationForm.value.patientDOB.getMonth()+1) + '-'+(registrationForm.value.patientDOB.getDate()));
     const patient:Patient={
       patientRegistrationNumber:  registrationForm.value.patientRegistrationNumber,
       name:{
@@ -33,6 +34,7 @@ export class ReceptionistRegisterPatientComponent{
       },
       gender:registrationForm.value.genderPatient,
       address:registrationForm.value.patientAddress,
+      dob:registrationForm.value.patientDOB,
       city:registrationForm.value.patientCity,
       district:registrationForm.value.patientDistrict,
       nic:registrationForm.value.patientNIC,
@@ -48,16 +50,16 @@ export class ReceptionistRegisterPatientComponent{
         contactNumber:registrationForm.value.guardianContactNumber ,
       }
     }
-   // console.log(patient);
-    //this.receptionistService.registerPatient(patient);
-    //registrationForm.reset();
+    console.log(patient);
+    this.receptionistService.registerPatient(patient);
+ //   registrationForm.reset();
   }
 
-  onChange(mrChange: MatRadioChange,registrationForm: NgForm) {
-    console.log("changed");
+  onChangeGuardianTypeRadioButton(mrChange: MatRadioChange,registrationForm: NgForm) {
+    // console.log("changed");
     let mrButton: MatRadioButton = mrChange.source;
-    console.log(mrButton.checked);
-    if(mrButton.checked && mrChange.value=="self")
+    //console.log(mrButton.checked);
+    if(mrButton.checked && mrChange.value=="Self")
     {
       registrationForm.controls['guardianFirstName'].disable();
       registrationForm.controls['guardianLastName'].disable();
