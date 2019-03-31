@@ -1,0 +1,21 @@
+.example-viewport {
+  height: 600px;
+  width: 1000px;;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+
+.divDoctorInfo{
+  padding-top: 10px;
+  padding-right: 50px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  width: 975px;
+
+  /* margin-top: 10px; */
+  margin-bottom: 10px;
+  border-right: 100px
+}

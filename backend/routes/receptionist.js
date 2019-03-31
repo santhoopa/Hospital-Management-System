@@ -1,7 +1,72 @@
 const express=require('express');
 const router=express.Router();
 const Patient=require('../models/patient');
+const Doctor=require('../models/doctor');
+const DoctorAvailability=require('../models/doctor_availability');
 
+//Adding Doctors - By Receptionist
+router.post("/api/doctors",(req,res,next) => {
+  console.log("This is receptionist - add patients route ");
+  console.log(req.body.doctorAvailability);
+
+    const doctor=new Doctor({
+    doctorRegistrationNumber:  req.body.doctorRegistrationNumber,
+    name:{
+    firstname:req.body.name.firstname,
+    lastname:req.body.name.lastname,
+    },
+    gender:req.body.gender,
+    dob:req.body.dob,
+    address:req.body.address,
+    city:req.body.city,
+    district:req.body.district,
+    nic:req.body.nic,
+    maritalStatus:req.body.maritalStatus,
+    contactNumber:req.body.contactNumber,
+    email:req.body.email,
+    doctorType:req.body.doctorType,
+    SLMCRegNo:req.body.SLMCRegNo,
+    primaryQualification:{
+      degree:req.body.primaryQualification.degree,
+      year:req.body.primaryQualification.year,
+      university:req.body.primaryQualification.university,
+      country:req.body.primaryQualification.country
+    },
+    postGradQualification:{
+      degree:req.body.postGradQualification.degree,
+      specialization:req.body.postGradQualification.specialization,
+      year:req.body.postGradQualification.year,
+      university:req.body.postGradQualification.university,
+      country:req.body.postGradQualification.country
+    }
+    });
+    console.log(doctor);
+
+
+    doctor.save().then(createdDoctor => {
+
+    const doctorAvailability=new DoctorAvailability({
+      doctorRegistrationNumber:  req.body.doctorRegistrationNumber,
+      name:{
+      firstname:req.body.name.firstname,
+      lastname:req.body.name.lastname,
+      },
+      timeSlots:req.body.doctorAvailability
+    });
+    console.log(doctorAvailability);
+    doctorAvailability.save();
+
+      res.status(201).json({
+        message:"Doctor Successfull Added",
+        doctor: createdDoctor.name.firstname
+      });
+    });
+
+
+
+});
+
+//Searching Patients - By Receptionist
 router.get("/api/patients/:keyword",(req,res,next) => {
   console.log("This is receptionist - get patients route "+req.params.keyword);
   Patient.find({$or:[{'name.firstname':req.params.keyword},{'name.lastname':req.params.keyword}]}).then(results => {
@@ -11,6 +76,8 @@ router.get("/api/patients/:keyword",(req,res,next) => {
     });
   });
 });
+
+//Adding Patients - By Receptionist
 router.post("/api/patient/register",(req,res,next) => {
   console.log("This is receptionist - register patient route");
  // const patient=new Patient();
@@ -47,12 +114,29 @@ router.post("/api/patient/register",(req,res,next) => {
       patient: createdPatient.name.firstname
     });
   });
-  // console.log(patient.name.firstname);
-  // res.status(200).json({
-  //   message: "Patient Successfull Added",
-  //   patient:patient.name.firstname
-
-  // });
 });
 
-module.exports=router;
+//Schedule Appointments - Receptionist - Getting Doctor Names List
+router.get("/api/doctors/getdoctorNames",(req,res,next) => {
+  console.log("Schedule Appointments - Getting Doctor Names List");
+  Doctor.find(null,'name').then(results => {
+   // console.log(results.name.firstname);
+    res.status(200).json({
+      message: "Doctor Names successfully fetched",
+      doctorNames:results
+    });
+  });
+});
+
+//Schedule Appointments - Receptionist - Getting Doctor Available Time Slots
+router.get("/api/doctors/getdoctorAvailability/:firstName",(req,res,next) => {
+  DoctorAvailability.findOne({'name.firstname':req.params.firstName}).then(results =>{
+      console.log(results);
+      res.status(200).json({
+        message: "Doctor Availabilities successfully fetched",
+        timeSlots:results.timeSlots
+      });
+  });
+});
+
+  module.exports=router;

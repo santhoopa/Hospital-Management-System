@@ -1,1 +1,296 @@
-<h1>This is receptionist add doctor component</h1>
+<!-- <div class="p-3 mb-2 bg-info text-white" style="margin-top: 40px; padding-left: 75px">Doctor Registration</div> -->
+
+<div class="container scroll" style="border-top: 1000px">
+  <!-- <p class="font-weight-bold">Doctor Registration</p> -->
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+
+<form (submit)="onRegister(doctorRegistrationForm)" #doctorRegistrationForm="ngForm">
+<!-- Start - Doctor Information Panel -->
+<div class="container border border-secondary divDoctorInfo">
+        <p class="font-weight-bold">Doctor Information</p>
+      <!-- Start - Patient Registration Number row -->
+      <div class="form-group row">
+            <label for="doctorRegistrationNumber" class="col-sm-4 col-form-label">Doctor Registration Number:</label>
+          <div class="col-sm-3">
+            <input style="font-weight:bold"ngModel #doctorRegistrationNumber="ngModel" type="text" readonly class="form-control-plaintext" id="doctorRegistrationNumber" name="doctorRegistrationNumber" [(ngModel)]="doctorRegistrationNo">
+          </div>
+      </div>
+     <!-- End - Patient Registration Number row -->
+
+     <!-- Start - First Name, Last Name, Gender -->
+     <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="doctorFirstName">First name</label>
+        <input ngModel #doctorFirstName="ngModel" type="text" class="form-control" id="doctorFirstName" name="doctorFirstName" placeholder="First name" required>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="doctorLastName">Last name</label>
+        <input ngModel #doctorLastName="ngModel" type="text" class="form-control" id="doctorLastName" name="doctorLastName" placeholder="Last name" required>
+      </div>
+
+    <div class="col-md-4 mb-3" style="padding-left: 27px">
+        <label >Gender</label>
+        <div style="padding-top: 7px">
+          <mat-radio-group ngModel #genderDoctor="ngModel" name="genderDoctor">
+              <mat-radio-button value="Male">Male</mat-radio-button>
+              <mat-radio-button value="Female">Female</mat-radio-button>
+           </mat-radio-group>
+
+        </div>
+      </div>
+    </div>
+    <!-- End - First Name, Last Name, Gender -->
+
+    <!-- Start - Address, City, District -->
+    <div class="form-row" style="padding-bottom: 10px">
+      <div class="col-md-7 mb-3">
+        <label for="doctorAddress">Address</label>
+        <input ngModel #doctorAddress="ngModel" type="text" class="form-control" id="doctorAddress" name="doctorAddress" placeholder="Address">
+      </div>
+      <div class="col-md-3 mb-3">
+          <label for="doctorCity">City</label>
+          <input ngModel #doctorCity="ngModel" type="text" class="form-control" id="doctorCity" name="doctorCity" placeholder="City" required>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="doctorDistrict">District</label>
+          <select ngModel #doctorDistrict="ngModel"class="custom-select" name="doctorDistrict" id="doctorDistrict" required="">
+              <option value="">Choose...</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kaluthara">Kaluthara</option>
+              <option value="Kandy">Kandy</option>
+            </select>
+        </div>
+    </div>
+    <!-- End - Address, City, District -->
+
+    <!-- Start - NIC, Date of Birth, Maritall Status-->
+    <div class="form-row">
+      <div class="col-md-4 mb-3" >
+          <label for="doctorNIC">NIC</label>
+          <div style="padding-top: 10px">
+            <input ngModel #doctorNIC="ngModel" type="text" class="form-control" id="doctorNIC" name="doctorNIC" placeholder="NIC" required>
+          </div>
+      </div>
+
+        <div class="col-md-4 mb-3" style="padding-left: 50px">
+              <label for="">Date of Birth</label>
+          <mat-form-field>
+              <input matInput ngModel #doctorDOB="ngModel" name="doctorDOB" type="date" >
+            </mat-form-field>
+      </div>
+
+      <div class="col-md-4 mb-3" style="padding-left: 27px">
+        <label for="maritalStatus">Marital Status</label><br>
+
+          <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required="">
+              <option value="">Choose...</option>
+              <option value="Married">Married</option>
+              <option value="Unmarried">Unmarried</option>
+          </select>
+      </div>
+    </div>
+    <!-- End - NIC, Date of Birth, Maritall Status-->
+
+    <!-- Start - Contact Number, Email, Doctor Type-->
+    <div class="form-row"style="padding-bottom: 10px">
+        <div class="col-md-4 mb-3" >
+            <label for="doctorContactNumber">Contact Number</label>
+            <div style="padding-top: 10px">
+                <input  ngModel #doctorContactNumber="ngModel" type="text" class="form-control" id="doctorContactNumber" name="doctorContactNumber" placeholder="Contact Number" required>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3" >
+            <label for="doctorEmail">Email</label>
+            <div style="padding-top: 10px">
+                <input ngModel #doctorEmail="ngModel" type="text" class="form-control" id="doctorEmail" name="doctorEmail" placeholder="Email" required>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3" >
+            <label for="doctorType">Doctor Type</label>
+            <div style="padding-top: 10px">
+            <select ngModel #doctorType="ngModel"class="custom-select" id="doctorType" name="doctorType" required="">
+                <option value="">Choose...</option>
+                <option value="Physician">Physician</option>
+                <option value="Pediatrician">Pediatrician</option>
+                <option value="Psychiatrist">Psychiatrist</option>
+                <option value="Surgeon">Surgeon</option>
+                <option value="Obstetrician">Obstetrician</option>
+                <option value="Dermatologist">Dermatologist</option>
+            </select>
+            </div>
+        </div>
+    </div>
+    <!-- End - Contact Number, Email, Doctor Type-->
+
+    <!-- Start - SLMC Reg No-->
+    <div class="form-row">
+        <div class="col-md-8 mb-3" >
+            <label for="slmcRegNo">Sri Lanka Medical Council Registration Number</label>
+            <div style="padding-top: 10px">
+                <input ngModel #slmcRegNo="ngModel" type="text" class="form-control" id="slmcRegNo" name="slmcRegNo" placeholder="S.L.M.C.Registration Number" required>
+            </div>
+        </div>
+    </div>
+    <!-- End - SLMC Reg No-->
+
+</div>
+<!-- End - Doctor Information Panel -->
+
+<!-- Start - Primary Qualification Panel -->
+<div class="container border border-secondary divDoctorInfo">
+    <p class="font-weight-bold">Primary Qualifications</p>
+
+    <!-- Start - Degree, Year of Graduation -->
+    <div class="form-group row">
+        <div class="col-md-6 mb-3">
+            <label for="primaryDegree">Degree</label>
+            <input ngModel #primaryDegree="ngModel" type="text" class="form-control" id="primaryDegree" name="primaryDegree" placeholder="Degree" required>
+          </div>
+          <div class="col-md-6 mb-3">
+              <label for="primaryYearObtained">Year of Graduation</label>
+              <input ngModel #primaryYearObtained="ngModel" type="number" class="form-control" id="primaryYearObtained" name="primaryYearObtained" placeholder="Year of Graduation" required>
+            </div>
+    </div>
+    <!-- Start - Degree, Year of Graduation -->
+
+    <!-- Start - Country, University -->
+    <div class="form-group row">
+        <div class="col-md-6 mb-3">
+            <label for="primaryUniversity">University</label>
+            <input ngModel #primaryUniversity="ngModel" type="text" class="form-control" id="primaryUniversity" name="primaryUniversity" placeholder="University" required>
+          </div>
+          <div class="col-md-6 mb-3">
+              <label for="primaryCountry">Country</label>
+              <input ngModel #primaryCountry="ngModel" type="text" class="form-control" id="primaryCountry" name="primaryCountry" placeholder="Country" required>
+            </div>
+    </div>
+    <!-- Start - Country, University -->
+</div>
+<!-- End - Primary Qualification Panel -->
+
+<!-- Start - Post Grduate Qualification Panel -->
+<div class="container border border-secondary divDoctorInfo">
+    <p class="font-weight-bold">Post Graduate Qualifications</p>
+
+    <!-- Start - Degree, Year of Graduation -->
+    <div class="form-group row">
+        <div class="col-md-6 mb-3">
+            <label for="postGradDegree">Degree/Diploma</label>
+            <input ngModel #postGradDegree="ngModel" type="text" class="form-control" id="postGradDegree" name="postGradDegree" placeholder="Degree" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="postGradSpecialization">Specialization Area</label>
+            <input ngModel #postGradSpecialization="ngModel" type="text" class="form-control" id="postGradSpecialization" name="postGradSpecialization" placeholder="Specialization" required>
+        </div>
+    </div>
+    <!-- Start - Degree, Year of Graduation -->
+
+    <!-- Start - Year of Graduation, Country, University -->
+    <div class="form-group row">
+          <div class="col-md-4 mb-3">
+              <label for="postGradYearObtained">Year of Graduation</label>
+              <input ngModel #postGradYearObtained="ngModel" type="number" class="form-control" id="postGradYearObtained" name="postGradYearObtained" placeholder="Year of Graduation" required>
+          </div>
+          <div class="col-md-5 mb-3">
+              <label for="postGradUniversity">University</label>
+              <input ngModel #postGradUniversity="ngModel" type="text" class="form-control" id="postGradUniversity" name="postGradUniversity" placeholder="University" required>
+          </div>
+          <div class="col-md-3 mb-3">
+              <label for="postGradCountry">Country</label>
+              <input ngModel #postGradCountry="ngModel" type="text" class="form-control" id="postGradCountry" name="postGradCountry" placeholder="Country" required>
+          </div>
+
+    </div>
+    <!-- Start - Year of Graduation,Country, University -->
+
+
+</div>
+<!-- End - Post Graduate Qualification Panel -->
+
+<!-- Start - Doctor Avialability Panel -->
+<div class="container border border-secondary divDoctorInfo">
+   <p class="font-weight-bold">Availability</p>
+   <div class="row">
+      <div class="col-md-5 mb-3" style="padding-right: 50px; padding-left: 40px">
+          <div class="form-group row">
+              <label for="day">Choose day</label>
+              <select  [(ngModel)]="day" class="custom-select" id="day" name="day" required="">
+                  <option value="">Choose...</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+              </select>
+            </div>
+            <div class="form-group row">
+                <label for="startTime">Start Time</label>
+                <select [(ngModel)]="startTime" class="custom-select" id="startTime" name="startTime" required="">
+                    <option value="">Choose...</option>
+                    <option value="8.00 AM">8.00 AM</option>
+                    <option value="9.00 AM">9.00 AM</option>
+                    <option value="10.00 AM">10.00 AM</option>
+                    <option value="11.00 AM">11.00 AM</option>
+                    <option value="12.00 PM">12.00 PM</option>
+                    <option value="1.00 PM">1.00 PM</option>
+                    <option value="2.00 PM">2.00 PM</option>
+                    <option value="3.00 PM">3.00 PM</option>
+                    <option value="4.00 PM">4.00 PM</option>
+                    <option value="5.00 PM">5.00 PM</option>
+                    <option value="6.00 PM">6.00 PM</option>
+                    <option value="7.00 PM">7.00 PM</option>
+                </select>
+              </div>
+              <div class="form-group row">
+                  <label for="endTime">End Time</label>
+                  <select [(ngModel)]="endTime" class="custom-select" id="endTime" name="endTime" required="">
+                    <option value="">Choose...</option>
+                    <option value="8.00 AM">8.00 AM</option>
+                    <option value="9.00 AM">9.00 AM</option>
+                    <option value="10.00 AM">10.00 AM</option>
+                    <option value="11.00 AM">11.00 AM</option>
+                    <option value="12.00 PM">12.00 PM</option>
+                    <option value="1.00 PM">1.00 PM</option>
+                    <option value="2.00 PM">2.00 PM</option>
+                    <option value="3.00 PM">3.00 PM</option>
+                    <option value="4.00 PM">4.00 PM</option>
+                    <option value="5.00 PM">5.00 PM</option>
+                    <option value="6.00 PM">6.00 PM</option>
+                    <option value="7.00 PM">7.00 PM</option>
+                    <option value="8.00 PM">8.00 PM</option>
+                    <option value="9.00 PM">9.00 PM</option>
+                  </select>
+                </div>
+                <span (click)="onAddTimeSlot()" class="btn btn-dark" style="margin-left: 20px">Add time slot</span>
+                <span (click)="onClearTable()" class="btn btn-dark" style="margin-left: 20px">Clear Table</span>
+
+      </div>
+
+
+      <div class="col-md-7 mb-3 border border-secondary" >
+          <mat-list role="list">
+            <mat-list-item role="listitem" *ngFor="let slot of timeSlots">
+              <h6> {{slot.day}}</h6>
+              <span style="margin-left: 40px">From {{slot.startTime}}</span>
+              <span style="margin-left: 40px">To {{slot.endTime}}</span>
+              <!-- <button class="btn btn-danger btn-sm" style="margin-left: 50px">Remove</button> -->
+           </mat-list-item>
+          </mat-list>
+      </div>
+  </div>
+</div>
+<!-- End - Doctor Avialability Panel -->
+
+<br>
+<button class="btn btn-success" type="submit" style="margin-left: 250px">Register Doctor</button>
+<button class="btn btn-primary" style="margin-left: 50px">Clear Fields</button>
+<br>
+<br>
+</form>
+  </cdk-virtual-scroll-viewport>
+</div>

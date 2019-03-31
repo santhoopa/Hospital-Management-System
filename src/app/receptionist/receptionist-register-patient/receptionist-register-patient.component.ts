@@ -13,6 +13,7 @@ import { MatRadioChange, MatRadioButton } from '@angular/material';
 })
 
 export class ReceptionistRegisterPatientComponent{
+  patientRegNo="PAT/010";
   constructor(public receptionistService: ReceptionistService) { }
 
   public pat: string="PAT/010";

@@ -1,0 +1,20 @@
+.mainDiv{
+  /* padding-top: 10px;
+  padding-right: 50px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+
+
+   margin-top: 10px;
+  margin-bottom: 10px;
+  border-right: 100px */
+  width: 980px;
+}
+
+.example-viewport {
+  height: 600px;
+  width: 1000px;
+  /* margin-top: 10px; */
+  /* border: 1px solid black; */
+
+}

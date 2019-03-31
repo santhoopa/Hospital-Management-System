@@ -1,9 +1,10 @@
+import { Doctor } from './../models/doctor.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { Patient } from '../models/patient.model';
 import { map} from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ReceptionistService{
@@ -12,8 +13,15 @@ export class ReceptionistService{
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  registerPatient(patient: Patient)
-  {
+  registerDoctor(doctor:Doctor){
+    console.log("Service Reached");
+    this.http.post<{ message: string, doctor:string}>("http://localhost:3000/api/doctors",doctor).subscribe((responseData)=>{
+      console.log(responseData.message);
+      console.log("Added Doctor name:" +responseData.doctor);
+
+    });
+  }
+  registerPatient(patient: Patient){
     console.log("Service Reached");
     console.log(patient);
     this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/patient/register",patient).subscribe(responseData=>{
@@ -21,11 +29,11 @@ export class ReceptionistService{
 
     });
   }
+
   searchPatients(keyword:string){
-    //console.log(keyword);
     if (keyword=="")
-      keyword=null;
-    //var res;
+     { keyword=null;}
+
     this.http.get<{ message:string; patients:any}>("http://localhost:3000/api/patients/"+keyword)
     .pipe(map((response)=>{
       return response.patients.map(patient =>{
@@ -57,10 +65,6 @@ export class ReceptionistService{
     }))
     .subscribe(response =>{
       this.patients=response;
-      // console.log("start");
-      // console.log(response);
-      // console.log(this.patients);
-      // console.log("finish");
       this.patientUpdated.next([...this.patients]);
 
 
@@ -70,4 +74,24 @@ export class ReceptionistService{
   getPatienttUpdateListner(){
     return this.patientUpdated.asObservable();
   }
+
+  //  Start - Schedule Appointments
+  // public doctors=[
+  //   {firstName:"Shirod",
+  //   lastName:"Jayawardhana"}
+  // ];
+  getDoctorNames():Observable<any>{
+      console.log("This is getDoctorNames()");
+      return this.http.get<{ message:string; doctorNames:any}>("http://localhost:3000/api/doctors/getdoctorNames");
+  }
+
+  getDoctorAvailability(fname:string){
+    console.log("This is getDoctorAvailability()");
+    return this.http.get<{ message:string; timeSlots:any}>("http://localhost:3000/api/doctors/getdoctorAvailability/"+fname);
+
+
+  }
+
+  //  End - Schedule Appointments
+
 }
