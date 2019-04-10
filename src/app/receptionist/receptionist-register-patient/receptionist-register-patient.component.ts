@@ -1,6 +1,6 @@
 import { Patient } from './../../models/patient.model';
 import { NgForm } from '@angular/forms';
-import { ChangeDetectionStrategy,Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ReceptionistService } from '../receptionist.service';
 import { MatRadioChange, MatRadioButton } from '@angular/material';
 //import { Component, OnInit } from '@angular/core';
@@ -12,23 +12,43 @@ import { MatRadioChange, MatRadioButton } from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ReceptionistRegisterPatientComponent{
-  patientRegNo="PAT/010";
-  constructor(public receptionistService: ReceptionistService) { }
+export class ReceptionistRegisterPatientComponent implements OnInit{
+ patientRegNo:any=null;
 
-  public pat: string="PAT/010";
+  constructor(public receptionistService: ReceptionistService) {
+  }
+
+  //public pat: string="PAT/010";
   public gender:string;
+
+  ngOnInit() {
+  }
+
+  generateRegNo(){
+    console.log("hello");
+    this.receptionistService.getNewPatientRegNo().subscribe(responseData =>{
+      this.patientRegNo=null;
+      this.patientRegNo="PAT/"+responseData.NewPatientRegistrationNumber;
+      console.log(this.patientRegNo);
+    });
+   // this.hello();
+  }
+
 
   onRegister(registrationForm: NgForm){
 
     // if(registrationForm.invalid){
     //   return
     //  }
+    let regno_string:String = registrationForm.value.patientRegistrationNumber;
+    var regNum = regno_string.replace( /^\D+/g, '');
+   //var regNum
     console.log("Register Button clicked");
-     console.log(registrationForm.value.patientDOB);
-  //   console.log((registrationForm.value.patientDOB.getFullYear())+'-' + (registrationForm.value.patientDOB.getMonth()+1) + '-'+(registrationForm.value.patientDOB.getDate()));
+    console.log(regNum);
+    // regNum="1";
+
     const patient:Patient={
-      patientRegistrationNumber:  registrationForm.value.patientRegistrationNumber,
+      patientRegistrationNumber:  regNum,
       name:{
       firstname:registrationForm.value.patientFirstName,
       lastname:registrationForm.value.patientLastName,
@@ -53,7 +73,7 @@ export class ReceptionistRegisterPatientComponent{
     }
     console.log(patient);
     this.receptionistService.registerPatient(patient);
- //   registrationForm.reset();
+    registrationForm.reset();
   }
 
   onChangeGuardianTypeRadioButton(mrChange: MatRadioChange,registrationForm: NgForm) {

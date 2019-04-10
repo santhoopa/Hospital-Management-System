@@ -13,6 +13,24 @@ export class ReceptionistService{
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  getPatientName(paientRegNo:any){
+    if (paientRegNo=="")
+     { paientRegNo=null;}
+    console.log("Getting patient name");
+    console.log(paientRegNo);
+    return this.http.get<{PatientFirstName:string,PatientLastName:string}>("http://localhost:3000/api/patient/getPatientName/"+paientRegNo);
+
+  }
+  getNewPatientRegNo(){
+    console.log("New patient reg no is fetched");
+     return this.http.get<{NewPatientRegistrationNumber:number}>("http://localhost:3000/api/patient/getNewRegNumber");
+  }
+
+  getNewDoctorRegNo(){
+    console.log("New Doctor reg no is fetched");
+     return this.http.get<{NewDoctorRegistrationNumber:number}>("http://localhost:3000/api/doctor/getNewRegNumber");
+  }
+
   registerDoctor(doctor:Doctor){
     console.log("Service Reached");
     this.http.post<{ message: string, doctor:string}>("http://localhost:3000/api/doctors",doctor).subscribe((responseData)=>{

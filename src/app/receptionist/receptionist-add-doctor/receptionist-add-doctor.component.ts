@@ -20,7 +20,7 @@ export class ReceptionistAddDoctorComponent{
   startTime;
   endTime;
 
-  doctorRegistrationNo="DR/001";
+  doctorRegistrationNo:any=null;
 
   public timeSlot:TimeSlot={
     day:null,
@@ -28,6 +28,14 @@ export class ReceptionistAddDoctorComponent{
     endTime:null
   };
 
+  generateRegNo(){
+    console.log("hello");
+    this.receptionistService.getNewDoctorRegNo().subscribe(responseData =>{
+      this.doctorRegistrationNo=null;
+      this.doctorRegistrationNo="DR/"+responseData.NewDoctorRegistrationNumber;
+      console.log(this.doctorRegistrationNo);
+    });
+  }
 
 
   onAddTimeSlot(){
@@ -45,8 +53,12 @@ export class ReceptionistAddDoctorComponent{
 
 
   onRegister(registrationForm: NgForm){
+    let regno_string:String = registrationForm.value.doctorRegistrationNumber;
+    var regNum = regno_string.replace( /^\D+/g, '');
+    //console.log(regNum);
+
     const doctor:Doctor={
-      doctorRegistrationNumber: registrationForm.value.doctorRegistrationNumber,
+      doctorRegistrationNumber: regNum,
       name:{
       firstname:registrationForm.value.doctorFirstName,
       lastname:registrationForm.value.doctorLastName,
@@ -77,7 +89,7 @@ export class ReceptionistAddDoctorComponent{
       },
     doctorAvailability:this.timeSlots
     }
-  console.log(doctor);
+  //console.log(doctor);
   this.receptionistService.registerDoctor(doctor);
   }
 }

@@ -4,6 +4,33 @@ const Patient=require('../models/patient');
 const Doctor=require('../models/doctor');
 const DoctorAvailability=require('../models/doctor_availability');
 
+//Getting patient name to schedule appointment - By Receptionist
+router.get("/api/patient/getPatientName/:regNo",(req,res,next) => {
+  console.log("This is receptionist - Get patient name route");
+  Patient.findOne({"patientRegistrationNumber":req.params.regNo},'name').then(results => {
+    res.status(201).json({
+      PatientFirstName: results.name.firstname,
+      PatientLastName: results.name.lastname
+    });
+  });
+});
+
+//Getting new Doctor registration number from db - By Receptionist
+router.get("/api/doctor/getNewRegNumber",(req,res,next) => {
+  console.log("This is receptionist - Getting new Doctor ID route");
+  Doctor.find(null,'doctorRegistrationNumber').sort('-doctorRegistrationNumber').limit(1).then(result => {
+    console.log(result[0].doctorRegistrationNumber);
+    const newRegNo=result[0].doctorRegistrationNumber +1;
+    console.log(newRegNo);
+    res.status(201).json({
+      NewDoctorRegistrationNumber: newRegNo
+    });
+  });
+
+});
+
+
+
 //Adding Doctors - By Receptionist
 router.post("/api/doctors",(req,res,next) => {
   console.log("This is receptionist - add patients route ");
@@ -77,6 +104,19 @@ router.get("/api/patients/:keyword",(req,res,next) => {
   });
 });
 
+//Getting new patient registration number from db - By Receptionist
+router.get("/api/patient/getNewRegNumber",(req,res,next) => {
+  console.log("This is receptionist - Getting new patient ID route");
+  Patient.find(null,'patientRegistrationNumber').sort('-patientRegistrationNumber').limit(1).then(result => {
+    console.log(result[0].patientRegistrationNumber);
+    const newRegNo=result[0].patientRegistrationNumber +1;
+    console.log(newRegNo);
+    res.status(201).json({
+      NewPatientRegistrationNumber: newRegNo
+    });
+  });
+});
+
 //Adding Patients - By Receptionist
 router.post("/api/patient/register",(req,res,next) => {
   console.log("This is receptionist - register patient route");
@@ -85,7 +125,7 @@ router.post("/api/patient/register",(req,res,next) => {
  console.log(req.body.dob);
  // console.log(patients);
   const patient=new Patient({
-    patientRegistrationNumber:"PAT/001",
+    patientRegistrationNumber:req.body.patientRegistrationNumber,
     name:{
        firstname:req.body.name.firstname,
        lastname:req.body.name.lastname

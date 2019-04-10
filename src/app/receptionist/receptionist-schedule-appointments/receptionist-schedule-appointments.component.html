@@ -4,66 +4,72 @@
 
     <div class="row">
       <div class="col border border-secondary" style="margin-right: 10px; padding-top: 15px">
-            <form>
+            <form (submit)="onScheduleAppointment(scheduleAppointmentForm)" #scheduleAppointmentForm="ngForm">
               <p class="font-weight-bold">Add Appointment</p>
               <div class="form-group row">
                   <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Reg. No</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="patientRegistrationNumber" placeholder="Enter Patient Registration Number">
+                    <input (keyup)="onSearchPatient($event)"type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number">
                   </div>
               </div>
 
               <div class="form-group row">
                   <label for="patientName" class="col-sm-4 col-form-label">Patient Name</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="patientName" readonly placeholder="">
+                    <input type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="name">
                   </div>
               </div>
 
               <div class="form-group row">
                   <label for="selectDoctor" class="col-sm-4 col-form-label">Select Doctor</label>
                   <div class="col-sm-8">
-                      <select ngModel #selectDoctor="ngModel"class="custom-select" name="selectDoctor" id="selectDoctor" required="">
+                      <select (change)="onChangeSelectDoctor($event.target.value)" ngModel #selectDoctor="ngModel"class="custom-select" name="selectDoctor" id="selectDoctor" required="">
                         <option value="null">Choose...</option>
                         <option *ngFor="let doctor of doctors" value="{{doctor.firstName}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
                       </select>
                   </div>
               </div>
 
-              <div class="form-group row">
-                  <label for="selectDate" class="col-sm-4 col-form-label">Select Date</label>
-                  <div class="col-sm-8">
-                      <mat-form-field >
-                          <input matInput [min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date">
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
 
-                  </div>
-              </div>
 
               <div class="form-group row">
-                  <label for="selectDay" class="col-sm-4 col-form-label">Select Day</label>
+                  <label for="selectDay" class="col-sm-4 col-form-label">Select Time Slot</label>
                   <div class="col-sm-8">
-                      <select ngModel #selectDay="ngModel"class="custom-select" name="selectDay" id="selectDay" required="">
+                      <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required="">
                           <option value="">Choose...</option>
+                          <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.day}} {{timeslot.startTime}} {{timeslot.endTime}}">{{timeslot.day}} {{timeslot.startTime}} {{timeslot.endTime}}</option>
+
                       </select>
                   </div>
               </div>
 
-              <div class="form-group row">
+              <!-- <div class="form-group row">
                   <label for="selectTimeSlot" class="col-sm-4 col-form-label">Select Time Slot</label>
                   <div class="col-sm-8">
                       <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required="">
                           <option value="">Choose...</option>
+                          <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.startTime}}">{{timeslot.startTime}}</option>
+
                       </select>
                   </div>
-              </div>
+              </div> -->
+
+              <div class="form-group row">
+                <label for="selectDate" class="col-sm-4 col-form-label">Select Date</label>
+                <div class="col-sm-8">
+                    <mat-form-field >
+                        <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+
+                </div>
+             </div>
 
               <div class="form-group row">
                   <label for="appointmentNumber" class="col-sm-4 col-form-label">Appointment No</label>
                   <div class="col-sm-8">
-                    <input type="text" class="form-control" id="appointmentNumber" readonly placeholder="">
+                    <input type="text" ngModel #appointmentNumber="ngModel" style="font-weight:bold" class="form-control-plaintext" id="appointmentNumber" name="appointmentNumber" readonly [(ngModel)]="appointmentNum">
                   </div>
               </div>
 

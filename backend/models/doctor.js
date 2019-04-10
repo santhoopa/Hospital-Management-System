@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 
 const doctorSchema=mongoose.Schema({
-  doctorRegistrationNumber:  String,
+  doctorRegistrationNumber:  Number,
   name:{
   firstname:String,
   lastname:String,
