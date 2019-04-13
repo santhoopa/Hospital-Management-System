@@ -1,0 +1,12 @@
+mat-grid-tile {
+  /* background: lightblue; */
+  padding: 0px 0px 0px 0px;
+}
+
+.blue{
+  background: #29363d;
+  /* border: 1px solid #000000; */
+  display: flex;
+  flex-wrap: wrap;
+  align-content:flex-end;
+}

@@ -9,7 +9,7 @@ import { MatRadioChange, MatRadioButton } from '@angular/material';
   selector: 'receptionist-register-patient',
   templateUrl: './receptionist-register-patient.component.html',
   styleUrls: ['./receptionist-register-patient.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ReceptionistRegisterPatientComponent implements OnInit{
@@ -22,6 +22,7 @@ export class ReceptionistRegisterPatientComponent implements OnInit{
   public gender:string;
 
   ngOnInit() {
+   this.generateRegNo();
   }
 
   generateRegNo(){

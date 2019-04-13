@@ -3,6 +3,10 @@ const router=express.Router();
 const Patient=require('../models/patient');
 const Doctor=require('../models/doctor');
 const DoctorAvailability=require('../models/doctor_availability');
+const Appointment=require('../models/appointment');
+const Room=require('../models/room');
+const Admission=require('../models/admission');
+
 
 //Getting patient name to schedule appointment - By Receptionist
 router.get("/api/patient/getPatientName/:regNo",(req,res,next) => {
@@ -33,7 +37,7 @@ router.get("/api/doctor/getNewRegNumber",(req,res,next) => {
 
 //Adding Doctors - By Receptionist
 router.post("/api/doctors",(req,res,next) => {
-  console.log("This is receptionist - add patients route ");
+  console.log("This is receptionist - add doctors route ");
   console.log(req.body.doctorAvailability);
 
     const doctor=new Doctor({
@@ -156,11 +160,50 @@ router.post("/api/patient/register",(req,res,next) => {
   });
 });
 
+//Getting new appointment number from db - By Receptionist
+router.get("/api/appointment/getNewNumber",(req,res,next) => {
+  console.log("This is receptionist - Getting new appointment number route");
+  Appointment.find(null,'appointmentNumber').sort('-appointmentNumber').limit(1).then(result => {
+    console.log(result[0].appointmentNumber);
+    const newNo=result[0].appointmentNumber +1;
+    console.log(newNo);
+    res.status(201).json({
+      NewAppointmentNumber: newNo
+    });
+  });
+});
+
+
+
+//Schedule Appointment - Receptionist - Creating appointment
+router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
+  console.log("Schedule Appointments");
+  console.log(req.body);
+  const appointment=new Appointment({
+    appointmentNumber:  req.body.appointmentNumber,
+    doctorRegistrationNumber:req.body.doctorRegistrationNumber,
+    patientRegistrationNumber:req.body.patientRegistrationNumber,
+    timeSlot:req.body.timeSlot,
+    appointmentDate:req.body.appointmentDate,
+    dateCreated:req.body.dateCreated,
+    appointmentType:"Manual",
+    appointmentStatus:"Pending",
+    disease:null,
+    prescription:null
+  });
+  console.log(appointment);
+  appointment.save().then(createdAppointment => {
+    res.status(201).json({
+      message:"Appointment Successfull Added"
+    });
+  });
+});
+
 //Schedule Appointments - Receptionist - Getting Doctor Names List
 router.get("/api/doctors/getdoctorNames",(req,res,next) => {
   console.log("Schedule Appointments - Getting Doctor Names List");
-  Doctor.find(null,'name').then(results => {
-   // console.log(results.name.firstname);
+  Doctor.find(null,'name doctorRegistrationNumber').then(results => {
+   // console.log(results);
     res.status(200).json({
       message: "Doctor Names successfully fetched",
       doctorNames:results
@@ -169,9 +212,10 @@ router.get("/api/doctors/getdoctorNames",(req,res,next) => {
 });
 
 //Schedule Appointments - Receptionist - Getting Doctor Available Time Slots
-router.get("/api/doctors/getdoctorAvailability/:firstName",(req,res,next) => {
-  DoctorAvailability.findOne({'name.firstname':req.params.firstName}).then(results =>{
-      console.log(results);
+router.get("/api/doctors/getdoctorAvailability/:doctorRegistrationNumber",(req,res,next) => {
+  console.log(req.params.firstName);
+  DoctorAvailability.findOne({'doctorRegistrationNumber':Number(req.params.doctorRegistrationNumber)}).then(results =>{
+    //  console.log(results);
       res.status(200).json({
         message: "Doctor Availabilities successfully fetched",
         timeSlots:results.timeSlots
@@ -179,4 +223,31 @@ router.get("/api/doctors/getdoctorAvailability/:firstName",(req,res,next) => {
   });
 });
 
-  module.exports=router;
+//Getting room availability - Admit Patient
+router.get("/api/rooms",(req,res,next) => {
+  console.log("This is Receptionist  - Get Room Availability Route")
+  Room.find().then(results =>{
+    res.status(200).json({
+      rooms:results
+    });
+  });
+});
+
+//Getting vacant rooms
+router.get("/api/rooms/getVacant",(req,res,next) => {
+  console.log("This is Receptionist  - Get Vacant Room Route")
+  Room.find({'status':'Vacant'}).then(results =>{
+    res.status(200).json({
+      VacantRooms:results
+    });
+  });
+
+});
+
+//Admit Patients
+router.post("/api/patient/admit",(req,res,next) => {
+  console.log("This is Receptionist  - Admit Patients Route")
+
+
+});
+module.exports=router;

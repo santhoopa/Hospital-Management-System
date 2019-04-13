@@ -1,5 +1,5 @@
 import { Doctor } from './../../models/doctor.model';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ReceptionistService } from '../receptionist.service';
 import { TimeSlot } from 'src/app/models/timeslot.model';
@@ -13,8 +13,12 @@ import { TimeSlot } from 'src/app/models/timeslot.model';
 
 })
 
-export class ReceptionistAddDoctorComponent{
+export class ReceptionistAddDoctorComponent implements OnInit{
   constructor(public receptionistService: ReceptionistService) { }
+
+  ngOnInit(){
+    this.generateRegNo();
+  }
   timeSlots:TimeSlot[]=[];
   day;
   startTime;
@@ -89,7 +93,7 @@ export class ReceptionistAddDoctorComponent{
       },
     doctorAvailability:this.timeSlots
     }
-  //console.log(doctor);
+  console.log(doctor);
   this.receptionistService.registerDoctor(doctor);
   }
 }

@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { Patient } from '../models/patient.model';
 import { map} from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
+import { ManualAppointment } from './../models/manual_appointment.model';
+
 
 @Injectable({ providedIn: 'root' })
 export class ReceptionistService{
@@ -29,6 +31,12 @@ export class ReceptionistService{
   getNewDoctorRegNo(){
     console.log("New Doctor reg no is fetched");
      return this.http.get<{NewDoctorRegistrationNumber:number}>("http://localhost:3000/api/doctor/getNewRegNumber");
+  }
+
+  getNewAppointmentNumber(){
+    console.log("New Appointment no is fetched");
+    return this.http.get<{NewAppointmentNumber:number}>("http://localhost:3000/api/appointment/getNewNumber");
+
   }
 
   registerDoctor(doctor:Doctor){
@@ -110,6 +118,23 @@ export class ReceptionistService{
 
   }
 
+
+  scheduleAppointment(appointment:ManualAppointment){
+
+    this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/appointment/scheduleAppointment",appointment).subscribe(responseData=>{
+  //    console.log(responseData.message + "Added Patient name:" +responseData.patient);
+
+    });
+  }
   //  End - Schedule Appointments
+
+  getRoomAvailability(){
+    return this.http.get<{rooms:any}>("http://localhost:3000/api/rooms");
+  }
+
+  getVacantRooms(){
+    return this.http.get<{VacantRooms:any}>("http://localhost:3000/api/rooms/getVacant");
+  }
+
 
 }

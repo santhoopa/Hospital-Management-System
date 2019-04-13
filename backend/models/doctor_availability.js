@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 const doctorAvailabilitySchema=mongoose.Schema({
-  doctorRegistrationNumber:  String,
+  doctorRegistrationNumber:  Number,
   name:{
     firstname:String,
     lastname:String,
