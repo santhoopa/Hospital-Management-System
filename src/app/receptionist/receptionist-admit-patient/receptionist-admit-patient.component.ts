@@ -12,6 +12,7 @@ import { ReceptionistService } from '../receptionist.service';
 export class ReceptionistAdmitPatientComponent implements OnInit {
   rooms=[];
   vacantRooms=[];
+  admissionNum:any=null;
   constructor(public receptionistService: ReceptionistService) { }
 
   ngOnInit() {
@@ -27,6 +28,11 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
        // console.log(room);
         this.vacantRooms.push(room);
       });
+    });
+
+    this.receptionistService.getNewAdmissionNumber().subscribe(responseData =>{
+      this.admissionNum="ADM/"+responseData.NewAdmissionNumber;
+
     });
   }
 
@@ -50,8 +56,12 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     let raw_patientNo=admissionForm.value.patientRegistrationNumber;
     let patientNo=raw_patientNo.replace( /^\D+/g, '');
 
+
+    let raw_admissionNo=admissionForm.value.admissionNumber;
+    let admissionNumber=raw_admissionNo.replace( /^\D+/g, '');
+
     const admission:Admission={
-      admissionNumber:1,
+      admissionNumber:admissionNumber,
       patientRegistrationNumber:patientNo,
       appointmentNmber:null,
       roomNumber:admissionForm.value.selecRoom,
@@ -60,6 +70,7 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
 
     }
     console.log(admission);
+    this.receptionistService.admitPatient(admission);
   }
 
 

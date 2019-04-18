@@ -30,17 +30,25 @@ export class AuthService{
       role:role,
       password:password
     }
-    this.http.post<{ token: string}>
+    this.http.post<{ token: string,username: string, role: string}>
     ("http://localhost:3000/api/user/login", user)
     .subscribe(response => {
       console.log("Making HTTP POST request to /api/user/login");
 
       const token = response.token;
       this.token = token;
-      console.log(this.token + "Front");
+    //  console.log(this.token + "Front");
       if (token) {
         this.isAuthenticated = true;
-        this.router.navigate(["/receptionist"]);
+
+       console.log(response.role);
+       if(response.role=="admin"){
+         this.router.navigate(["/admin"]);
+        }
+        else if (response.role=="receptionist"){
+          this.router.navigate(["/receptionist"]);
+
+        }
       }
 
     });

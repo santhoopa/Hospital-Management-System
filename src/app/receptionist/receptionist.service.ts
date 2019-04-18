@@ -1,3 +1,4 @@
+import { Admission } from './../models/admission.model';
 import { Doctor } from './../models/doctor.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -14,6 +15,14 @@ export class ReceptionistService{
   private patientUpdated=new Subject<Patient[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  admitPatient(admission: Admission){
+    this.http.post("http://localhost:3000/api/patient/admit",admission).subscribe((responseData)=>{
+
+    });
+
+  }
+
 
   getPatientName(paientRegNo:any){
     if (paientRegNo=="")
@@ -36,6 +45,12 @@ export class ReceptionistService{
   getNewAppointmentNumber(){
     console.log("New Appointment no is fetched");
     return this.http.get<{NewAppointmentNumber:number}>("http://localhost:3000/api/appointment/getNewNumber");
+
+  }
+
+  getNewAdmissionNumber(){
+    console.log("New admission no is fetched");
+    return this.http.get<{NewAdmissionNumber:number}>("http://localhost:3000/api/admission/getNewNumber");
 
   }
 
@@ -135,6 +150,7 @@ export class ReceptionistService{
   getVacantRooms(){
     return this.http.get<{VacantRooms:any}>("http://localhost:3000/api/rooms/getVacant");
   }
+
 
 
 }

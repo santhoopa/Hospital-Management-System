@@ -54,9 +54,6 @@ router.post("/api/user/login",(req,res,next) => {
     res.status(200);
 });
 
-router.post("/api/user/signup",(req,res,next) => {
-
-});
 
 
 module.exports=router;

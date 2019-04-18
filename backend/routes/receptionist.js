@@ -243,11 +243,42 @@ router.get("/api/rooms/getVacant",(req,res,next) => {
   });
 
 });
+//Getting new admission ID - Admit Patient
+router.get("/api/admission/getNewNumber",(req,res,next) => {
+  console.log("This is receptionist - Getting new admission number route");
+  Admission.find(null,'admissionNumber').sort('-admissionNumber').limit(1).then(result => {
+    console.log(result[0].admissionNumber);
+    const newNo=result[0].admissionNumber +1;
+    console.log(newNo);
+    res.status(201).json({
+      NewAdmissionNumber: newNo
+    });
+  });
+});
+
+
 
 //Admit Patients
 router.post("/api/patient/admit",(req,res,next) => {
   console.log("This is Receptionist  - Admit Patients Route")
-
-
+  const admission=new Admission({
+    admissionNumber:req.body.admissionNumber,
+    patientRegistrationNumber:req.body.patientRegistrationNumber,
+    appointmentNmber:req.body.appointmentNmber,
+    roomNumber:req.body.roomNumber,
+    admissionDate:req.body.admissionDate,
+    dischargeDate:null,
+    causeofAdmission:req.body.causeofAdmission,
+    status:"Admitted",
+  });
+  console.log(req.body);
+  admission.save().then( createdAdmission=>{
+    Room.updateOne({'roomNumber':Number(req.body.roomNumber)},{'status':'Occupied'}).then(result =>{
+      console.log(result);
+    });
+    res.status(201).json({
+      message:"Patient Successfull Admitted"
+    });
+  });
 });
 module.exports=router;

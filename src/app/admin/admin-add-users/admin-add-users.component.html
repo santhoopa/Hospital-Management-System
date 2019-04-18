@@ -1,3 +1,90 @@
-<p>
-  admin-add-users works!
-</p>
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+<!-- Start - Admin/Receptionist/Laboratorist  -->
+  <mat-tab label="Admin/Receptionist/Laboratorist">
+    <div class="container" style="padding-top: 5px; padding-left: 250px">
+      <form (submit)="onAddUser(addUserForm)" #addUserForm="ngForm">
+          <div class="form-group row" style="padding-top: 40px">
+              <label for="userRole" class="col-sm-3 col-form-label">Select User Role</label>
+              <div class="col-sm-5" >
+                  <select ngModel #userRole="ngModel"class="custom-select" name="userRole" id="userRole" required="">
+                      <option value="">Choose</option>
+                      <option value="Admin">Admin</option>
+                      <option value="Receptionist">Receptionist</option>
+                      <option value="Laboratorist">Laboratorist</option>
+                  </select>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="username" class="col-sm-3 col-form-label">Username</label>
+            <div class="col-sm-5">
+              <input type="text" ngModel #username="ngModel" class="form-control" id="username"  name="username" placeholder="Enter Username">
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="password" class="col-sm-3 col-form-label">Password</label>
+            <div class="col-sm-5">
+              <input type="password" ngModel #password="ngModel" class="form-control" id="password"  name="password" placeholder="Enter Password">
+            </div>
+          </div>
+
+
+
+          <div class="form-group row" style="margin-left: 150px; margin-top: 0px;">
+            <button type="submit" class="btn btn-success">Add User</button>
+        </div>
+
+
+        </form>
+    </div>
+  </mat-tab>
+<!-- End - Admin/Receptionist/Laboratorist  -->
+
+
+<!-- Start - Doctor -->
+  <mat-tab label="Doctor">
+      <div class="container" style="padding-top: 40px; padding-left: 250px">
+        <form (submit)="onAddDoctor(addDoctorForm)" #addDoctorForm="ngForm">
+            <div class="form-group row">
+              <label for="doctorRegistrationNumber" class="col-sm-3 col-form-label">Doctor Reg. No</label>
+              <div class="col-sm-5">
+                <input type="text" ngModel #doctorRegistrationNumber="ngModel" class="form-control" id="doctorRegistrationNumber"  name="doctorRegistrationNumber" placeholder="Enter Doctor Registration Number">
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label for="doctorName" class="col-sm-3 col-form-label">Doctor Name</label>
+              <div class="col-sm-5">
+                <input type="text" ngModel #doctorName="ngModel" class="form-control" id="doctorName" name="doctorName" readonly placeholder="" [(ngModel)]="name">
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label for="username" class="col-sm-3 col-form-label">Username</label>
+              <div class="col-sm-5">
+                <input type="text" ngModel #username="ngModel" class="form-control" id="username"  name="username" placeholder="Enter Username">
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label for="password" class="col-sm-3 col-form-label">Password</label>
+              <div class="col-sm-5">
+                <input type="password" ngModel #password="ngModel" class="form-control" id="password"  name="password" placeholder="Enter Password">
+              </div>
+            </div>
+
+
+
+            <div class="form-group row" style="margin-left: 150px; margin-top: 0px;">
+              <button type="submit" class="btn btn-success">Add User</button>
+           </div>
+
+       </form>
+       </div>
+  </mat-tab>
+<!-- End - Doctor -->
+
+</mat-tab-group>

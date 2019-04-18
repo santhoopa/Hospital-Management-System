@@ -8,6 +8,7 @@ const mongoose=require('mongoose');
 //const postsRoutes=require("./routes/posts");
 const authRoutes=require("./routes/auth");
 const receptionistRoutes=require("./routes/receptionist");
+const adminRoutes=require("./routes/admin");
 mongoose
   .connect(
     'mongodb://localhost:27017/hospital_management_system', {useNewUrlParser: true}
@@ -39,4 +40,5 @@ app.use((req, res, next) => {
 //app.use(postsRoutes);
 app.use(authRoutes);
 app.use(receptionistRoutes);
+app.use(adminRoutes);
 module.exports = app;
