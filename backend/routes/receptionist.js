@@ -108,6 +108,17 @@ router.get("/api/patients/:keyword",(req,res,next) => {
   });
 });
 
+//Searching Doctor - By receptionist
+router.get("/api/doctors/:keyword",(req,res,next) => {
+  console.log("This is receptionist - get doctors route "+req.params.keyword);
+  Doctor.findOne({'doctorRegistrationNumber':Number(req.params.keyword)}).then(results => {
+    console.log(results)
+    res.status(200).json({
+      doctor:results
+    });
+  });
+});
+
 //Getting new patient registration number from db - By Receptionist
 router.get("/api/patient/getNewRegNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new patient ID route");
@@ -281,4 +292,91 @@ router.post("/api/patient/admit",(req,res,next) => {
     });
   });
 });
+
+
+// Current Patient Admissions - Discharge Patients
+router.get("/api/admission/getCurrentAdmissions",(req,res,next) => {
+  console.log("This is Receptionist  - Current Patient Admissions Route");
+  Admission.aggregate([
+    { $match: { "status" : "Admitted" } },
+    {
+     $lookup:
+        {
+          from: "rooms",
+          localField: "roomNumber",
+          foreignField: "roomNumber",
+          as: "room"
+        }
+   },
+   {
+    $lookup:
+       {
+         from: "patients",
+         localField: "patientRegistrationNumber",
+         foreignField: "patientRegistrationNumber",
+         as: "patient"
+       }
+  }
+    ]).then(results => {
+      console.log(results);
+        res.status(201).json({
+          result:results
+        });
+    }).catch(err =>{
+      console.log(err);
+    });
+
+});
+
+//Search Admission - Discharge Patients
+router.get("/api/admission/getAdmissionDetail/:admissionNumber",(req,res,next) => {
+  console.log("This is Receptionist  - Search Patient Admissions Route");
+  Admission.aggregate([
+    { $match: { "admissionNumber" : Number(req.params.admissionNumber) } },
+    { $match: { "status" : "Admitted" } },
+    {
+     $lookup:
+        {
+          from: "rooms",
+          localField: "roomNumber",
+          foreignField: "roomNumber",
+          as: "room"
+        }
+   },
+   {
+    $lookup:
+       {
+         from: "patients",
+         localField: "patientRegistrationNumber",
+         foreignField: "patientRegistrationNumber",
+         as: "patient"
+       }
+  }
+    ]).then(result => {
+      console.log(result);
+        res.status(201).json({
+          admissionDetail:result
+        });
+    }).catch(err =>{
+      console.log(err);
+    })
+});
+
+//Discharge Patient - Discharge Patient
+router.post("/api/admission/dischargePatient",(req,res,next) => {
+  console.log("This is receptionist - Discharge Patient Route");
+  //console.log(req.body);
+  Admission.updateOne({'admissionNumber':Number(req.body.admissionNum)},{'status':'Discharged'}).then(result =>{
+    console.log(result);
+    Room.updateOne({'roomNumber':Number(req.body.roomNum)},{'status':'Vacant'}).then(re =>{
+      console.log(re);
+      res.status(201).json({
+      });
+    });
+  });
+
+
+});
+
+
 module.exports=router;

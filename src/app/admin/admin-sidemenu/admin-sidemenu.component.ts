@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input, Output } from '@angular/core';
 
 @Component({
   selector: 'admin-sidemenu',
@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-sidemenu.component.css']
 })
 export class AdminSidemenuComponent implements OnInit {
-
+  @Input() public adminID:string;
   constructor() { }
 
   ngOnInit() {
+    console.log(String(this.adminID));
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(public activate:ActivatedRoute) { }
+  id:string;
   ngOnInit() {
+    this.id=this.activate.snapshot.params['id'];
+    console.log(this.id);
   }
 
 }

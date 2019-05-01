@@ -43,7 +43,7 @@ export class AuthService{
 
        console.log(response.role);
        if(response.role=="admin"){
-         this.router.navigate(["/admin"]);
+         this.router.navigate(["/admin/"+response.username]);
         }
         else if (response.role=="receptionist"){
           this.router.navigate(["/receptionist"]);

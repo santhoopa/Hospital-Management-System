@@ -34,7 +34,55 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
       this.admissionNum="ADM/"+responseData.NewAdmissionNumber;
 
     });
+
+
   }
+
+  public currentAdmissions=[];
+  onClickDischarge(index){
+    if(index==1)
+    {
+      this.loadCurrentAdmissions();
+    }
+  }
+
+  loadCurrentAdmissions(){
+    this.currentAdmissions=[];
+    this.receptionistService.getCurrentAdmissions().subscribe(responseData => {
+        responseData.result.map(admission=>{
+          this.currentAdmissions.push(admission);
+        });
+    });
+  }
+
+//Start - Search Admission()
+  public searchedAdmission={};
+  admissionNum_Discharge;
+  roomNumber_Discharge;
+  searchAdmission(keyword:string){
+    console.log(keyword);
+    let raw_admissionNo=keyword;
+    let admissionNumber=raw_admissionNo.replace( /^\D+/g, '');
+    this.receptionistService.getAdmissionDetails(admissionNumber).subscribe(result => {
+      console.log(result.admissionDetail[0]);
+      const admission={
+        admissionNumber:result.admissionDetail[0].admissionNumber,
+        patientRegistrationNumber:result.admissionDetail[0].patient[0].patientRegistrationNumber,
+        name:result.admissionDetail[0].patient[0].name.firstname +" "+result.admissionDetail[0].patient[0].name.lastname,
+        appointmentNumber:result.admissionDetail[0].appointmentNmber,
+        admissionDate:result.admissionDetail[0].admissionDate,
+        room:result.admissionDetail[0].room[0].roomNumber + " " + result.admissionDetail[0].room[0].type,
+        roomType:result.admissionDetail[0].room[0].type,
+        cause:result.admissionDetail[0].causeofAdmission,
+      };
+     this.admissionNum_Discharge=result.admissionDetail[0].admissionNumber;
+     this.roomNumber_Discharge=result.admissionDetail[0].room[0].roomNumber;
+     this.searchedAdmission={};
+     this.searchedAdmission=admission;
+    console.log(this.searchedAdmission);
+    });
+  }
+//End - Search Admission()
 
   name:string;
   onSearchPatient(keyupevent:KeyboardEvent){
@@ -47,6 +95,7 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     });
 
   }
+
 
   onPatientAdmission(admissionForm: NgForm){
 
@@ -74,4 +123,13 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
   }
 
 
+  onDischargePatient(){
+
+   this.receptionistService.dischargePatient(this.admissionNum_Discharge,this.roomNumber_Discharge).subscribe(responseData=>{
+    this.searchedAdmission={};
+    this.loadCurrentAdmissions();
+    this.admissionNum_Discharge=null;
+    this.roomNumber_Discharge=null;
+    });
+  }
 }

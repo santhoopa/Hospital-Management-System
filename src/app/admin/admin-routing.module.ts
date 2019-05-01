@@ -6,10 +6,10 @@ import { RouterModule, Routes } from "@angular/router";
 
 const adminRoutes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: AdminComponent,
     children: [
-      { path: 'AddUser', component: AdminAddUsersComponent },
+      { path: 'AddUser/asd', component: AdminAddUsersComponent },
 
     ]
 

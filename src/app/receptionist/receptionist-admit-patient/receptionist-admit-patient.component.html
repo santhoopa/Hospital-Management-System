@@ -1,5 +1,5 @@
 <div >
-    <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+    <mat-tab-group (selectedTabChange)="onClickDischarge($event.index)" mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
      <!-- Start Admit Patient Tab -->
       <mat-tab label="Admit Patient">
           <div class="container" style="padding-top: 5px">
@@ -109,8 +109,116 @@
      <!-- End Admit Patient Tab -->
 
      <!-- Start Discharge Patient Tab -->
-      <mat-tab label="Discharge Patients"> Content 2
+      <mat-tab label="Discharge Patients" >
+        <div class="container" style="padding-top: 5px">
+          <div class="row">
 
+            <!-- Start Discharge Patient -->
+
+                <div class="col-sm-6 border border-secondary" style="padding-top: 10px">
+                <form>
+                    <p class="font-weight-bold">Discharge Patients</p>
+                  <div class="form-group row border border-secondary" style="margin-left: 10px; margin-right: 10px; padding-top: 10px; padding-bottom: 10px">
+                      <label for="searchAdmissionNumber" class="col-sm-5 col-form-label">Enter Admission No.</label>
+                      <div class="col-sm-5">
+                        <input  #searchBox type="text" class="form-control" id="searchAdmissionNumber" name="searchAdmissionNumber">
+                      </div>
+                      <button (click)="searchAdmission(searchBox.value)"type="button" class="btn btn-sm btn-outline-success">Search</button>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="admissionNumber" class="col-sm-5 col-form-label">Admission No</label>
+                    <div class="col-sm-7">
+                      <input readonly  type="text" class="form-control" id="admissionNumber"  name="admissionNumber" [(ngModel)]="searchedAdmission.admissionNumber">
+                    </div>
+                </div>
+
+                  <div class="form-group row">
+                      <label for="patientRegistrationNumber" class="col-sm-5 col-form-label">Patient Reg. No</label>
+                      <div class="col-sm-7">
+                        <input readonly type="text" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" [(ngModel)]="searchedAdmission.patientRegistrationNumber">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="patientName" class="col-sm-5 col-form-label">Patient Name</label>
+                      <div class="col-sm-7">
+                        <input readonly type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="searchedAdmission.name" >
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="appointmentNumber" class="col-sm-6 col-form-label">Appointment No. (If any)</label>
+                      <div class="col-sm-6">
+                        <input readonly type="text"  class="form-control" id="appointmentNumber" name="appointmentNumber" readonly placeholder="" [(ngModel)]="searchedAdmission.appointmentNumber">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="admissionDate" class="col-sm-5 col-form-label">Date of Admission</label>
+                      <div class="col-sm-7">
+                        <input readonly type="text"  class="form-control" id="admissionDate" name="admissionDate" readonly placeholder="" [(ngModel)]="searchedAdmission.admissionDate">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="room" class="col-sm-5 col-form-label">Room</label>
+                      <div class="col-sm-7">
+                        <input readonly  type="text"  class="form-control" id="room" name="room" readonly placeholder="" [(ngModel)]="searchedAdmission.room">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="causeOfAdmission" class="col-sm-5 col-form-label">Cause of Admission</label>
+                      <div class="col-sm-7">
+                        <input readonly type="text" class="form-control" id="causeOfAdmission"  name="causeOfAdmission"[(ngModel)]="searchedAdmission.cause">
+                      </div>
+                  </div>
+
+
+                  <div class="form-group row" style="margin-left: 150px; margin-top: 0px;">
+                      <button (click)="onDischargePatient()" type="submit" class="btn btn-info">Discharge Patient</button>
+                  </div>
+              </form>
+              </div>
+
+             <!-- End Admit Patient -->
+
+             <!-- Start - Current Admissions -->
+              <div class="col-sm-6 border border-secondary" style="padding-top: 10px">
+                  <p class="font-weight-bold">Current Patient Admissions</p>
+                  <div class="form-group row">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Admission No.</th>
+                            <th scope="col">Room Number</th>
+                            <th scope="col">Room Type</th>
+                            <th scope="col">Patient No.</th>
+                            <th scope="col">Date Admitted</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- <tr *ngFor="let room of rooms">
+                            <td>{{room.roomNumber}}</td>
+                            <td>{{room.type}}</td>
+                            <td>{{room.status}}</td>
+                          </tr> -->
+                          <tr *ngFor="let element of currentAdmissions">
+                            <td>{{element.admissionNumber}}</td>
+                            <td>{{element.room[0].roomNumber}}</td>
+                            <td>{{element.room[0].type}}</td>
+                            <td>{{element.patientRegistrationNumber}}</td>
+                            <td>{{element.admissionDate}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+              </div>
+              <!-- End Current Admissions -->
+
+          </div>
+      </div>
       </mat-tab>
      <!-- End Discharge Patient Tab -->
 

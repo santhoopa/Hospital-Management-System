@@ -121,6 +121,11 @@ export class ReceptionistService{
   //   {firstName:"Shirod",
   //   lastName:"Jayawardhana"}
   // ];
+  getDoctor(regNo:any){
+    console.log("This is getDoctor()");
+    return this.http.get<{ doctor:any}>("http://localhost:3000/api/doctors/"+regNo);
+  }
+
   getDoctorNames():Observable<any>{
       console.log("This is getDoctorNames()");
       return this.http.get<{ message:string; doctorNames:any}>("http://localhost:3000/api/doctors/getdoctorNames");
@@ -151,6 +156,21 @@ export class ReceptionistService{
     return this.http.get<{VacantRooms:any}>("http://localhost:3000/api/rooms/getVacant");
   }
 
+  getCurrentAdmissions(){
+    return this.http.get<{result:any}>("http://localhost:3000/api/admission/getCurrentAdmissions");
 
+  }
 
+  getAdmissionDetails(admissionNumber:string){
+    return this.http.get<{admissionDetail:any}>("http://localhost:3000/api/admission/getAdmissionDetail/"+admissionNumber);
+  }
+
+  dischargePatient(admissionNumber:string,roomNumber:string){
+    console.log(admissionNumber+" "+ roomNumber)
+    const dischargeDetails={
+      admissionNum:admissionNumber,
+      roomNum:roomNumber
+    }
+    return this.http.post("http://localhost:3000/api/admission/dischargePatient",dischargeDetails);
+  }
 }
