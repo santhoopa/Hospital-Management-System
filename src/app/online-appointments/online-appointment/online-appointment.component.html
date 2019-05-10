@@ -1,0 +1,194 @@
+
+<div class="container">
+  <mat-horizontal-stepper>
+    <mat-step label="Select Doctor">
+      <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+
+          <mat-card class="border border-secondary" *ngFor="let doctor of doctorDetails" style="margin-bottom:10px; margin-right: 5px;">
+            <div class="row">
+                    <div class="col-sm-8">
+
+                      <div style="max-width: 600px">
+                          <div class="form-group row">
+                            <label for="doctorName" class="col-sm-5 col-form-label">Doctor Name</label>
+                            <div class="col-sm-7">
+                              <input readonly type="text"  class="form-control" id="doctorName" name="doctorName" readonly placeholder="" value="Dr. {{doctor.name.firstname}} {{doctor.name.lastname}}">
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <label for="doctorType" class="col-sm-5 col-form-label">Doctor Type</label>
+                            <div class="col-sm-7">
+                              <input readonly type="text"  class="form-control" id="doctorType" name="doctorType" readonly placeholder="" value="{{doctor.doctorType}}">
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <label for="slmcRegNo" class="col-sm-5 col-form-label">SLMC Registration Number</label>
+                            <div class="col-sm-7">
+                              <input readonly type="text"  class="form-control" id="slmcRegNo" name="slmcRegNo" readonly placeholder="" value="{{doctor.SLMCRegNo}}">
+                            </div>
+                          </div>
+
+                        </div>
+                  </div>
+
+                  <div class="col-sm-4" style="padding-top: 50px; padding-left: 60px">
+                    <button type="buttton" matStepperNext class="btn btn-success" (click)="onBookNow(doctor.doctorRegistrationNumber,doctor.name.firstname,doctor.name.lastname)">Book Now</button>
+                  </div>
+
+            </div>
+          </mat-card>
+
+
+        </cdk-virtual-scroll-viewport>
+
+    </mat-step>
+
+
+    <mat-step label="Select Time Slot">
+      <mat-card class="border border-secondary" *ngFor="let element of doctorAvailability" style="margin-bottom:10px; margin-right: 5px;">
+        <div class="form-group row">
+          <label for="doctorName" class="col-sm-3 col-form-label">Doctor Name</label>
+          <div class="col-sm-4">
+            <label style="padding-top: 5px" class="font-weight-bold">{{selectedDoctorName}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+
+            <div class="form-group row">
+              <label for="day" class="col-sm-5 col-form-label">Day</label>
+              <div class="col-sm-7">
+                <input readonly type="text"  class="form-control" id="day" name="day" readonly placeholder="" value="{{element.day}}">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-sm-4">
+
+            <div class="form-group row">
+              <label for="time" class="col-sm-5 col-form-label">Time</label>
+              <div class="col-sm-7">
+                <input readonly type="text"  class="form-control" id="time" name="time" readonly placeholder="" value="{{element.startTime}}">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-sm-4" style="padding-left: 50px">
+            <button type="buttton" matStepperNext class="btn btn-success" (click)="onSelectTime(element.day,element.startTime)">Select</button>
+          </div>
+        </div>
+      </mat-card>
+    </mat-step>
+
+
+    <mat-step label="Enter Details">
+     <div class="row border border-secondary" style="padding-top: 20px">
+       <div class="col-5">
+        <div class="form-group row">
+          <label for="doctorName" class="col-sm-5 col-form-label">Doctor Name</label>
+          <div class="col-sm-6">
+            <label style="padding-top: 5px" class="font-weight-bold">{{selectedDoctorName}}</label>
+          </div>
+        </div>
+       </div>
+       <div class="col-3">
+        <div class="form-group row">
+          <label for="day" class="col-sm-5 col-form-label">Day</label>
+          <div class="col-sm-7">
+            <label style="padding-top: 5px" class="font-weight-bold">{{selectedDay}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group row">
+          <label for="time" class="col-sm-5 col-form-label">Time</label>
+          <div class="col-sm-7">
+            <label style="padding-top: 5px" class="font-weight-bold">{{selectedTime}}</label>
+          </div>
+        </div>
+      </div>
+     </div>
+
+     <div class="container "style="padding-top: 20px">
+        <form (submit)="onSubmit(onlineAppForm)" #onlineAppForm="ngForm">
+          <div class="form-group row">
+            <label for="appointmentDate" class="col-sm-4 col-form-label" style="padding-top: 20px">Select Date</label>
+            <div class="col-sm-8">
+                <mat-form-field >
+                    <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+            </div>
+          </div>
+
+            <!-- Start - First Name, Last Name, Gender -->
+          <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label for="firstName">First name</label>
+                <input ngModel #firstName="ngModel" type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" required>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="lastName">Last name</label>
+                <input ngModel #lastName="ngModel" type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" required>
+              </div>
+
+            <div class="col-md-4 mb-3" style="padding-left: 27px">
+                <label >Gender</label>
+                <div style="padding-top: 7px">
+                  <mat-radio-group ngModel #gender="ngModel" name="gender">
+                      <mat-radio-button value="Male">Male</mat-radio-button>
+                      <mat-radio-button value="Female">Female</mat-radio-button>
+                  </mat-radio-group>
+
+                </div>
+              </div>
+            </div>
+          <!-- End - First Name, Last Name, Gender -->
+          <!-- Start - Contact Number, NIC-->
+          <div class="form-row" style="padding-top: 20px">
+              <div class="col-md-4 mb-3" >
+                  <label for="contactNumber">Contact Number</label>
+                  <div style="padding-top: 10px">
+                      <input  ngModel #contactNumber="ngModel" type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                  </div>
+              </div>
+              <div class="col-md-4 mb-3" >
+                  <label for="NIC">NIC</label>
+                  <div style="padding-top: 10px">
+                    <input ngModel #NIC="ngModel" type="text" class="form-control" id="NIC" name="NIC" placeholder="NIC" required>
+                  </div>
+              </div>
+          </div>
+        <!-- End - Contact Number, NIC-->
+        <!-- Start - City, District -->
+          <div class="form-row" style="padding-top: 20px">
+              <div class="col-md-4 mb-3">
+                  <label for="city">City</label>
+                  <input ngModel #city="ngModel" type="text" class="form-control" id="city" name="city" placeholder="City" required>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label for="district">District</label>
+                  <select ngModel #patientDistrict="ngModel"class="custom-select" name="district" id="district" required="">
+                      <option value="">Choose...</option>
+                      <option value="Colombo">Colombo</option>
+                      <option value="Gampaha">Gampaha</option>
+                      <option value="Kaluthara">Kaluthara</option>
+                      <option value="Kandy">Kandy</option>
+                    </select>
+                </div>
+          </div>
+        <!-- End - Address, City, District -->
+       <div style="padding-left: 70px; padding-top: 20px"> <button type="submit"class="btn btn-primary">Make Online Appointment</button></div>
+      </form>
+      </div>
+
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

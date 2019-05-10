@@ -1,0 +1,10 @@
+.example-viewport {
+  height: 500px;
+  width: 1060px;
+  /* margin-top: 10px; */
+  /* border: 1px solid black; */
+
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

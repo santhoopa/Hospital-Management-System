@@ -6,15 +6,16 @@ const DoctorAvailability=require('../models/doctor_availability');
 const Appointment=require('../models/appointment');
 const Room=require('../models/room');
 const Admission=require('../models/admission');
-
+const OnlineAppointment=require('../models/online_appointment');
 
 //Getting patient name to schedule appointment - By Receptionist
 router.get("/api/patient/getPatientName/:regNo",(req,res,next) => {
   console.log("This is receptionist - Get patient name route");
-  Patient.findOne({"patientRegistrationNumber":req.params.regNo},'name').then(results => {
+  Patient.findOne({"patientRegistrationNumber":req.params.regNo},'name patientRegistrationNumber').then(results => {
     res.status(201).json({
       PatientFirstName: results.name.firstname,
-      PatientLastName: results.name.lastname
+      PatientLastName: results.name.lastname,
+      PatientNo:results.patientRegistrationNumber
     });
   });
 });
@@ -109,7 +110,7 @@ router.get("/api/patients/:keyword",(req,res,next) => {
 });
 
 //Searching Doctor - By receptionist
-router.get("/api/doctors/:keyword",(req,res,next) => {
+router.get("/api/findDoctors/:keyword",(req,res,next) => {
   console.log("This is receptionist - get doctors route "+req.params.keyword);
   Doctor.findOne({'doctorRegistrationNumber':Number(req.params.keyword)}).then(results => {
     console.log(results)
@@ -214,7 +215,7 @@ router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
 router.get("/api/doctors/getdoctorNames",(req,res,next) => {
   console.log("Schedule Appointments - Getting Doctor Names List");
   Doctor.find(null,'name doctorRegistrationNumber').then(results => {
-   // console.log(results);
+   console.log(results);
     res.status(200).json({
       message: "Doctor Names successfully fetched",
       doctorNames:results
@@ -378,5 +379,77 @@ router.post("/api/admission/dischargePatient",(req,res,next) => {
 
 });
 
+//Online Appointments - Getting doctors list
+router.get("/api/onlineAppointments/getDoctorList",(req,res,next) => {
+console.log("This is Online Appointments - Getting doctors list")
+Doctor.find(null,'name doctorRegistrationNumber SLMCRegNo doctorType').then(results => {
+  console.log(results);
+   res.status(200).json({
+     doctors:results
+   });
+ });
+});
 
+//Online Appointment - Making Online Appointment
+router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
+  console.log("This is Online Appointment - Making Online Appointment");
+  console.log(req.body);
+  const onlineApp=new OnlineAppointment({
+    doctorRegistrationNumber:req.body.doctorRegistrationNumber,
+    patientRegistrationNumber:null,
+    firstname:req.body.firstname,
+    lastname:req.body.lastname,
+    gender:req.body.gender,
+    contactNumber:req.body.contactNumber,
+    NIC:req.body.NIC,
+    city:req.body.city,
+    district:req.body.district,
+    timeSlot:req.body.timeSlot,
+    appointmentDate:req.body.appointmentDate,
+    dateCreated:req.body.dateCreated,
+    appointmentStatus:"Pending",
+    disease:null,
+    prescription:null
+  })
+  onlineApp.save().then(result =>{
+    console.log(result);
+    res.status(200).json({
+    });
+  })
+
+});
+
+//Receptionist - Online Appointment - View By Doctor - View Online Appointments
+router.post("/api/onlineAppointments/viewByDoctor",(req,res,next) => {
+  console.log("This is Viewing Online Appointments - View By Doctor - Receptionist");
+  OnlineAppointment.find({'doctorRegistrationNumber':req.body.doctorRegistrationNumber}).then(results => {
+    console.log(results);
+     res.status(200).json({
+      onlineAppointments:results
+     });
+   });
+});
+
+router.post("/api/onlineAppointments/viewByDoctor_LinkPatient",(req,res,next) => {
+  console.log("This is Viewing Online Appointments for Linking Patient- View By Doctor - Receptionist");
+  // Patient.find({$or:[{'name.firstname':req.params.keyword},{'name.lastname':req.params.keyword}]}).then(results => {
+    OnlineAppointment.find({$and:[{'doctorRegistrationNumber':req.body.doctorRegistrationNumber},{'appointmentStatus':'Pending'}]}).then(results => {
+      console.log(results);
+      res.status(200).json({
+       onlineAppointments:results
+      });
+    });
+});
+
+router.post("/api/onlineAppointments/linkPatient",(req,res,next) => {
+  console.log("This is Linking Patient with Online Appointment - Receptionist");
+  console.log(req.body);
+  OnlineAppointment.updateOne({'_id':req.body.patientID},{$set:{'appointmentStatus':'Linked','patientRegistrationNumber':Number(req.body.patientRegistrationNumber)}}).then(results =>{
+    console.log(results);
+      res.status(200).json({
+       results:results
+      });
+  })
+
+});
 module.exports=router;

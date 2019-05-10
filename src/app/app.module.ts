@@ -15,20 +15,33 @@ import {  MatButtonModule,
           MatIconModule,
           MatProgressSpinnerModule,
           MatSelectModule,
-          MatFormFieldModule
+          MatFormFieldModule,
+          MatStepperModule,
+          MatDatepickerModule,
+          MatNativeDateModule,
+          MatRadioModule,
           } from '@angular/material';
 
+import {A11yModule} from '@angular/cdk/a11y';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {PortalModule} from '@angular/cdk/portal';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import {CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { OnlineAppointmentComponent } from './online-appointments/online-appointment/online-appointment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    OnlineAppointmentComponent
   ],
   imports: [
     BrowserModule,
@@ -46,8 +59,18 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MatSelectModule,
     FormsModule,
     MatFormFieldModule,
-    HttpClientModule
-
+    HttpClientModule,
+    MatStepperModule,
+    CdkStepperModule,
+    CdkTableModule,
+    CdkTreeModule,
+    A11yModule,
+    DragDropModule,
+    PortalModule,
+    ScrollingModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -29,7 +29,7 @@ export class ReceptionistService{
      { paientRegNo=null;}
     console.log("Getting patient name");
     console.log(paientRegNo);
-    return this.http.get<{PatientFirstName:string,PatientLastName:string}>("http://localhost:3000/api/patient/getPatientName/"+paientRegNo);
+    return this.http.get<{PatientFirstName:string,PatientLastName:string,PatientNo:string}>("http://localhost:3000/api/patient/getPatientName/"+paientRegNo);
 
   }
   getNewPatientRegNo(){
@@ -123,7 +123,7 @@ export class ReceptionistService{
   // ];
   getDoctor(regNo:any){
     console.log("This is getDoctor()");
-    return this.http.get<{ doctor:any}>("http://localhost:3000/api/doctors/"+regNo);
+    return this.http.get<{ doctor:any}>("http://localhost:3000/api/findDoctors/"+regNo);
   }
 
   getDoctorNames():Observable<any>{
@@ -131,9 +131,9 @@ export class ReceptionistService{
       return this.http.get<{ message:string; doctorNames:any}>("http://localhost:3000/api/doctors/getdoctorNames");
   }
 
-  getDoctorAvailability(fname:string){
+  getDoctorAvailability(regno:string){
     console.log("This is getDoctorAvailability()");
-    return this.http.get<{ message:string; timeSlots:any}>("http://localhost:3000/api/doctors/getdoctorAvailability/"+fname);
+    return this.http.get<{ message:string; timeSlots:any}>("http://localhost:3000/api/doctors/getdoctorAvailability/"+regno);
 
 
   }
@@ -172,5 +172,30 @@ export class ReceptionistService{
       roomNum:roomNumber
     }
     return this.http.post("http://localhost:3000/api/admission/dischargePatient",dischargeDetails);
+  }
+
+
+  viewOnlineAppointments_ByDoctor(doctorRegistrationNumber:string,status:string){
+    const load={
+      doctorRegistrationNumber:doctorRegistrationNumber,
+      status:status,
+    }
+    return this.http.post<{onlineAppointments:any}>("http://localhost:3000/api/onlineAppointments/viewByDoctor",load);
+  }
+
+  viewOnlineAppointments_ByDoctor_LinkPatient(doctorRegistrationNumber:string){
+    const load={
+      doctorRegistrationNumber:doctorRegistrationNumber,
+    }
+    return this.http.post<{onlineAppointments:any}>("http://localhost:3000/api/onlineAppointments/viewByDoctor_LinkPatient",load);
+  }
+
+  linkPatient_OnlineAppointment(ID:any,PatientNo:any){
+    const load={
+      patientID:ID,
+      patientRegistrationNumber:PatientNo
+    }
+    return this.http.post("http://localhost:3000/api/onlineAppointments/linkPatient",load);
+
   }
 }
