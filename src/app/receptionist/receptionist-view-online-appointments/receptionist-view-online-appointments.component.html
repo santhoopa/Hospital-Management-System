@@ -16,6 +16,7 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
+                      <th scope="col">Appointment No.</th>
                       <th scope="col">Appointment Date</th>
                       <th scope="col">TimeSlot</th>
                       <th scope="col">First Name</th>
@@ -31,6 +32,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let appointment of onlineAppointment_byDoctor">
+                      <td>eAPP/{{appointment.appointmentNumber}}</td>
                       <td>{{appointment.appointmentDate}}</td>
                       <td>{{appointment.timeSlot}}</td>
                       <td>{{appointment.firstname}}</td>
@@ -70,6 +72,7 @@
                             <table class="table table-striped">
                               <thead>
                                 <tr>
+                                  <th scope="col">Appointment No.</th>
                                   <th  scope="col">Appointment Date</th>
                                   <th scope="col">TimeSlot</th>
                                   <th scope="col">First Name</th>
@@ -86,6 +89,7 @@
                               </thead>
                               <tbody >
                                 <tr *ngFor="let appointment of onlineAppointments_LinkPatient">
+                                  <td>eAPP/{{appointment.appointmentNumber}}</td>
                                   <td>{{appointment.appointmentDate}}</td>
                                   <td>{{appointment.timeSlot}}</td>
                                   <td>{{appointment.firstname}}</td>

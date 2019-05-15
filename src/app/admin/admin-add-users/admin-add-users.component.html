@@ -50,14 +50,14 @@
             <div class="form-group row">
               <label for="doctorRegistrationNumber" class="col-sm-3 col-form-label">Doctor Reg. No</label>
               <div class="col-sm-5">
-                <input type="text" ngModel #doctorRegistrationNumber="ngModel" class="form-control" id="doctorRegistrationNumber"  name="doctorRegistrationNumber" placeholder="Enter Doctor Registration Number">
+                <input (keyup)="onSearchDoctor($event)" type="text" ngModel #doctorRegistrationNumber="ngModel" class="form-control" id="doctorRegistrationNumber"  name="doctorRegistrationNumber" placeholder="Enter Doctor Registration Number">
               </div>
           </div>
 
           <div class="form-group row">
               <label for="doctorName" class="col-sm-3 col-form-label">Doctor Name</label>
               <div class="col-sm-5">
-                <input type="text" ngModel #doctorName="ngModel" class="form-control" id="doctorName" name="doctorName" readonly placeholder="" [(ngModel)]="name">
+                <input type="text"  class="form-control" id="doctorName" name="doctorName" readonly placeholder="" [(ngModel)]="doctorName">
               </div>
           </div>
 

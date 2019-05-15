@@ -28,13 +28,16 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
       });
     });
 
+    this.getNewAppointmentNumber();
+  }
+
+  getNewAppointmentNumber(){
+
     this.receptionistService.getNewAppointmentNumber().subscribe(responseData =>{
       this.appointmentNum="APP/"+responseData.NewAppointmentNumber;
 
     });
-
   }
-
    patientFirstName:string="";
    patientLastName:string="";
    name:string;
@@ -111,6 +114,10 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
     }
 
     console.log(appointment);
-    this.receptionistService.scheduleAppointment(appointment);
+    this.receptionistService.scheduleAppointment(appointment).subscribe(responseData=>{
+      //    console.log(responseData.message + "Added Patient name:" +responseData.patient);
+      this.getNewAppointmentNumber();
+      scheduleAppointmentForm.resetForm();
+        });
   }
 }

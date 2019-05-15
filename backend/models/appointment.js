@@ -9,6 +9,7 @@ const appointmentSchema=mongoose.Schema({
   dateCreated:String,
   appointmentType:String,
   appointmentStatus:String,
+  symptoms:String,
   disease:String,
   prescription:String
 

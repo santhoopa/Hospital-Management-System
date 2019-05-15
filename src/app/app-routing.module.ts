@@ -7,6 +7,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path:'receptionist', loadChildren: './receptionist/receptionist.module#ReceptionistModule'},
   {path:'admin',loadChildren:'./admin/admin.module#AdminModule'},
+  {path:'doctor',loadChildren:'./doctor/doctor.module#DoctorModule'},
   {path:'echannelling',component:OnlineAppointmentComponent}
 ];
 @NgModule({

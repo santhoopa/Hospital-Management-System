@@ -1,6 +1,7 @@
 const mongoose=require('mongoose');
 
 const onlineAppointmentSchema=mongoose.Schema({
+  appointmentNumber:Number,
   doctorRegistrationNumber:Number,
   patientRegistrationNumber:Number,
   firstname:String,
@@ -14,6 +15,7 @@ const onlineAppointmentSchema=mongoose.Schema({
   appointmentDate:String,
   dateCreated:String,
   appointmentStatus:String,
+  symptoms:String,
   disease:String,
   prescription:String
 

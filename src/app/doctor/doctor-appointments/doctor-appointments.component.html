@@ -1,0 +1,513 @@
+<div class="container" style="width:1080px">
+      <mat-horizontal-stepper>
+        <mat-step label="Select Appointment">
+           <div class="" style="padding-top:20px; padding-left: 10px">
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+                <div class="form-group row" style="padding-left: 250px">
+                  <label for="appointmentDate" class="col-sm-3 col-form-label" style="padding-top: 20px">Select Date</label>
+                  <div class="col-sm-8">
+                      <mat-form-field >
+                          <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <button class="btn btn-primary" style="margin-left: 70px">Search</button> -->
+                  </div>
+                </div>
+                <!-- <div class="form-group row" style="padding-left: 250px">
+                    <label for="selectDay" class="col-sm-3 col-form-label">Select Time Slot</label>
+                    <div class="col-sm-4">
+                        <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required="">
+                            <option value="">Choose...</option>
+                            <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.day}} {{timeslot.startTime}}">{{timeslot.day}} {{timeslot.startTime}} - {{timeslot.endTime}}</option>
+
+                        </select>
+                    </div>
+                </div> -->
+                <div class="form-group row" style="padding-left: 300px; padding-top: 20px">
+                      <button (click)="onSearchAppointments(appointmentDate.value)" class="btn  btn-primary" style="margin-left: 60px">Search Appointments</button>
+                </div>
+                <mat-card class="border border-dark" *ngFor="let element of normalAppointments_ByDate" style="margin-bottom:10px; margin-right: 5px;">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label for="patientRegistrationNumber" class="col-sm-6 col-form-label">Paient Registration Number</label>
+                                <div class="col-sm-6">
+                                  <label style="padding-top: 5px" class="font-weight-bold">PAT/{{element.patientRegistrationNumber}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label for="appointmentNumber" class="col-sm-6 col-form-label">Appointment Number</label>
+                                <div class="col-sm-6">
+                                  <label style="padding-top: 5px" class="font-weight-bold">APP/{{element.appointmentNumber}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+
+                        <div class="form-group row">
+                          <label for="appointmentDate" class="col-sm-6 col-form-label">Appointment Date</label>
+                          <div class="col-sm-6">
+                            <input readonly type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" value="{{element.appointmentDate}}">
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-sm-4">
+
+                        <div class="form-group row">
+                          <label for="timeSlot" class="col-sm-4 col-form-label">Time Slot</label>
+                          <div class="col-sm-8">
+                            <input readonly type="text"  class="form-control" id="timeSlot" name="timeSlot" readonly placeholder="" value="{{element.timeSlot}}">
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-sm-4">
+
+                          <div class="form-group row">
+                            <label for="appointmentType" class="col-sm-6 col-form-label">Appointment Type</label>
+                            <div class="col-sm-6">
+                              <input readonly type="text"  class="form-control" id="appointmentType" name="appointmentType" readonly placeholder="" value="Normal">
+                            </div>
+                          </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+
+                          <div class="form-group row">
+                            <label for="patientFirstName" class="col-sm-6 col-form-label">First Name</label>
+                            <div class="col-sm-6">
+                              <input readonly type="text"  class="form-control" id="patientFirstName" name="patientFirstName" readonly placeholder="" value="{{element.patient[0].name.firstname}}">
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                          <div class="form-group row">
+                            <label for="patientLastName" class="col-sm-4 col-form-label">Last Name</label>
+                            <div class="col-sm-8">
+                              <input readonly type="text"  class="form-control" id="patientLastName" name="patientLastName" readonly placeholder="" value="{{element.patient[0].name.lastname}}">
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div class="form-group row">
+                              <label for="nic" class="col-sm-6 col-form-label">NIC</label>
+                              <div class="col-sm-6">
+                                <input readonly type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" value="{{element.patient[0].nic}}">
+                              </div>
+                            </div>
+
+                          </div>
+
+                   </div>
+                   <!-- <div class="row">
+                      <div class="col-6">
+                          <div class="form-group row">
+                              <label for="patientRegistrationNumber" class="col-sm-6 col-form-label">Paient Registration Number</label>
+                              <div class="col-sm-6">
+                                <label style="padding-top: 5px" class="font-weight-bold">PAT/{{element.patientRegistrationNumber}}</label>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <div class="form-group row">
+                              <label for="appointmentNumber" class="col-sm-6 col-form-label">Appointment Number</label>
+                              <div class="col-sm-6">
+                                <label style="padding-top: 5px" class="font-weight-bold">APP/{{element.appointmentNumber}}</label>
+                              </div>
+                          </div>
+                      </div>
+
+                    </div> -->
+                      <div class="form-group row" style="padding-left: 300px">
+                          <button type="buttton" (click)="onViewAppointment(element,'Normal')" matStepperNext class="btn btn-sm btn-success" >View Appointment</button>
+                      </div>
+                  </mat-card>
+                  <mat-card class="border border-dark" *ngFor="let element of onlineAppointments_ByDate" style="margin-bottom:10px; margin-right: 5px;">
+                      <div class="row">
+                          <div class="col-6">
+                              <div class="form-group row">
+                                  <label for="patientRegistrationNumber" class="col-sm-6 col-form-label">Paient Registration Number</label>
+                                  <div class="col-sm-6">
+                                    <label style="padding-top: 5px" class="font-weight-bold">PAT/{{element.patientRegistrationNumber}}</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-6">
+                              <div class="form-group row">
+                                  <label for="appointmentNumber" class="col-sm-6 col-form-label">Appointment Number</label>
+                                  <div class="col-sm-6">
+                                    <label style="padding-top: 5px" class="font-weight-bold">eAPP/{{element.appointmentNumber}}</label>
+                                  </div>
+                              </div>
+                          </div>
+
+                        </div>
+                      <div class="row">
+                        <div class="col-sm-4">
+
+                          <div class="form-group row">
+                            <label for="appointmentDate" class="col-sm-6 col-form-label">Appointment Date</label>
+                            <div class="col-sm-6">
+                              <input readonly type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" value="{{element.appointmentDate}}">
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                          <div class="form-group row">
+                            <label for="timeSlot" class="col-sm-4 col-form-label">Time Slot</label>
+                            <div class="col-sm-8">
+                              <input readonly type="text"  class="form-control" id="timeSlot" name="timeSlot" readonly placeholder="" value="{{element.timeSlot}}">
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div class="form-group row">
+                              <label for="appointmentType" class="col-sm-6 col-form-label">Appointment Type</label>
+                              <div class="col-sm-6">
+                                <input readonly type="text"  class="form-control" id="appointmentType" name="appointmentType" readonly placeholder="" value="Online">
+                              </div>
+                            </div>
+
+                          </div>
+
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-4">
+
+                            <div class="form-group row">
+                              <label for="patientFirstName" class="col-sm-6 col-form-label">First Name</label>
+                              <div class="col-sm-6">
+                                <input readonly type="text"  class="form-control" id="patientFirstName" name="patientFirstName" readonly placeholder="" value="{{element.patient[0].name.firstname}}">
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="col-sm-4">
+
+                            <div class="form-group row">
+                              <label for="patientLastName" class="col-sm-4 col-form-label">Last Name</label>
+                              <div class="col-sm-8">
+                                <input readonly type="text"  class="form-control" id="patientLastName" name="patientLastName" readonly placeholder="" value="{{element.patient[0].name.lastname}}">
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="col-sm-4">
+
+                              <div class="form-group row">
+                                <label for="nic" class="col-sm-6 col-form-label">NIC</label>
+                                <div class="col-sm-6">
+                                  <input readonly type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" value="{{element.patient[0].nic}}">
+                                </div>
+                              </div>
+
+                            </div>
+
+                     </div>
+                     <!-- <div class="row">
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label for="patientRegistrationNumber" class="col-sm-6 col-form-label">Paient Registration Number</label>
+                                <div class="col-sm-6">
+                                  <label style="padding-top: 5px" class="font-weight-bold">PAT/{{element.patientRegistrationNumber}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group row">
+                                <label for="appointmentNumber" class="col-sm-6 col-form-label">Appointment Number</label>
+                                <div class="col-sm-6">
+                                  <label style="padding-top: 5px" class="font-weight-bold">eAPP/{{element.appointmentNumber}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                      </div> -->
+                        <div class="form-group row" style="padding-left: 300px">
+                            <button type="buttton" (click)="onViewAppointment(element,'Online')" matStepperNext class="btn btn-sm btn-success" >View Appointment</button>
+                        </div>
+                    </mat-card>
+
+            </cdk-virtual-scroll-viewport>
+           </div>
+        </mat-step>
+        <mat-step label="Appointment Details">
+              <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+                  <div class="container" style="">
+                        <div class="row">
+                          <div class="col border border-dark" style="margin-right: 5px; padding-top: 10px">
+                            <form (submit)="onSave(Form)" #Form="ngForm">
+                              <p class="font-weight-bold">Appointment Details</p>
+                                  <div class="form-group row">
+                                      <label for="appointmentNumber" class="col-sm-4 col-form-label">Appointment No</label>
+                                      <div class="col-sm-8">
+                                        <input type="text" style="font-weight:bold" class="form-control-plaintext" id="appointmentNumber" name="appointmentNumber" readonly [(ngModel)]="selectedAppointmentNumber">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="appointmentDate" class="col-sm-4 col-form-label">Appointment Date</label>
+                                      <div class="col-sm-8">
+                                        <input type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" [(ngModel)]="selectedAppointment.appointmentDate">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="timeSlot" class="col-sm-4 col-form-label">Time Slot</label>
+                                      <div class="col-sm-8">
+                                        <input type="text"  class="form-control" id="timeSlot" name="timeSlot" readonly placeholder="" [(ngModel)]="selectedAppointment.timeSlot">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="symptoms" class="col-sm-4 col-form-label">Symptoms</label>
+                                      <div class="col-sm-8">
+                                        <textarea type="text" ngModel #symptoms="ngModel" class="form-control" id="symptoms" name="symptoms"  placeholder="" ></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="disease" class="col-sm-4 col-form-label">Disease</label>
+                                      <div class="col-sm-8">
+                                        <input type="text" ngModel #disease="ngModel" class="form-control" id="disease" name="disease"  placeholder="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="prescription" class="col-sm-4 col-form-label">Drug Prescription</label>
+                                      <div class="col-sm-8">
+                                        <textarea type="text" ngModel #prescription="ngModel" class="form-control" id="prescription" name="prescription"  placeholder="" ></textarea>
+                                      </div>
+                                  </div>
+
+                                  <button type="submit" class="btn btn-success" style="margin-left:200px;margin-top:10px; padding-left: 30px; padding-right: 30px">Save</button>
+                                </form>
+                          </div>
+                          <div class="col border border-dark" style="padding-top: 10px">
+                                  <p class="font-weight-bold">Patient Details</p>
+                                  <div class="form-group row">
+                                      <label for="patientRegistrationNumber" class="col-sm-5 col-form-label">Patient Registration No</label>
+                                      <div class="col-sm-7">
+                                        <input type="text"  style="font-weight:bold" class="form-control-plaintext" id="patientRegistrationNumber" name="patientRegistrationNumber" readonly [(ngModel)]="selectedPatientRegNo">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="patientName" class="col-sm-4 col-form-label">Patient Name</label>
+                                      <div class="col-sm-8">
+                                        <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="selectedAppointmentPatientName">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="dob" class="col-sm-4 col-form-label">Date of Birth</label>
+                                      <div class="col-sm-8">
+                                        <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="selectedPatient.dob">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="nic" class="col-sm-4 col-form-label">NIC</label>
+                                      <div class="col-sm-8">
+                                        <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="selectedPatient.nic">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="gender" class="col-sm-4 col-form-label">Gender</label>
+                                      <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="gender" name="gender" readonly placeholder="" [(ngModel)]="selectedPatient.gender">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="maritalStatus" class="col-sm-4 col-form-label">Marital Status</label>
+                                      <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="maritalStatus" name="maritalStatus" readonly placeholder="" [(ngModel)]="selectedPatient.maritalStatus">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="address" class="col-sm-4 col-form-label">Address</label>
+                                      <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="address" name="address" readonly placeholder="" [(ngModel)]="selectedPatient.address">
+                                      </div>
+                                  </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 " style="margin-right: 5px; margin-top: 10px; padding-top: 10px">
+                            <p class="font-weight-bold">Treatment History of the Patient </p>
+                            <div class="card border-primary  mb-3"  *ngFor="let element of normalAppointments_TreatmentHistory">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group row">
+                                                <label for="appointmentDate_previous" class="col-sm-7 col-form-label">Appointment Date</label>
+                                                <div class="col-sm-5">
+                                                  <label style="padding-top: 5px" class="font-weight-bold">{{element.appointmentDate}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group row">
+                                                <label for="appointmentNumber_previous" class="col-sm-6 col-form-label">Appointment No.</label>
+                                                <div class="col-sm-6">
+                                                  <label style="padding-top: 5px" class="font-weight-bold">APP/{{element.appointmentNumber}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group row">
+                                                <label for="doctor" class="col-sm-4 col-form-label">Doctor</label>
+                                                <div class="col-sm-8">
+                                                  <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.doctor[0].name.firstname}} {{element.doctor[0].name.lastname}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body text-dark">
+                                    <div class="form-group row">
+                                        <label for="symptoms_previous" class="col-sm-2 col-form-label">Symptoms</label>
+                                        <div class="col-sm-10">
+                                          <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  placeholder="" value={{element.symptoms}}></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="disease_previous" class="col-sm-2 col-form-label">Disease</label>
+                                        <div class="col-sm-10">
+                                          <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value={{element.disease}}>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="prescription_previous" class="col-sm-2 col-form-label">Drug Prescription</label>
+                                        <div class="col-sm-10">
+                                          <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value={{element.prescription}}></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card border-primary  mb-3"  *ngFor="let element of onlineAppointments_TreatmentHistory">
+                              <div class="card-header">
+                                  <div class="row">
+                                      <div class="col-sm-4">
+                                          <div class="form-group row">
+                                              <label for="appointmentDate_previous" class="col-sm-7 col-form-label">Appointment Date</label>
+                                              <div class="col-sm-5">
+                                                <label style="padding-top: 5px" class="font-weight-bold">{{element.appointmentDate}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-4">
+                                          <div class="form-group row">
+                                              <label for="appointmentNumber_previous" class="col-sm-6 col-form-label">Appointment No.</label>
+                                              <div class="col-sm-6">
+                                                <label style="padding-top: 5px" class="font-weight-bold">eAPP/{{element.appointmentNumber}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-4">
+                                          <div class="form-group row">
+                                              <label for="doctor" class="col-sm-4 col-form-label">Doctor</label>
+                                              <div class="col-sm-8">
+                                                <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.doctor[0].name.firstname}} {{element.doctor[0].name.lastname}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="card-body text-dark">
+                                  <div class="form-group row">
+                                      <label for="symptoms_previous" class="col-sm-2 col-form-label">Symptoms</label>
+                                      <div class="col-sm-10">
+                                        <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  placeholder="" value={{element.symptoms}}></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="disease_previous" class="col-sm-2 col-form-label">Disease</label>
+                                      <div class="col-sm-10">
+                                        <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value={{element.disease}}>
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="prescription_previous" class="col-sm-2 col-form-label">Drug Prescription</label>
+                                      <div class="col-sm-10">
+                                        <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value={{element.prescription}}></textarea>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                            <!-- <mat-card class="border border-primary" *ngFor="let element of elements" style="margin-bottom:10px; margin-right: 5px;">
+
+                              <div class="row">
+
+                                  <div class="col-sm-4">
+                                      <div class="form-group row">
+                                          <label for="appointmentNumber" class="col-sm-7 col-form-label">Appointment Date</label>
+                                          <div class="col-sm-5">
+                                            <label style="padding-top: 5px" class="font-weight-bold">2019/12/04</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <div class="form-group row">
+                                          <label for="appointmentNumber" class="col-sm-6 col-form-label">Appointment No.</label>
+                                          <div class="col-sm-6">
+                                            <label style="padding-top: 5px" class="font-weight-bold">APP/01</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-4">
+                                      <div class="form-group row">
+                                          <label for="appointmentNumber" class="col-sm-4 col-form-label">Doctor</label>
+                                          <div class="col-sm-8">
+                                            <label style="padding-top: 5px" class="font-weight-bold">Dr. Bhanu Wijethilaka</label>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label for="patientName" class="col-sm-2 col-form-label">Symptoms</label>
+                                  <div class="col-sm-10">
+                                    <textarea type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName"  placeholder="" [(ngModel)]="name"></textarea>
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label for="patientName" class="col-sm-2 col-form-label">Disease</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName"  placeholder="" [(ngModel)]="name">
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <label for="patientName" class="col-sm-2 col-form-label">Drug Prescription</label>
+                                  <div class="col-sm-10">
+                                    <textarea type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName"  placeholder="" [(ngModel)]="name"></textarea>
+                                  </div>
+                              </div>
+                            </mat-card> -->
+
+                          </div>
+                        </div>
+                  </div>
+                </cdk-virtual-scroll-viewport>
+        </mat-step>
+      </mat-horizontal-stepper>
+</div>

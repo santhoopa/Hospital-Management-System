@@ -18,9 +18,22 @@ signupUser(user:User){
 
 }
 
+searchDoctorByRegNo(RegNo:string){
+  if (RegNo==""){
+    return null
+  }
+ else
+ {
+   return this.http.get<{DoctorFirstName:string,DoctorLastName:string,DoctorNo:string}>("http://localhost:3000/api/doctor/getDoctorName/"+RegNo);
 
-signupDoctor(){
-  console.log("This is doctor")
+ }
+}
+
+signupDoctor(user:User){
+  console.log("This is doctor");
+  this.http.post("http://localhost:3000/api/doctor/signup",user).subscribe((responseData)=>{
+
+  });
 }
 
 }

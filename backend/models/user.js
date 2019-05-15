@@ -4,7 +4,7 @@ const uniqueValidator=require('mongoose-unique-validator');
 const userSchema=mongoose.Schema({
   username: {type: String, required:true, unique:true},
   role: {type: String, required:true},
-  registrationNumber:Number,
+  registrationNumber:{type: Number, required:true},
   password: {type: String, required:true}
 });
 

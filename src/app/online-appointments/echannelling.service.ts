@@ -25,4 +25,10 @@ export class EchannelingService{
     });
 
   }
+
+  getNewAppointmentNumber(){
+    console.log("New Appointment no is fetched");
+    return this.http.get<{NewAppointmentNumber:number}>("http://localhost:3000/api/onlineappointment/getNewNumber");
+
+  }
 }

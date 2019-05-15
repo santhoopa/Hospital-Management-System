@@ -28,7 +28,28 @@ export class AdminAddUsersComponent implements OnInit {
   }
 
   onAddDoctor(addDoctorForm : NgForm){
-    this.adminService.signupDoctor();
+    const user:User={
+      username: addDoctorForm.value.username,
+      role: addDoctorForm.value.userRole,
+      registrationNumber: Number(this.doctorRegNo),
+      password: addDoctorForm.value.password,
+    }
+    this.adminService.signupDoctor(user);
+    addDoctorForm.reset();
+
   }
 
+  doctorName:string="";
+  doctorRegNo:string="";
+  onSearchDoctor(keyupevent:KeyboardEvent){
+    this.doctorName="";
+    let enteredKeyword=(<HTMLInputElement>keyupevent.target).value;
+    let enteredKeyword_num=enteredKeyword.replace( /^\D+/g, '');
+    this.adminService.searchDoctorByRegNo(enteredKeyword_num).subscribe(result =>{
+      console.log(result.DoctorFirstName);
+      this.doctorName=String(result.DoctorFirstName)+" "+String(result.DoctorLastName);
+      this.doctorRegNo=result.DoctorNo;
+    });
+
+  }
 }

@@ -141,10 +141,7 @@ export class ReceptionistService{
 
   scheduleAppointment(appointment:ManualAppointment){
 
-    this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/appointment/scheduleAppointment",appointment).subscribe(responseData=>{
-  //    console.log(responseData.message + "Added Patient name:" +responseData.patient);
-
-    });
+    return this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/appointment/scheduleAppointment",appointment);
   }
   //  End - Schedule Appointments
 

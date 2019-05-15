@@ -30,7 +30,7 @@ export class AuthService{
       role:role,
       password:password
     }
-    this.http.post<{ token: string,username: string, role: string}>
+    this.http.post<{ token: string,username: string, role: string,registrationNumber:string}>
     ("http://localhost:3000/api/user/login", user)
     .subscribe(response => {
       console.log("Making HTTP POST request to /api/user/login");
@@ -48,6 +48,10 @@ export class AuthService{
         else if (response.role=="receptionist"){
           this.router.navigate(["/receptionist"]);
 
+        }
+        else if(response.role=="doctor"){
+          this.router.navigate(["/doctor/"+response.registrationNumber]);
+          console.log(response.registrationNumber)
         }
       }
 

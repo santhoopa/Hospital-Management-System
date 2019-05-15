@@ -33,10 +33,12 @@ router.post("/api/user/login",(req,res,next) => {
       {
         const token=jwt.sign({username: user.username,role:user.role,userId:user._id},"This is the secret text");
         console.log("Password Matches");
+        console.log(user);
         res.status(200).json({
           token:token,
           username: user.username,
-          role:user.role
+          role:user.role,
+          registrationNumber:user.registrationNumber
         });
       }
       else

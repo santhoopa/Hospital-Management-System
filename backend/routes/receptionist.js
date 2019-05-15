@@ -185,6 +185,18 @@ router.get("/api/appointment/getNewNumber",(req,res,next) => {
   });
 });
 
+//Getting new Online Appointment number from db - By Receptionist
+router.get("/api/onlineappointment/getNewNumber",(req,res,next) => {
+  console.log("This is receptionist - Getting new Online appointment number route");
+  OnlineAppointment.find(null,'appointmentNumber').sort('-appointmentNumber').limit(1).then(result => {
+    console.log(result[0]);
+    const newNo=result[0].appointmentNumber +1;
+    console.log(newNo);
+    res.status(201).json({
+      NewAppointmentNumber: newNo
+    });
+  });
+});
 
 
 //Schedule Appointment - Receptionist - Creating appointment
@@ -200,6 +212,7 @@ router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
     dateCreated:req.body.dateCreated,
     appointmentType:"Manual",
     appointmentStatus:"Pending",
+    symptoms:null,
     disease:null,
     prescription:null
   });
@@ -383,7 +396,7 @@ router.post("/api/admission/dischargePatient",(req,res,next) => {
 router.get("/api/onlineAppointments/getDoctorList",(req,res,next) => {
 console.log("This is Online Appointments - Getting doctors list")
 Doctor.find(null,'name doctorRegistrationNumber SLMCRegNo doctorType').then(results => {
-  console.log(results);
+  //console.log(results);
    res.status(200).json({
      doctors:results
    });
@@ -394,7 +407,9 @@ Doctor.find(null,'name doctorRegistrationNumber SLMCRegNo doctorType').then(resu
 router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
   console.log("This is Online Appointment - Making Online Appointment");
   console.log(req.body);
+  console.log(req.body.appointmentNumber);
   const onlineApp=new OnlineAppointment({
+    appointmentNumber:req.body.appointmentNumber,
     doctorRegistrationNumber:req.body.doctorRegistrationNumber,
     patientRegistrationNumber:null,
     firstname:req.body.firstname,
@@ -408,6 +423,7 @@ router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
     appointmentDate:req.body.appointmentDate,
     dateCreated:req.body.dateCreated,
     appointmentStatus:"Pending",
+    symptoms:null,
     disease:null,
     prescription:null
   })

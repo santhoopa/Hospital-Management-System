@@ -20,7 +20,16 @@ export class OnlineAppointmentComponent implements OnInit {
 
   ngOnInit() {
     this.getDoctorsList();
+    this.getAppointmentNumber();
 
+  }
+  appointmentNum:any=null;
+
+  getAppointmentNumber(){
+    this.echannellingService.getNewAppointmentNumber().subscribe(responseData =>{
+      this.appointmentNum="eAPP/"+responseData.NewAppointmentNumber;
+
+    });
   }
 
   getDoctorsList(){
@@ -63,7 +72,11 @@ export class OnlineAppointmentComponent implements OnInit {
     let formatted_current_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate()
 
 
+    let raw_appNo=form.value.appointmentNumber;
+    let appNo=raw_appNo.replace( /^\D+/g, '');
+
     const onlineAppointment={
+      appointmentNumber:appNo,
       doctorRegistrationNumber:this.selectedDoctorNo,
       firstname:form.value.firstName,
       lastname:form.value.lastName,
@@ -77,8 +90,10 @@ export class OnlineAppointmentComponent implements OnInit {
       dateCreated:formatted_current_date,
     };
     console.log(onlineAppointment);
-    this.echannellingService.makeOnlineAppointment(onlineAppointment);
-    form.resetForm();
+   this.echannellingService.makeOnlineAppointment(onlineAppointment);
+   form.resetForm();
+   this.getAppointmentNumber();
+
 
   }
 }
