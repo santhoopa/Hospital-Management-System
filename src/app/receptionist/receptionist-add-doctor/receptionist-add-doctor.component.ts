@@ -68,7 +68,7 @@ export class ReceptionistAddDoctorComponent implements OnInit{
       lastname:registrationForm.value.doctorLastName,
       },
       gender:registrationForm.value.genderDoctor,
-      dob:registrationForm.value.doctorDOB,
+      dob:new Date(registrationForm.value.doctorDOB).toDateString(),
       address:registrationForm.value.doctorAddress,
       city:registrationForm.value.doctorCity,
       district:registrationForm.value.doctorDistrict,

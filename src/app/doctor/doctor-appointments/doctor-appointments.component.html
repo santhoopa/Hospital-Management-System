@@ -53,7 +53,7 @@
                         <div class="form-group row">
                           <label for="appointmentDate" class="col-sm-6 col-form-label">Appointment Date</label>
                           <div class="col-sm-6">
-                            <input readonly type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" value="{{element.appointmentDate}}">
+                            <input readonly type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" value="{{serachedDate}}">
                           </div>
                         </div>
 
@@ -166,7 +166,7 @@
                           <div class="form-group row">
                             <label for="appointmentDate" class="col-sm-6 col-form-label">Appointment Date</label>
                             <div class="col-sm-6">
-                              <input readonly type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" value="{{element.appointmentDate}}">
+                              <input readonly type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" value="{{serachedDate}}">
                             </div>
                           </div>
 
@@ -273,7 +273,7 @@
                                   <div class="form-group row">
                                       <label for="appointmentDate" class="col-sm-4 col-form-label">Appointment Date</label>
                                       <div class="col-sm-8">
-                                        <input type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" [(ngModel)]="selectedAppointment.appointmentDate">
+                                        <input type="text"  class="form-control" id="appointmentDate" name="appointmentDate" readonly placeholder="" [(ngModel)]="serachedDate">
                                       </div>
                                   </div>
                                   <div class="form-group row">
@@ -321,7 +321,7 @@
                                   <div class="form-group row">
                                       <label for="dob" class="col-sm-4 col-form-label">Date of Birth</label>
                                       <div class="col-sm-8">
-                                        <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="selectedPatient.dob">
+                                        <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="selectedPatientDob">
                                       </div>
                                   </div>
                                   <div class="form-group row">
@@ -368,7 +368,7 @@
                                             <div class="form-group row">
                                                 <label for="appointmentNumber_previous" class="col-sm-6 col-form-label">Appointment No.</label>
                                                 <div class="col-sm-6">
-                                                  <label style="padding-top: 5px" class="font-weight-bold">APP/{{element.appointmentNumber}}</label>
+                                                  <label style="padding-top: 5px" class="font-weight-bold">APP/{{element.appointment.appointmentNumber}}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -376,7 +376,7 @@
                                             <div class="form-group row">
                                                 <label for="doctor" class="col-sm-4 col-form-label">Doctor</label>
                                                 <div class="col-sm-8">
-                                                  <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.doctor[0].name.firstname}} {{element.doctor[0].name.lastname}}</label>
+                                                  <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.appointment.doctor[0].name.firstname}} {{element.appointment.doctor[0].name.lastname}}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -386,19 +386,19 @@
                                     <div class="form-group row">
                                         <label for="symptoms_previous" class="col-sm-2 col-form-label">Symptoms</label>
                                         <div class="col-sm-10">
-                                          <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  placeholder="" value={{element.symptoms}}></textarea>
+                                          <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  placeholder="" value={{element.appointment.symptoms}}></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="disease_previous" class="col-sm-2 col-form-label">Disease</label>
                                         <div class="col-sm-10">
-                                          <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value={{element.disease}}>
+                                          <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value={{element.appointment.disease}}>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="prescription_previous" class="col-sm-2 col-form-label">Drug Prescription</label>
                                         <div class="col-sm-10">
-                                          <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value={{element.prescription}}></textarea>
+                                          <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value={{element.appointment.prescription}}></textarea>
                                         </div>
                                     </div>
 
@@ -419,7 +419,7 @@
                                           <div class="form-group row">
                                               <label for="appointmentNumber_previous" class="col-sm-6 col-form-label">Appointment No.</label>
                                               <div class="col-sm-6">
-                                                <label style="padding-top: 5px" class="font-weight-bold">eAPP/{{element.appointmentNumber}}</label>
+                                                <label style="padding-top: 5px" class="font-weight-bold">eAPP/{{element.appointment.appointmentNumber}}</label>
                                               </div>
                                           </div>
                                       </div>
@@ -427,7 +427,7 @@
                                           <div class="form-group row">
                                               <label for="doctor" class="col-sm-4 col-form-label">Doctor</label>
                                               <div class="col-sm-8">
-                                                <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.doctor[0].name.firstname}} {{element.doctor[0].name.lastname}}</label>
+                                                <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.appointment.doctor[0].name.firstname}} {{element.appointment.doctor[0].name.lastname}}</label>
                                               </div>
                                           </div>
                                       </div>
@@ -437,19 +437,19 @@
                                   <div class="form-group row">
                                       <label for="symptoms_previous" class="col-sm-2 col-form-label">Symptoms</label>
                                       <div class="col-sm-10">
-                                        <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  placeholder="" value={{element.symptoms}}></textarea>
+                                        <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  placeholder="" value={{element.appointment.symptoms}}></textarea>
                                       </div>
                                   </div>
                                   <div class="form-group row">
                                       <label for="disease_previous" class="col-sm-2 col-form-label">Disease</label>
                                       <div class="col-sm-10">
-                                        <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value={{element.disease}}>
+                                        <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value={{element.appointment.disease}}>
                                       </div>
                                   </div>
                                   <div class="form-group row">
                                       <label for="prescription_previous" class="col-sm-2 col-form-label">Drug Prescription</label>
                                       <div class="col-sm-10">
-                                        <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value={{element.prescription}}></textarea>
+                                        <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value={{element.appointment.prescription}}></textarea>
                                       </div>
                                   </div>
 

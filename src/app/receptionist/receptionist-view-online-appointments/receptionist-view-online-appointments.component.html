@@ -32,17 +32,17 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let appointment of onlineAppointment_byDoctor">
-                      <td>eAPP/{{appointment.appointmentNumber}}</td>
+                      <td>eAPP/{{appointment.appointment.appointmentNumber}}</td>
                       <td>{{appointment.appointmentDate}}</td>
-                      <td>{{appointment.timeSlot}}</td>
-                      <td>{{appointment.firstname}}</td>
-                      <td>{{appointment.lastname}}</td>
-                      <td>{{appointment.gender}}</td>
-                      <td>{{appointment.contactNumber}}</td>
-                      <td>{{appointment.NIC}}</td>
-                      <td>{{appointment.city}}</td>
-                      <td>{{appointment.district}}</td>
-                      <td>{{appointment.appointmentStatus}}</td>
+                      <td>{{appointment.appointment.timeSlot}}</td>
+                      <td>{{appointment.appointment.firstname}}</td>
+                      <td>{{appointment.appointment.lastname}}</td>
+                      <td>{{appointment.appointment.gender}}</td>
+                      <td>{{appointment.appointment.contactNumber}}</td>
+                      <td>{{appointment.appointment.NIC}}</td>
+                      <td>{{appointment.appointment.city}}</td>
+                      <td>{{appointment.appointment.district}}</td>
+                      <td>{{appointment.appointment.appointmentStatus}}</td>
                       <td>{{appointment.dateCreated}}</td>
                     </tr>
                   </tbody>
@@ -89,17 +89,17 @@
                               </thead>
                               <tbody >
                                 <tr *ngFor="let appointment of onlineAppointments_LinkPatient">
-                                  <td>eAPP/{{appointment.appointmentNumber}}</td>
+                                  <td>eAPP/{{appointment.appointment.appointmentNumber}}</td>
                                   <td>{{appointment.appointmentDate}}</td>
-                                  <td>{{appointment.timeSlot}}</td>
-                                  <td>{{appointment.firstname}}</td>
-                                  <td>{{appointment.lastname}}</td>
-                                  <td>{{appointment.gender}}</td>
-                                  <td>{{appointment.contactNumber}}</td>
-                                  <td>{{appointment.NIC}}</td>
-                                  <td>{{appointment.city}}</td>
-                                  <td>{{appointment.district}}</td>
-                                  <td>{{appointment.appointmentStatus}}</td>
+                                  <td>{{appointment.appointment.timeSlot}}</td>
+                                  <td>{{appointment.appointment.firstname}}</td>
+                                  <td>{{appointment.appointment.lastname}}</td>
+                                  <td>{{appointment.appointment.gender}}</td>
+                                  <td>{{appointment.appointment.contactNumber}}</td>
+                                  <td>{{appointment.appointment.NIC}}</td>
+                                  <td>{{appointment.appointment.city}}</td>
+                                  <td>{{appointment.appointment.district}}</td>
+                                  <td>{{appointment.appointment.appointmentStatus}}</td>
                                   <td>{{appointment.dateCreated}}</td>
                                   <td><button matStepperNext (click)="onLinkToPatient(appointment)"class="btn btn-sm btn-primary" >Link Patient</button></td>
 
@@ -119,7 +119,7 @@
                       </div>
 
                       <div class="col-md-4 mb-3">
-                        <label for="lastName">Last nameas in Online Appointment</label>
+                        <label for="lastName">Last name as in Online Appointment</label>
                         <input readonly type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" [(ngModel)]="lastName_LinkPatient">
                       </div>
 

@@ -108,7 +108,7 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
       doctorRegistrationNumber:scheduleAppointmentForm.value.selectDoctor,
       patientRegistrationNumber: patientNo,
       timeSlot:scheduleAppointmentForm.value.selectTimeSlot,
-      appointmentDate:appointment_date,
+      appointmentDate:new Date(scheduleAppointmentForm.value.appointmentDate).toDateString(),
       dateCreated:formatted_current_date
 
     }

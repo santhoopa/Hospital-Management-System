@@ -48,7 +48,7 @@ router.post("/api/doctors",(req,res,next) => {
     lastname:req.body.name.lastname,
     },
     gender:req.body.gender,
-    dob:req.body.dob,
+    dob:new Date(req.body.dob),
     address:req.body.address,
     city:req.body.city,
     district:req.body.district,
@@ -73,6 +73,7 @@ router.post("/api/doctors",(req,res,next) => {
     }
     });
     console.log(doctor);
+    console.log(new Date(req.body.dob));
 
 
     doctor.save().then(createdDoctor => {
@@ -138,8 +139,8 @@ router.post("/api/patient/register",(req,res,next) => {
   console.log("This is receptionist - register patient route");
  // const patient=new Patient();
  // patients=req.body;
- console.log(req.body.dob);
- // console.log(patients);
+  console.log(req.body);
+  console.log(new Date(req.body.dob));
   const patient=new Patient({
     patientRegistrationNumber:req.body.patientRegistrationNumber,
     name:{
@@ -148,7 +149,7 @@ router.post("/api/patient/register",(req,res,next) => {
     },
     gender:req.body.gender,
     address:req.body.address,
-    dob:req.body.dob,
+    dob:new Date(req.body.dob),
     city:req.body.city,
     district:req.body.district,
     nic:req.body.nic,
@@ -208,7 +209,7 @@ router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
     doctorRegistrationNumber:req.body.doctorRegistrationNumber,
     patientRegistrationNumber:req.body.patientRegistrationNumber,
     timeSlot:req.body.timeSlot,
-    appointmentDate:req.body.appointmentDate,
+    appointmentDate:new Date(req.body.appointmentDate),
     dateCreated:req.body.dateCreated,
     appointmentType:"Manual",
     appointmentStatus:"Pending",
@@ -273,12 +274,14 @@ router.get("/api/admission/getNewNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new admission number route");
   Admission.find(null,'admissionNumber').sort('-admissionNumber').limit(1).then(result => {
     console.log(result[0].admissionNumber);
-    const newNo=result[0].admissionNumber +1;
+    const newNo=result[0].admissionNumber+1;
     console.log(newNo);
     res.status(201).json({
       NewAdmissionNumber: newNo
     });
-  });
+  }).catch( error => {
+    console.log("error")
+  })
 });
 
 
@@ -420,8 +423,8 @@ router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
     city:req.body.city,
     district:req.body.district,
     timeSlot:req.body.timeSlot,
-    appointmentDate:req.body.appointmentDate,
-    dateCreated:req.body.dateCreated,
+    appointmentDate:new Date(req.body.appointmentDate),
+    dateCreated:new Date(req.body.dateCreated),
     appointmentStatus:"Pending",
     symptoms:null,
     disease:null,

@@ -7,7 +7,7 @@ export interface Doctor{
   lastname:string;
   },
   gender:string;
-  dob:string;
+  dob:any;
   address:string;
   city:string;
   district:string;

@@ -3,7 +3,7 @@ export interface ManualAppointment {
   doctorRegistrationNumber:Number;
   patientRegistrationNumber: Number;
   timeSlot:string;
-  appointmentDate:string;
+  appointmentDate:any;
   dateCreated:string;
 
 }

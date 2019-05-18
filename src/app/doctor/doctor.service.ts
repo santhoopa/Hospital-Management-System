@@ -14,12 +14,12 @@ export class DoctorService{
 
   }
 
-  getAppointments_ByDate(doctorRegNo:any,appDate:string){
+  getAppointments_ByDate(doctorRegNo:any,appDate:Date){
     const load={
       doctorRegistrationNumber:doctorRegNo,
-      appointmentDate:appDate
+      appointmentDate:appDate.toDateString()
     }
-
+    console.log(load)
     return this.http.post<{normal_appointments:any,online_appointments:any}>("http://localhost:3000/api/profiles/doctor/getAppointmentsByDate",load);
 
   }

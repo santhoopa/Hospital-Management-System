@@ -2,7 +2,7 @@ import { Patient } from './../../models/patient.model';
 import { NgForm } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ReceptionistService } from '../receptionist.service';
-import { MatRadioChange, MatRadioButton } from '@angular/material';
+import { MatRadioChange, MatRadioButton, MatSnackBar } from '@angular/material';
 //import { Component, OnInit } from '@angular/core';
 //import * as CanvasJS from './canvasjs.min';
 @Component({
@@ -15,7 +15,7 @@ import { MatRadioChange, MatRadioButton } from '@angular/material';
 export class ReceptionistRegisterPatientComponent implements OnInit{
  patientRegNo:any=null;
 
-  constructor(public receptionistService: ReceptionistService) {
+  constructor(public receptionistService: ReceptionistService,private snackBar: MatSnackBar) {
   }
 
   //public pat: string="PAT/010";
@@ -38,43 +38,52 @@ export class ReceptionistRegisterPatientComponent implements OnInit{
 
   onRegister(registrationForm: NgForm){
 
-    // if(registrationForm.invalid){
-    //   return
-    //  }
-    let regno_string:String = registrationForm.value.patientRegistrationNumber;
-    var regNum = regno_string.replace( /^\D+/g, '');
-   //var regNum
-    console.log("Register Button clicked");
-    console.log(regNum);
-    // regNum="1";
-
-    const patient:Patient={
-      patientRegistrationNumber:  regNum,
-      name:{
-      firstname:registrationForm.value.patientFirstName,
-      lastname:registrationForm.value.patientLastName,
-      },
-      gender:registrationForm.value.genderPatient,
-      address:registrationForm.value.patientAddress,
-      dob:registrationForm.value.patientDOB,
-      city:registrationForm.value.patientCity,
-      district:registrationForm.value.patientDistrict,
-      nic:registrationForm.value.patientNIC,
-      maritalStatus:registrationForm.value.maritalStatus,
-      contactNumber:registrationForm.value.patientContactNumber,
-      email:registrationForm.value.patientEmail,
-      guardian:{
-        guardianType:registrationForm.value.guardianType,
-        firstname:registrationForm.value.guardianFirstName,
-        lastname:registrationForm.value.guardianLastName,
-        gender:registrationForm.value.genderGuardian,
-        NIC:registrationForm.value.guardianNIC,
-        contactNumber:registrationForm.value.guardianContactNumber ,
-      }
+    if(registrationForm.invalid)
+    {
+      this.snackBar.open("Please Enter Valid Details ", null, {
+        duration: 4000,
+        panelClass: ['error']
+      });
     }
-    console.log(patient);
-    this.receptionistService.registerPatient(patient);
-    registrationForm.reset();
+    else
+    {
+      let regno_string:String = registrationForm.value.patientRegistrationNumber;
+      var regNum = regno_string.replace( /^\D+/g, '');
+      console.log("Register Button clicked");
+      console.log(registrationForm.invalid)
+      const patient:Patient={
+        patientRegistrationNumber:  regNum,
+        name:{
+        firstname:registrationForm.value.patientFirstName,
+        lastname:registrationForm.value.patientLastName,
+        },
+        gender:registrationForm.value.genderPatient,
+        address:registrationForm.value.patientAddress,
+        dob:new Date(registrationForm.value.patientDOB).toDateString(),
+        city:registrationForm.value.patientCity,
+        district:registrationForm.value.patientDistrict,
+        nic:registrationForm.value.patientNIC,
+        maritalStatus:registrationForm.value.maritalStatus,
+        contactNumber:registrationForm.value.patientContactNumber,
+        email:registrationForm.value.patientEmail,
+        guardian:{
+          guardianType:registrationForm.value.guardianType,
+          firstname:registrationForm.value.guardianFirstName,
+          lastname:registrationForm.value.guardianLastName,
+          gender:registrationForm.value.genderGuardian,
+          NIC:registrationForm.value.guardianNIC,
+          contactNumber:registrationForm.value.guardianContactNumber ,
+        }
+      }
+      console.log(patient);
+      // this.receptionistService.registerPatient(patient).subscribe(responseData=>{
+      //   console.log(responseData.message + "Added Patient name:" +responseData.patient);
+      //   registrationForm.reset();
+      //   this.generateRegNo();
+      // });
+    }
+
+
   }
 
   onChangeGuardianTypeRadioButton(mrChange: MatRadioChange,registrationForm: NgForm) {

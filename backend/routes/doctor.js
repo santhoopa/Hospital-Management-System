@@ -12,9 +12,21 @@ const OnlineAppointment=require('../models/online_appointment');
 router.post("/api/profiles/doctor/getAppointmentsByDate",(req,res,next) => {
   let normal_appointments=[];
   let online_appointments=[];
+  //console.log()
+  // var raw_appointment_date=new Date(req.body.appointmentDate);
+  //console.log(new Date(String(req.body.appointmentDate)));
+  let date=new Date(req.body.appointmentDate);
+  // console.log(req.body)
+   console.log(new Date(req.body.appointmentDate));
+   //console.log(req.bo)
+  console.log(req.body)
+  var today = new Date();
+   console.log(today);
+  //console.log(new Date(date.getUTCFullYear()+"-"+date.getUTCMonth()+"-"+date.getUTCDate()));
+  // console.log(req.body.appointmentDate);
   Appointment.aggregate([
     { $match: { "doctorRegistrationNumber" : Number(req.body.doctorRegistrationNumber) } },
-    { $match: { "appointmentDate" : req.body.appointmentDate } },
+    { $match: { "appointmentDate" : new Date(req.body.appointmentDate)}},
     { $match: { "appointmentStatus" : "Pending" } },
     {
       $lookup:
@@ -26,14 +38,14 @@ router.post("/api/profiles/doctor/getAppointmentsByDate",(req,res,next) => {
          }
     }
   ]).then(results => {
-    //console.log(results);
+    console.log(results);
     results.map(app =>{
       //console.log(app)
       normal_appointments.push(app);
     });
     OnlineAppointment.aggregate([
     { $match: { "doctorRegistrationNumber" : Number(req.body.doctorRegistrationNumber) } },
-    { $match: { "appointmentDate" : req.body.appointmentDate } },
+    { $match: { "appointmentDate" : new Date(req.body.appointmentDate) } },
     { $match: { "appointmentStatus" : "Linked" } },
     {
       $lookup:
@@ -87,6 +99,8 @@ router.post("/api/profiles/doctor/saveTreatmentInformation_Online",(req,res,next
 
 //Doctor - Getting treatment history
 router.post("/api/profiles/doctor/getTreatmentHistory",(req,res,next) => {
+  console.log("This is Getting Treatment History")
+  console.log(req.body);
   let normal_appointments=[];
   let online_appointments=[];
   Appointment.aggregate([
@@ -103,7 +117,7 @@ router.post("/api/profiles/doctor/getTreatmentHistory",(req,res,next) => {
     }
 
   ]).then(results => {
-    //console.log(results);
+    console.log(results);
     results.map(app =>{
       console.log(app)
       normal_appointments.push(app);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-receptionist-dashboard',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./receptionist-dashboard.component.css']
 })
 export class ReceptionistDashboardComponent implements OnInit {
+  showMsg: boolean = true;
+  constructor(private snackBar: MatSnackBar) {}
 
-  constructor() { }
-
+  click(message: string, action: string) {
+    this.snackBar.open("Error", null, {
+      duration: 4000,
+      panelClass: ['success']
+    });
+  }
   ngOnInit() {
+    this.click("sasa","sasa");
   }
 
+
 }
+

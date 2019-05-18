@@ -7,3 +7,46 @@
 .example-item {
   height: 50px;
 }
+.blue-snackbar {
+  background: #2196F3;
+}
+
+::ng-deep .success{
+  background-color: #323232;
+  transition-property: opacity, bottom, left, right, width, margin, border-radius;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  font-family: RobotoDraft;
+  font-size: 14px;
+  min-height: 14px;
+  /* background-color: blue; */
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  line-height: 22px;
+  padding: 18px 24px;
+  bottom: 400px;
+  opacity: 0;
+}
+
+::ng-deep .error{
+  background-color: lightcoral;
+  transition-property: opacity, bottom, left, right, width, margin, border-radius;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  font-family: RobotoDraft;
+  font-size: 14px;
+  min-height: 14px;
+  /* background-color: blue; */
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  line-height: 22px;
+  padding: 18px 24px;
+  bottom: 400px;
+  opacity: 0;
+}

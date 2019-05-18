@@ -63,7 +63,7 @@ export class ReceptionistViewDoctorComponent implements OnInit {
       lastname:result.doctor.name.lastname,
       },
       gender:result.doctor.gender,
-      dob:result.doctor.dob,
+      dob:new Date(result.doctor.dob).toDateString(),
       address:result.doctor.address,
       city:result.doctor.city,
       district:result.doctor.district,

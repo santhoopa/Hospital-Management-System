@@ -29,10 +29,16 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
     this.receptionistService.viewOnlineAppointments_ByDoctor(doctorRegistrationNumber,"").subscribe(results =>{
       results.onlineAppointments.map(appointment =>{
         //console.log(appointment);
-        this.onlineAppointment_byDoctor.push(appointment);
+        const app={
+          appointment:appointment,
+          appointmentDate:new Date(appointment.appointmentDate).toDateString(),
+          dateCreated:new Date(appointment.dateCreated).toDateString()
+        }
+        this.onlineAppointment_byDoctor.push(app);
+      //  console.log(this.onlineAppointment_byDoctor);
       })
     });
-    //console.log(this.onlineAppointment_byDoctor);
+    console.log(this.onlineAppointment_byDoctor);
   }
 
   public onlineAppointments_LinkPatient=[];
@@ -40,7 +46,13 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
     this.onlineAppointments_LinkPatient=[];
     this.receptionistService.viewOnlineAppointments_ByDoctor_LinkPatient(doctorRegistrationNumber).subscribe(results =>{
       results.onlineAppointments.map(appointment =>{
-        this.onlineAppointments_LinkPatient.push(appointment);
+        const app={
+          appointment:appointment,
+          appointmentDate:new Date(appointment.appointmentDate).toDateString(),
+          dateCreated:new Date(appointment.dateCreated).toDateString()
+        }
+        this.onlineAppointments_LinkPatient.push(app);
+
       })
     });
   }
@@ -51,10 +63,10 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
   app_id:string;
   onLinkToPatient(appointment:any){
     console.log(appointment);
-    this.firstName_LinkPatient=appointment.firstname;
-    this.lastName_LinkPatient=appointment.lastname;
-    this.NIC_LinkPatient=appointment.NIC;
-    this.app_id=appointment._id;
+    this.firstName_LinkPatient=appointment.appointment.firstname;
+    this.lastName_LinkPatient=appointment.appointment.lastname;
+    this.NIC_LinkPatient=appointment.appointment.NIC;
+    this.app_id=appointment.appointment._id;
 
 
   }

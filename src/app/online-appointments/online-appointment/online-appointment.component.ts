@@ -86,8 +86,8 @@ export class OnlineAppointmentComponent implements OnInit {
       city:form.value.city,
       district:form.value.district,
       timeSlot:this.selectedDay + " "+ this.selectedTime,
-      appointmentDate:appointment_date,
-      dateCreated:formatted_current_date,
+      appointmentDate:new Date(form.value.appointmentDate).toDateString(),
+      dateCreated:new Date(current_datetime).toDateString(),
     };
     console.log(onlineAppointment);
    this.echannellingService.makeOnlineAppointment(onlineAppointment);

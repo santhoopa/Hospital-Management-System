@@ -5,8 +5,8 @@ const admissionSchema=mongoose.Schema({
   patientRegistrationNumber:Number,
   appointmentNmber:Number,
   roomNumber:Number,
-  admissionDate:String,
-  dischargeDate:String,
+  admissionDate:Date,
+  dischargeDate:Date,
   causeofAdmission:String,
   status:String,
 });

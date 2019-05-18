@@ -21,12 +21,14 @@
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="patientFirstName">First name</label>
-            <input ngModel #patientFirstName="ngModel" type="text" class="form-control" id="patientFirstName" name="patientFirstName" placeholder="First name" required>
+            <input ngModel #patientFirstName="ngModel" pattern="[a-zA-Z\s]+" type="text" class="form-control" id="patientFirstName" name="patientFirstName" placeholder="First name" required>
+            <div class="alert alert-danger" *ngIf="!patientFirstName.valid && patientFirstName.touched">Enter Valid First Name</div>
           </div>
 
           <div class="col-md-4 mb-3">
             <label for="patientLastName">Last name</label>
-            <input ngModel #patientLastName="ngModel" type="text" class="form-control" id="patientLastName" name="patientLastName" placeholder="Last name" required>
+            <input ngModel #patientLastName="ngModel" pattern="[a-zA-Z\s]+" type="text" class="form-control" id="patientLastName" name="patientLastName" placeholder="Last name" required>
+            <div class="alert alert-danger" *ngIf="!patientLastName.valid && patientLastName.touched">Enter Valid Last Name</div>
           </div>
 
         <div class="col-md-4 mb-3" style="padding-left: 27px">
@@ -41,8 +43,8 @@
                 <label class="custom-control-label" for="female">Female</label>
               </div> -->
               <mat-radio-group ngModel #genderPatient="ngModel" name="genderPatient">
-                  <mat-radio-button value="male">Male</mat-radio-button>
-                  <mat-radio-button value="female">Female</mat-radio-button>
+                  <mat-radio-button value="Male">Male</mat-radio-button>
+                  <mat-radio-button value="Female">Female</mat-radio-button>
                </mat-radio-group>
 
             </div>
@@ -54,7 +56,7 @@
     <div class="form-row" style="padding-bottom: 10px">
       <div class="col-md-7 mb-3">
         <label for="patientAddress">Address</label>
-        <input ngModel #patientAddress="ngModel" type="text" class="form-control" id="patientAddress" name="patientAddress" placeholder="Address">
+        <input ngModel #patientAddress="ngModel" type="text" class="form-control" id="patientAddress" name="patientAddress" placeholder="Address" required>
       </div>
       <div class="col-md-3 mb-3">
           <label for="patientCity">City</label>
@@ -63,7 +65,7 @@
 
         <div class="col-md-2 mb-3">
           <label for="patientDistrict">District</label>
-          <select ngModel #patientDistrict="ngModel"class="custom-select" name="patientDistrict" id="patientDistrict" required="">
+          <select ngModel #patientDistrict="ngModel"class="custom-select" name="patientDistrict" id="patientDistrict" required>
               <option value="">Choose...</option>
               <option value="Colombo">Colombo</option>
               <option value="Gampaha">Gampaha</option>
@@ -79,7 +81,8 @@
         <div class="col-md-4 mb-3" >
             <label for="patientNIC">NIC</label>
             <div style="padding-top: 10px">
-               <input ngModel #patientNIC="ngModel" type="text" class="form-control" id="patientNIC" name="patientNIC" placeholder="NIC" required>
+               <input ngModel #patientNIC="ngModel" pattern="([0-9]{9}[x|X|v|V]|[0-9]{12})$"type="text" class="form-control" id="patientNIC" name="patientNIC" placeholder="NIC" >
+               <div class="alert alert-danger" *ngIf="!patientNIC.valid && patientNIC.touched">Enter Valid NIC</div>
             </div>
         </div>
 
@@ -112,13 +115,15 @@
         <div class="col-md-4 mb-3" >
             <label for="patientContactNumber">Contact Number</label>
             <div style="padding-top: 10px">
-                <input  ngModel #patientContactNumber="ngModel" type="text" class="form-control" id="patientContactNumber" name="patientContactNumber" placeholder="Contact Number" required>
+                <input  ngModel #patientContactNumber="ngModel" pattern="\d{10}" type="text" class="form-control" id="patientContactNumber" name="patientContactNumber" placeholder="Contact Number" required>
+                <div class="alert alert-danger" *ngIf="!patientContactNumber.valid && patientContactNumber.touched">Enter a valid contact number</div>
             </div>
         </div>
         <div class="col-md-6 mb-3" >
             <label for="patientEmail">Email</label>
             <div style="padding-top: 10px">
-                <input ngModel #patientEmail="ngModel" type="text" class="form-control" id="patientEmail" name="patientEmail" placeholder="Email" required>
+                <input ngModel #patientEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text" class="form-control" id="patientEmail" name="patientEmail" placeholder="Email" >
+                <div class="alert alert-danger" *ngIf="!patientEmail.valid && patientEmail.touched">Enter a valid email address</div>
             </div>
         </div>
     </div>

@@ -16,28 +16,33 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
   constructor(public receptionistService: ReceptionistService) { }
 
   ngOnInit() {
+    this.getRoomAvailability()
+    this.getVacantRooms();
+    this.getNewAdmissionNumber();
+  }
+  getRoomAvailability(){
+    this.rooms=[];
     this.receptionistService.getRoomAvailability().subscribe(results => {
       results.rooms.map(room =>{
-        //console.log(room);
         this.rooms.push(room);
       });
     });
-
+  }
+  getVacantRooms(){
+    this.vacantRooms=[];
     this.receptionistService.getVacantRooms().subscribe(results => {
       results.VacantRooms.map(room =>{
        // console.log(room);
         this.vacantRooms.push(room);
       });
     });
-
+  }
+  getNewAdmissionNumber(){
     this.receptionistService.getNewAdmissionNumber().subscribe(responseData =>{
       this.admissionNum="ADM/"+responseData.NewAdmissionNumber;
 
     });
-
-
   }
-
   public currentAdmissions=[];
   onClickDischarge(index){
     if(index==1)
@@ -50,6 +55,8 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     this.currentAdmissions=[];
     this.receptionistService.getCurrentAdmissions().subscribe(responseData => {
         responseData.result.map(admission=>{
+          admission.admissionDate=new Date(admission.admissionDate).toDateString();
+          console.log(admission.admissionDate);
           this.currentAdmissions.push(admission);
         });
     });
@@ -119,7 +126,12 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
 
     }
     console.log(admission);
-    this.receptionistService.admitPatient(admission);
+    this.receptionistService.admitPatient(admission).subscribe((responseData)=>{
+      this.getRoomAvailability()
+      this.getVacantRooms();
+      this.getNewAdmissionNumber();
+      admissionForm.reset();
+    });
   }
 
 
@@ -130,6 +142,9 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     this.loadCurrentAdmissions();
     this.admissionNum_Discharge=null;
     this.roomNumber_Discharge=null;
+    this.getRoomAvailability()
+    this.getVacantRooms();
+    this.getNewAdmissionNumber();
     });
   }
 }

@@ -17,9 +17,7 @@ export class ReceptionistService{
   constructor(private http: HttpClient, private router: Router) {}
 
   admitPatient(admission: Admission){
-    this.http.post("http://localhost:3000/api/patient/admit",admission).subscribe((responseData)=>{
-
-    });
+    return this.http.post("http://localhost:3000/api/patient/admit",admission);
 
   }
 
@@ -65,10 +63,7 @@ export class ReceptionistService{
   registerPatient(patient: Patient){
     console.log("Service Reached");
     console.log(patient);
-    this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/patient/register",patient).subscribe(responseData=>{
-      console.log(responseData.message + "Added Patient name:" +responseData.patient);
-
-    });
+    return this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/patient/register",patient);
   }
 
   searchPatients(keyword:string){
@@ -86,7 +81,7 @@ export class ReceptionistService{
             },
             gender:patient.gender,
             address:patient.address,
-            dob:patient.dob,
+            dob:new Date(patient.dob).toDateString(),
             city:patient.city,
             district:patient.district,
             nic:patient.nic,

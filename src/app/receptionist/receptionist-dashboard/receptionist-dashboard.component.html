@@ -1,4 +1,4 @@
-<p>
+<!-- <p>
   receptionist-dashboard works!
 </p>
 <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
@@ -20,7 +20,14 @@
     sdasdad
    </cdk-virtual-scroll-viewport>
 
+   <div class="row"  *ngIf="showMsg">
+    <div class="col-xs-12">
+      <p class="alert alert-success">
+          <strong>Registration Success!</strong> Please click here to login!.
 
-   <!-- Copyright 2019 Google Inc. All Rights Reserved.
-       Use of this source code is governed by an MIT-style license that
-       can be found in the LICENSE file at http://angular.io/license -->
+      </p>
+    </div>
+  </div> -->
+
+
+ <button class="btn btn-success" (click)="click()">Click</button>
