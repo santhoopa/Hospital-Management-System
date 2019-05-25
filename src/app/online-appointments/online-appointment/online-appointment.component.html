@@ -125,9 +125,10 @@
             <label for="appointmentDate" class="col-sm-4 col-form-label" style="padding-top: 20px">Select Date</label>
             <div class="col-sm-8">
                 <mat-form-field >
-                    <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date">
+                    <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date" required>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
+                    <div style="font-size: 13.5px; margin-top: 5px; "class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select a Date</div>
                   </mat-form-field>
             </div>
           </div>
@@ -136,22 +137,24 @@
           <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="firstName">First name</label>
-                <input ngModel #firstName="ngModel" type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" required>
+                <input ngModel #firstName="ngModel" type="text" class="form-control" id="firstName" name="firstName" pattern="[a-zA-Z\s]+" placeholder="First name" required>
+                <div style="font-size: 13.5px; "class="alert alert-danger" *ngIf="!firstName.valid && firstName.touched">Enter a valid name</div>
               </div>
 
               <div class="col-md-4 mb-3">
                 <label for="lastName">Last name</label>
-                <input ngModel #lastName="ngModel" type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name" required>
+                <input ngModel #lastName="ngModel" type="text" class="form-control" id="lastName" name="lastName" pattern="[a-zA-Z\s]+" placeholder="Last name" required>
+                <div style="font-size: 13.5px;"class="alert alert-danger" *ngIf="!lastName.valid && lastName.touched">Enter a valid name</div>
               </div>
 
             <div class="col-md-4 mb-3" style="padding-left: 27px">
                 <label >Gender</label>
                 <div style="padding-top: 7px">
-                  <mat-radio-group ngModel #gender="ngModel" name="gender">
+                  <mat-radio-group ngModel #gender="ngModel" name="gender" required>
                       <mat-radio-button value="Male">Male</mat-radio-button>
                       <mat-radio-button value="Female">Female</mat-radio-button>
                   </mat-radio-group>
-
+                  <div style="font-size: 13.5px;"class="alert alert-danger" *ngIf="!gender.valid && gender.touched">Select gender</div>
                 </div>
               </div>
             </div>
@@ -161,13 +164,15 @@
               <div class="col-md-4 mb-3" >
                   <label for="contactNumber">Contact Number</label>
                   <div style="padding-top: 10px">
-                      <input  ngModel #contactNumber="ngModel" type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                      <input  ngModel #contactNumber="ngModel" type="text" class="form-control" id="contactNumber" pattern="\d{10}" name="contactNumber" placeholder="Contact Number" required>
+                      <div style="font-size: 13.5px;"class="alert alert-danger" *ngIf="!contactNumber.valid && contactNumber.touched">Enter a valid Contact Number</div>
                   </div>
               </div>
               <div class="col-md-4 mb-3" >
                   <label for="NIC">NIC</label>
                   <div style="padding-top: 10px">
-                    <input ngModel #NIC="ngModel" type="text" class="form-control" id="NIC" name="NIC" placeholder="NIC" required>
+                    <input ngModel #NIC="ngModel" pattern="([0-9]{9}[x|X|v|V]|[0-9]{12})$" type="text" class="form-control" id="NIC" name="NIC" placeholder="NIC" required>
+                    <div style="font-size: 13.5px;"class="alert alert-danger" *ngIf="!NIC.valid && NIC.touched">Enter Valid NIC No.</div>
                   </div>
               </div>
           </div>
@@ -177,17 +182,19 @@
               <div class="col-md-4 mb-3">
                   <label for="city">City</label>
                   <input ngModel #city="ngModel" type="text" class="form-control" id="city" name="city" placeholder="City" required>
+                  <div style="font-size: 13.5px;"class="alert alert-danger" *ngIf="!city.valid && city.touched">Enter a city</div>
                 </div>
 
                 <div class="col-md-4 mb-3">
                   <label for="district">District</label>
-                  <select ngModel #patientDistrict="ngModel"class="custom-select" name="district" id="district" required="">
+                  <select ngModel #patientDistrict="ngModel"class="custom-select" name="district" id="district" required>
                       <option value="">Choose...</option>
                       <option value="Colombo">Colombo</option>
                       <option value="Gampaha">Gampaha</option>
                       <option value="Kaluthara">Kaluthara</option>
                       <option value="Kandy">Kandy</option>
                     </select>
+                    <div style="font-size: 13.5px;"class="alert alert-danger" *ngIf="!patientDistrict.valid && patientDistrict.touched">Select a district</div>
                 </div>
           </div>
         <!-- End - Address, City, District -->

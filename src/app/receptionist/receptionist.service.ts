@@ -54,11 +54,7 @@ export class ReceptionistService{
 
   registerDoctor(doctor:Doctor){
     console.log("Service Reached");
-    this.http.post<{ message: string, doctor:string}>("http://localhost:3000/api/doctors",doctor).subscribe((responseData)=>{
-      console.log(responseData.message);
-      console.log("Added Doctor name:" +responseData.doctor);
-
-    });
+   return this.http.post<{ message: string, doctor:string}>("http://localhost:3000/api/doctors",doctor);
   }
   registerPatient(patient: Patient){
     console.log("Service Reached");
@@ -121,6 +117,14 @@ export class ReceptionistService{
     return this.http.get<{ doctor:any}>("http://localhost:3000/api/findDoctors/"+regNo);
   }
 
+  updateDoctorAvailability(doctorRegistrationNumber:string,timeSlots:any){
+    const load={
+      doctorRegistrationNumber:doctorRegistrationNumber,
+      timeSlots:timeSlots
+    }
+  return this.http.post("http://localhost:3000/api/doctor/updateAvailability",load);
+
+  }
   getDoctorNames():Observable<any>{
       console.log("This is getDoctorNames()");
       return this.http.get<{ message:string; doctorNames:any}>("http://localhost:3000/api/doctors/getdoctorNames");
@@ -157,15 +161,24 @@ export class ReceptionistService{
     return this.http.get<{admissionDetail:any}>("http://localhost:3000/api/admission/getAdmissionDetail/"+admissionNumber);
   }
 
-  dischargePatient(admissionNumber:string,roomNumber:string){
+  dischargePatient(admissionNumber:string,roomNumber:string,){
+    const dischargeDate=new Date();
     console.log(admissionNumber+" "+ roomNumber)
     const dischargeDetails={
       admissionNum:admissionNumber,
-      roomNum:roomNumber
+      roomNum:roomNumber,
+      dischargeDate:dischargeDate.toDateString()
     }
     return this.http.post("http://localhost:3000/api/admission/dischargePatient",dischargeDetails);
   }
 
+  viewAdmissionHistory(date:Date){
+    const load={
+      admissionDate:date.toDateString()
+    }
+    return this.http.post<{admissions:any}>("http://localhost:3000/api/admission/viewAdmissionHistory",load);
+
+  }
 
   viewOnlineAppointments_ByDoctor(doctorRegistrationNumber:string,status:string){
     const load={
@@ -188,6 +201,25 @@ export class ReceptionistService{
       patientRegistrationNumber:PatientNo
     }
     return this.http.post("http://localhost:3000/api/onlineAppointments/linkPatient",load);
+
+  }
+
+  viewScheduledManualAppointments(doctorRegNo:any,appDate:Date){
+    const load={
+      doctorRegistrationNumber:doctorRegNo,
+      appointmentDate:appDate.toDateString()
+    }
+
+    return this.http.post<{appointments:any}>("http://localhost:3000/api/appointment/viewScheduledAppointments",load);
+
+  }
+
+  getPreviousAppointments_ViewPatient(patientRegistrationNumber:string){
+    const load={
+      patientRegistrationNumber:patientRegistrationNumber
+    }
+
+    return this.http.post<{normal_appointments:any,online_appointments:any}>("http://localhost:3000/api/patient/getPreviousAppointmentDetails",load);
 
   }
 }

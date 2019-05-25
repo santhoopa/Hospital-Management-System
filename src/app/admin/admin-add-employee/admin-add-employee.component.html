@@ -1,0 +1,310 @@
+
+<div class="container scroll" style="border-top: 1000px">
+  <!-- <p class="font-weight-bold">Doctor Registration</p> -->
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+
+<form  (submit)="onRegisterEmployee(employeeRegistrationForm)" #employeeRegistrationForm="ngForm">
+<!-- Start - Employee Information Panel -->
+<div class="container border border-dark divDoctorInfo">
+        <p class="font-weight-bold">Employee Information</p>
+      <!-- Start - Employee Registration Number row -->
+      <div class="form-group row">
+            <label for="employeeRegistrationNumber" class="col-sm-4 col-form-label">Employee Registration Number:</label>
+          <div class="col-sm-3">
+            <input style="font-weight:bold" ngModel #employeeRegistrationNumber="ngModel" type="text" readonly class="form-control-plaintext" id="employeeRegistrationNumber" name="employeeRegistrationNumber" [(ngModel)]="employeeRegistrationNo">
+          </div>
+
+      </div>
+     <!-- End - Employee Registration Number row -->
+
+     <!-- Start - First Name, Last Name, Gender -->
+     <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="employeeFirstName">First name</label>
+        <input ngModel #employeeFirstName="ngModel" type="text" pattern="[a-zA-Z\s]+" class="form-control" id="employeeFirstName" name="employeeFirstName" placeholder="First name" required>
+        <div class="alert alert-danger" *ngIf="!employeeFirstName.valid && employeeFirstName.touched">Enter Valid First Name</div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label for="employeeLastName">Last name</label>
+        <input ngModel #employeeLastName="ngModel" type="text" pattern="[a-zA-Z\s]+" class="form-control" id="employeeLastName" name="employeeLastName" placeholder="Last name" required>
+        <div class="alert alert-danger" *ngIf="!employeeLastName.valid && employeeLastName.touched">Enter Valid Last Name</div>
+      </div>
+
+    <div class="col-md-4 mb-3" style="padding-left: 27px">
+        <label >Gender</label>
+        <div style="padding-top: 7px">
+          <mat-radio-group ngModel #genderEmployee="ngModel" name="genderEmployee">
+              <mat-radio-button value="Male">Male</mat-radio-button>
+              <mat-radio-button value="Female">Female</mat-radio-button>
+           </mat-radio-group>
+
+        </div>
+      </div>
+    </div>
+    <!-- End - First Name, Last Name, Gender -->
+
+    <div class="form-row">
+      <div class="col-md-10 mb-3" >
+          <label for="employeeFullname">Full Name</label>
+          <div style="padding-top: 10px">
+              <input ngModel #employeeFullname="ngModel" type="text" class="form-control" id="employeeFullname" name="employeeFullname" placeholder="Full Name" required>
+              <div class="alert alert-danger" *ngIf="!employeeFullname.valid && employeeFullname.touched">Enter Full Name</div>
+          </div>
+      </div>
+  </div>
+
+
+    <!-- Start - Address, City, District -->
+    <div class="form-row" style="padding-bottom: 10px">
+      <div class="col-md-7 mb-3">
+        <label for="employeeAddress">Address</label>
+        <input ngModel #employeeAddress="ngModel" type="text" class="form-control" id="employeeAddress" name="employeeAddress" placeholder="Address" required>
+        <div class="alert alert-danger" *ngIf="!employeeAddress.valid && employeeAddress.touched">Enter an Address</div>
+      </div>
+      <div class="col-md-3 mb-3">
+          <label for="employeeCity">City</label>
+          <input ngModel #employeeCity="ngModel" type="text" class="form-control" id="employeeCity" name="employeeCity" placeholder="City" required>
+          <div class="alert alert-danger" *ngIf="!employeeCity.valid && employeeCity.touched">Enter a city</div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label for="employeeDistrict">District</label>
+          <select ngModel #employeeDistrict="ngModel"class="custom-select" name="employeeDistrict" id="employeeDistrict" required>
+              <option value="">Choose...</option>
+              <option value="Ampara">Ampara</option>
+              <option value="Anuradhapura">Anuradhapura</option>
+              <option value="Badulla">Badulla</option>
+              <option value="Batticaloa">Batticaloa</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Galle">Galle</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Hambantota">Hambantota</option>
+              <option value="Jaffna">Jaffna</option>
+              <option value="Kaluthara">Kaluthara</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Kegalle">Kegalle</option>
+              <option value="Kilinochchi">Kilinochchi</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Mannar">Mannar</option>
+              <option value="Mathara">Mathara</option>
+              <option value="Monaragala">Monaragala</option>
+              <option value="Mullaitivu">Mullaitivu</option>
+              <option value="Nuwara Eliya">Nuwara Eliya</option>
+              <option value="Polonnaruwa">Polonnaruwa</option>
+              <option value="Puttalam">Puttalam</option>
+              <option value="Ratnapura">Ratnapura</option>
+              <option value="Trincomalee">Trincomalee</option>
+              <option value="Vavuniya">Vavuniya</option>
+
+
+              <option value="Colombo">Colombo</option>
+              <option value="Gampaha">Gampaha</option>
+              <option value="Kaluthara">Kaluthara</option>
+              <option value="Kandy">Kandy</option>
+          </select>
+          <div class="alert alert-danger" *ngIf="!employeeDistrict.valid && employeeDistrict.touched">Select a district</div>
+        </div>
+    </div>
+    <!-- End - Address, City, District -->
+
+    <!-- Start - NIC, Date of Birth, Maritall Status-->
+    <div class="form-row">
+      <div class="col-md-4 mb-3" >
+          <label for="employeeNIC">NIC</label>
+          <div style="padding-top: 10px">
+            <input ngModel #employeeNIC="ngModel" pattern="([0-9]{9}[x|X|v|V]|[0-9]{12})$" type="text" class="form-control" id="employeeNIC" name="employeeNIC" placeholder="NIC" required>
+            <div class="alert alert-danger" *ngIf="!employeeNIC.valid && employeeNIC.touched">Enter Valid NIC</div>
+          </div>
+      </div>
+
+        <div class="col-md-4 mb-3" style="padding-left: 50px">
+              <label for="">Date of Birth</label>
+          <mat-form-field>
+              <input matInput ngModel #employeeDOB="ngModel" name="employeeDOB" type="date" required>
+              <div class="alert alert-danger" *ngIf="!employeeDOB.valid && employeeDOB.touched">Enter Date of Birth</div>
+            </mat-form-field>
+      </div>
+
+      <div class="col-md-4 mb-3" style="padding-left: 27px">
+        <label for="maritalStatus">Marital Status</label><br>
+
+          <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required>
+              <option value="">Choose...</option>
+              <option value="Married">Married</option>
+              <option value="Unmarried">Unmarried</option>
+          </select>
+          <div class="alert alert-danger" *ngIf="!maritalStatus.valid && maritalStatus.touched">Select marital status</div>
+      </div>
+    </div>
+    <!-- End - NIC, Date of Birth, Maritall Status-->
+
+    <!-- Start - Contact Number, Email, Doctor Type-->
+    <div class="form-row"style="padding-bottom: 10px">
+        <div class="col-md-4 mb-3" >
+            <label for="employeeContactNumber">Contact Number</label>
+            <div style="padding-top: 10px">
+                <input  ngModel #employeeContactNumber="ngModel" pattern="\d{10}" type="text" class="form-control" id="employeeContactNumber" name="employeeContactNumber" placeholder="Contact Number" required>
+                <div class="alert alert-danger" *ngIf="!employeeContactNumber.valid && employeeContactNumber.touched">Enter a valid contact number</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3" >
+            <label for="employeeEmail">Email</label>
+            <div style="padding-top: 10px">
+                <input ngModel #employeeEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text" class="form-control" id="employeeEmail" name="employeeEmail" placeholder="Email" required>
+                <div class="alert alert-danger" *ngIf="!employeeEmail.valid && employeeEmail.touched">Enter a valid email address</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3" >
+            <label for="employeeType">Employee Type</label>
+            <div style="padding-top: 10px">
+            <select ngModel #employeeType="ngModel"class="custom-select" id="employeeType" name="employeeType" required>
+                <option value="">Choose...</option>
+                <option value="Nurse">Nurse</option>
+                <option value="Receptionist">Receptionist</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Management Assistant">Management Assistant</option>
+                <option value="Attendant">Attendant</option>
+                <option value="Driver">Driver</option>
+                <option value="Security">Security</option>
+
+
+            </select>
+            <div class="alert alert-danger" *ngIf="!employeeType.valid && employeeType.touched">Select employee type</div>
+            </div>
+        </div>
+    </div>
+    <!-- End - Contact Number, Email, Doctor Type-->
+
+    <!-- Start - SLMC Reg No-->
+    <!-- <div class="form-row">
+        <div class="col-md-8 mb-3" >
+            <label for="slmcRegNo">Sri Lanka Medical Council Registration Number</label>
+            <div style="padding-top: 10px">
+                <input ngModel #slmcRegNo="ngModel" type="text" class="form-control" id="slmcRegNo" name="slmcRegNo" placeholder="S.L.M.C.Registration Number" required>
+                <div class="alert alert-danger" *ngIf="!slmcRegNo.valid && slmcRegNo.touched">Enter SLMC Registration Number</div>
+            </div>
+        </div>
+    </div> -->
+    <!-- End - SLMC Reg No-->
+    <div class="form-group row">
+      <div class="col-md-6 mb-3" >
+          <label for="qualificationLevel">Highest Education Level</label>
+          <div style="">
+          <select ngModel #qualificationLevel="ngModel"class="custom-select" id="qualificationLevel" name="qualificationLevel" required>
+              <option value="">Choose...</option>
+              <option value="PhD">PhD</option>
+              <option value="Post Graduate Degree">Post Graduate Degree</option>
+              <option value="Post Graduate Diploma">Post Graduate Diploma</option>
+              <option value="Degree">Degree</option>
+              <option value="Diploma">Diploma</option>
+              <option value="Advanced Level">Advanced Level</option>
+              <option value="Ordinary Level">Ordinary Level</option>
+              <option value="Below Ordinary Level">Below Ordinary Level</option>
+
+          </select>
+          <div class="alert alert-danger" *ngIf="!qualificationLevel.valid && qualificationLevel.touched">Select highest qualification level</div>
+          </div>
+      </div>
+      <div class="col-md-5 mb-3" >
+          <label for="joinedDate" class="col-sm-4 col-form-label">Date Joined</label>
+          <div class="col-sm-8">
+              <mat-form-field >
+                  <input matInput ngModel #joinedDate="ngModel" name="joinedDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date" required>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <div style="font-size: 13.5px; margin-top: 5px; "class="alert alert-danger" *ngIf="!joinedDate.valid && joinedDate.touched">Select a Date</div>
+                </mat-form-field>
+          </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- End - Doctor Information Panel -->
+    <div *ngIf="true" class="container divDoctorInfo">
+        <p class=" font-weight-bold">Educational Qualifications</p>
+        <div class="row">
+            <div class="col container  border border-primary" style="margin-right: 2px; padding-top: 10px">
+                <p class="font-weight-bold" style="padding-bottom: 20px">Added Qualifications</p>
+                <div class="form-group row">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Qualification</th>
+                          <th scope="col">Year</th>
+                          <th scope="col">Institute</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let element of addedQualifications">
+                          <td>{{element.qualification}}</td>
+                          <td>{{element.year}}</td>
+                          <td>{{element.institute}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <span *ngIf="addedQualifications.length" (click)="onClearTable()" class="btn btn-sm btn-dark" style="margin-left: 20px; margin-inline-start: 175px">Clear Table</span>
+
+            </div>
+            <div class="col-6 container border border-primary" style="padding-top: 10px">
+                <p class="font-weight-bold">Add Qualifications Form</p>
+
+                <div class="form-group row">
+                    <div class="col-md-12 mb-3">
+                        <label for="qualification">Qualification</label>
+                        <input ngModel [(ngModel)]="enteredQualification" #qualification="ngModel" type="text" class="form-control" id="qualification" name="qualification" placeholder="Enter Qualification" >
+                        <!-- <div class="alert alert-danger" *ngIf="!primaryDegree.valid && primaryDegree.touched">Enter Primary degree</div> -->
+                      </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-8 mb-3">
+                        <label for="yearObtained">Year of Graduation</label>
+                        <input ngModel [(ngModel)]="enteredYear" #yearObtained="ngModel" type="number" class="form-control" id="yearObtained" name="yearObtained" placeholder="Year" >
+                        <!-- <div class="alert alert-danger" *ngIf="!primaryYearObtained.valid && primaryYearObtained.touched">Enter Year of Graduation</div> -->
+                      </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col mb-3">
+                        <label for="institute">Educational Institute</label>
+                        <input ngModel [(ngModel)]="enteredInstitute" #institute="ngModel" type="text" class="form-control" id="institute" name="institute" placeholder="School/Institute/University" >
+                        <!-- <div class="alert alert-danger" *ngIf="!primaryUniversity.valid && primaryUniversity.touched">Enter University</div> -->
+                      </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12 mb-3">
+                        <label for="grade">Grade</label>
+                        <textarea  ngModel [(ngModel)]="enteredGrade" #grade="ngModel" type="text" class="form-control" id="grade" name="grade" placeholder="Results/Grade" ></textarea>
+                        <!-- <div class="alert alert-danger" *ngIf="!primaryUniversity.valid && primaryUniversity.touched">Enter University</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-12 mb-3">
+                      <label for="description">Description</label>
+                      <textarea  ngModel [(ngModel)]="enteredDescription" #description="ngModel" type="text" class="form-control" id="description" name="description" placeholder="" ></textarea>
+                      <!-- <div class="alert alert-danger" *ngIf="!primaryUniversity.valid && primaryUniversity.touched">Enter University</div> -->
+                  </div>
+                </div>
+
+                <span (click)="onAddQualification()" class="btn btn-info" style="margin-bottom: 10px; margin-left: 140px">Add Qualification</span>
+            </div>
+
+
+        </div>
+    </div>
+<!-- Start - Primary Qualification Panel -->
+
+<!-- End - Primary Qualification Panel -->
+<br>
+<button class="btn btn-success" type="submit" style="margin-left: 250px">Register Employee</button>
+<button class="btn btn-primary" style="margin-left: 50px">Clear Fields</button>
+<br>
+<br>
+</form>
+  </cdk-virtual-scroll-viewport>
+</div>

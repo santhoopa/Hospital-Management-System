@@ -1,130 +1,225 @@
-<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-<div class="container mainDiv">
+<mat-tab-group  mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+  <mat-tab label="Make Appointments">
+      <div class="container mainDiv">
 
 
-    <div class="row">
-      <div class="col border border-dark" style="margin-right: 10px; padding-top: 15px">
-            <form (submit)="onScheduleAppointment(scheduleAppointmentForm)" #scheduleAppointmentForm="ngForm">
-              <p class="font-weight-bold">Add Appointment</p>
-              <div class="form-group row">
-                  <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Reg. No</label>
-                  <div class="col-sm-8">
-                    <input (keyup)="onSearchPatient($event)"type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number">
-                  </div>
-              </div>
+          <div class="row">
+            <div class="col border border-dark" style="margin-right: 10px; padding-top: 15px">
+                  <form (submit)="onScheduleAppointment(scheduleAppointmentForm)" #scheduleAppointmentForm="ngForm">
+                    <p class="font-weight-bold">Add Appointment</p>
+                    <div class="form-group row">
+                        <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Reg. No</label>
+                        <div class="col-sm-8">
+                          <input (keyup)="onSearchPatient($event)"type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number" required>
+                          <div  style="margin-bottom: 0px"class="alert alert-danger" *ngIf="!patientRegistrationNumber.valid && patientRegistrationNumber.touched && !patientName.valid">Enter Valid Registration Number</div>
+                        </div>
+                    </div>
 
-              <div class="form-group row">
-                  <label for="patientName" class="col-sm-4 col-form-label">Patient Name</label>
-                  <div class="col-sm-8">
-                    <input type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="name">
-                  </div>
-              </div>
+                    <div class="form-group row">
+                        <label for="patientName" class="col-sm-4 col-form-label">Patient Name</label>
+                        <div class="col-sm-8">
+                          <input type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="name" required>
+                          <div style="margin-bottom: -10px" class="alert alert-danger" *ngIf="!patientName.valid && patientRegistrationNumber.touched">Invalid Patient</div>
+                        </div>
+                    </div>
 
-              <div class="form-group row">
-                  <label for="selectDoctor" class="col-sm-4 col-form-label">Select Doctor</label>
-                  <div class="col-sm-8">
-                      <select (change)="onChangeSelectDoctor($event.target.value)" ngModel #selectDoctor="ngModel"class="custom-select" name="selectDoctor" id="selectDoctor" required="">
+                    <div class="form-group row">
+                        <label for="selectDoctor" class="col-sm-4 col-form-label">Select Doctor</label>
+                        <div class="col-sm-8">
+                            <select (change)="onChangeSelectDoctor($event.target.value)" ngModel #selectDoctor="ngModel"class="custom-select" name="selectDoctor" id="selectDoctor" required>
+                              <option value="null">Choose...</option>
+                              <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
+                            </select>
+                            <div class="alert alert-danger" *ngIf="!selectDoctor.valid && selectDoctor.touched">Select Doctor</div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <label for="selectDay" class="col-sm-4 col-form-label">Select Time Slot</label>
+                        <div class="col-sm-8">
+                            <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required>
+                                <option value="">Choose...</option>
+                                <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.day}} {{timeslot.startTime}}">{{timeslot.day}} {{timeslot.startTime}} - {{timeslot.endTime}}</option>
+
+                            </select>
+                            <div class="alert alert-danger" *ngIf="!selectTimeSlot.valid && selectTimeSlot.touched && selectDoctor.touched">Select Time Slot</div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
+                        <label for="selectTimeSlot" class="col-sm-4 col-form-label">Select Time Slot</label>
+                        <div class="col-sm-8">
+                            <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required="">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.startTime}}">{{timeslot.startTime}}</option>
+
+                            </select>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group row">
+                      <label for="selectDate" class="col-sm-4 col-form-label">Select Date</label>
+                      <div class="col-sm-8">
+                          <mat-form-field >
+                              <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date" required>
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select Date</div>
+                      </div>
+                   </div>
+
+                    <div class="form-group row">
+                        <label for="appointmentNumber" class="col-sm-4 col-form-label">Appointment No</label>
+                        <div class="col-sm-8">
+                          <input type="text" ngModel #appointmentNumber="ngModel" style="font-weight:bold" class="form-control-plaintext" id="appointmentNumber" name="appointmentNumber" readonly [(ngModel)]="appointmentNum">
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-left: 150px; margin-top: 20px;">
+                      <button type="submit" class="btn btn-success">Make Appointment</button>
+                    </div>
+
+                  </form>
+            </div>
+
+            <div class="col border border-dark" style="padding-top: 15px">
+                    <p class="font-weight-bold">Doctor Availability</p>
+                    <div class="form-group row">
+                        <label for="chooseDoctor" class="col-sm-4 col-form-label">Choose Doctor</label>
+                        <div class="col-sm-8">
+                          <select  (change)="onChangeChooseDoctor($event.target.value)"class="custom-select" name="chooseDoctor" id="chooseDoctor" required="">
+                            <option value="null">Choose...</option>
+                            <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
+                          </select>
+                         </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let slot of doctorAvailability">
+                            <td>{{slot.day}}</td>
+                            <td>{{slot.startTime}}</td>
+                            <td>{{slot.endTime}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+
+            </div>
+
+          </div>
+          <br>
+      </div>
+  </mat-tab>
+  <mat-tab label="View Scheduled Appointments">
+      <div class="border border-dark" style="padding:15px 10px 20px 20px ">
+          <p class="font-weight-bold">Find Apppointments(s)</p>
+          <div class="form-group row">
+              <div class="col-5">
+                  <div class="form-group row">
+                    <label for="selectDoctor_findAppointment" class="col-sm-4 col-form-label">Select Doctor</label>
+                    <div class="col-sm-8">
+                      <select ngModel #selectDoctor_findAppointment="ngModel"class="custom-select" name="selectDoctor_findAppointment" id="selectDoctor_findAppointment" required>
                         <option value="null">Choose...</option>
                         <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
                       </select>
+                      <!-- <div class="alert alert-danger" *ngIf="!selectDoctor.valid && selectDoctor.touched">Select Doctor</div> -->
+                    </div>
                   </div>
               </div>
-
-
-
-              <div class="form-group row">
-                  <label for="selectDay" class="col-sm-4 col-form-label">Select Time Slot</label>
-                  <div class="col-sm-8">
-                      <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required="">
-                          <option value="">Choose...</option>
-                          <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.day}} {{timeslot.startTime}}">{{timeslot.day}} {{timeslot.startTime}} - {{timeslot.endTime}}</option>
-
-                      </select>
-                  </div>
-              </div>
-
-              <!-- <div class="form-group row">
-                  <label for="selectTimeSlot" class="col-sm-4 col-form-label">Select Time Slot</label>
-                  <div class="col-sm-8">
-                      <select ngModel #selectTimeSlot="ngModel"class="custom-select" name="selectTimeSlot" id="selectTimeSlot" required="">
-                          <option value="">Choose...</option>
-                          <option *ngFor="let timeslot of selectedDoctorAvailability" value="{{timeslot.startTime}}">{{timeslot.startTime}}</option>
-
-                      </select>
-                  </div>
-              </div> -->
-
-              <div class="form-group row">
-                <label for="selectDate" class="col-sm-4 col-form-label">Select Date</label>
-                <div class="col-sm-8">
-                    <mat-form-field >
-                        <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
-
-                </div>
-             </div>
-
-              <div class="form-group row">
-                  <label for="appointmentNumber" class="col-sm-4 col-form-label">Appointment No</label>
-                  <div class="col-sm-8">
-                    <input type="text" ngModel #appointmentNumber="ngModel" style="font-weight:bold" class="form-control-plaintext" id="appointmentNumber" name="appointmentNumber" readonly [(ngModel)]="appointmentNum">
-                  </div>
-              </div>
-
-              <div class="form-group row" style="margin-left: 150px; margin-top: 20px;">
-                <button type="submit" class="btn btn-success">Make Appointment</button>
-              </div>
-
-            </form>
-      </div>
-
-      <div class="col border border-dark" style="padding-top: 15px">
-              <p class="font-weight-bold">Doctor Availability</p>
-              <div class="form-group row">
-                  <label for="chooseDoctor" class="col-sm-4 col-form-label">Choose Doctor</label>
-                  <div class="col-sm-8">
-                    <select  (change)="onChangeChooseDoctor($event.target.value)"class="custom-select" name="chooseDoctor" id="chooseDoctor" required="">
-                      <option value="null">Choose...</option>
-                      <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
-                    </select>
+              <div class="col-5">
+                  <div class="form-group row">
+                    <label for="selectDate_view" class="col-sm-4 col-form-label">Select Date</label>
+                    <div class="col-sm-8" style="margin-top: -15px">
+                      <mat-form-field >
+                          <input matInput ngModel #selectDate_view="ngModel" name="selectDate_view"[min]="" [max]="" [matDatepicker]="picker1" placeholder="Choose a date" required>
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <div class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select Date</div> -->
+                    </div>
                    </div>
               </div>
+              <div class="col-2">
+                <button class="btn btn-success" (click)="findAppointments(selectDoctor_findAppointment.value,selectDate_view.value)">Find</button>
+              </div>
+          </div>
+
+          <div *ngIf="showTable">
+            <div class="row">
+              <div class="col-5">
+                  <div class="form-group row">
+                    <label for="appointmentDate_find" class="col-sm-5 col-form-label">Appointment Date</label>
+                    <div class="col-sm-6">
+                      <label style="padding-top: 5px" class="font-weight-bold">{{searchedAppointmentDate_viewScheduledApps}}</label>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-5">
+                  <div class="form-group row">
+                    <label for="doctorName" class="col-sm-5 col-form-label">Doctor Name</label>
+                    <div class="col-sm-6">
+                      <label style="padding-top: 5px" class="font-weight-bold">Dr. {{doctorName_viewScheduledApps}}</label>
+                    </div>
+                  </div>
+              </div>
+            </div>
 
               <div class="form-group row">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Day</th>
-                      <th scope="col">From</th>
-                      <th scope="col">To</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let slot of doctorAvailability">
-                      <td>{{slot.day}}</td>
-                      <td>{{slot.startTime}}</td>
-                      <td>{{slot.endTime}}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Appointment No.</th>
+                        <th scope="col">Time Slot</th>
+                        <th scope="col">Patient No.</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Contact Number</th>
+                        <th scope="col">NIC</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let appointment of searchedAppointments_viewScheduledApps">
+                        <td>APP/{{appointment.appointmentNumber}}</td>
+                        <td>{{appointment.timeSlot}}</td>
+                        <td>{{appointment.patientRegistrationNumber}}</td>
+                        <td>{{appointment.patient[0].name.firstname}} {{appointment.patient[0].name.lastname}}</td>
+                        <td>{{appointment.patient[0].gender}}</td>
+                        <td>{{appointment.patient[0].contactNumber}}</td>
+                        <td>{{appointment.patient[0].nic}}</td>
+                        <td>{{appointment.dateCreated}}</td>
+                        <td>{{appointment.appointmentStatus}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
               </div>
+          </div>
 
 
-      </div>
+                <!-- <div class="form-group row">
+                    <label for="searchBox" class="col-sm-4 col-form-label">Enter patient name or Reg. Number</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="searchBox" placeholder="Search">
+                    </div>
+                </div> -->
+        </div>
+  </mat-tab>
+</mat-tab-group>
 
-    </div>
-    <br>
-    <div class="border border-dark" style="padding-left: 15px; padding-top: 10px; width:979px; margin-left: -14px">
-      <p class="font-weight-bold">Find Apppointments(s)</p>
-          <div class="form-group row">
-              <label for="searchBox" class="col-sm-4 col-form-label">Enter patient name or Reg. Number</label>
-              <div class="col-sm-6">
-                <input type="text" class="form-control" id="searchBox" placeholder="Search">
-              </div>
-           </div>
-    </div>
+<!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
 
-</div>
-</cdk-virtual-scroll-viewport>
+</cdk-virtual-scroll-viewport> -->

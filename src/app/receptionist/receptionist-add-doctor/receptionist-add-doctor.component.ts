@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { Doctor } from './../../models/doctor.model';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -14,7 +15,7 @@ import { TimeSlot } from 'src/app/models/timeslot.model';
 })
 
 export class ReceptionistAddDoctorComponent implements OnInit{
-  constructor(public receptionistService: ReceptionistService) { }
+  constructor(public receptionistService: ReceptionistService,private snackBar: MatSnackBar) { }
 
   ngOnInit(){
     this.generateRegNo();
@@ -57,43 +58,61 @@ export class ReceptionistAddDoctorComponent implements OnInit{
 
 
   onRegister(registrationForm: NgForm){
-    let regno_string:String = registrationForm.value.doctorRegistrationNumber;
-    var regNum = regno_string.replace( /^\D+/g, '');
-    //console.log(regNum);
-
-    const doctor:Doctor={
-      doctorRegistrationNumber: regNum,
-      name:{
-      firstname:registrationForm.value.doctorFirstName,
-      lastname:registrationForm.value.doctorLastName,
-      },
-      gender:registrationForm.value.genderDoctor,
-      dob:new Date(registrationForm.value.doctorDOB).toDateString(),
-      address:registrationForm.value.doctorAddress,
-      city:registrationForm.value.doctorCity,
-      district:registrationForm.value.doctorDistrict,
-      nic:registrationForm.value.doctorNIC,
-      maritalStatus:registrationForm.value.maritalStatus,
-      contactNumber:registrationForm.value.doctorContactNumber,
-      email:registrationForm.value.doctorEmail,
-      doctorType:registrationForm.value.doctorType,
-      SLMCRegNo:registrationForm.value.slmcRegNo,
-      primaryQualification:{
-        degree:registrationForm.value.primaryDegree,
-        year:registrationForm.value.primaryYearObtained,
-        university:registrationForm.value.primaryUniversity,
-        country:registrationForm.value.primaryCountry,
-      },
-      postGradQualification:{
-        degree:registrationForm.value.postGradDegree,
-        specialization:registrationForm.value.postGradSpecialization,
-        year:registrationForm.value.postGradYearObtained,
-        university:registrationForm.value.postGradUniversity,
-        country:registrationForm.value.postGradCountry,
-      },
-    doctorAvailability:this.timeSlots
+    if(registrationForm.invalid)
+    {
+      this.snackBar.open("Please Enter Valid Details ", "OK", {
+        panelClass: ['error']
+      });
     }
-  console.log(doctor);
-  this.receptionistService.registerDoctor(doctor);
+    else
+    {
+          let regno_string:String = registrationForm.value.doctorRegistrationNumber;
+          var regNum = regno_string.replace( /^\D+/g, '');
+
+          const doctor:Doctor={
+            doctorRegistrationNumber: regNum,
+            name:{
+            firstname:registrationForm.value.doctorFirstName,
+            lastname:registrationForm.value.doctorLastName,
+            },
+            gender:registrationForm.value.genderDoctor,
+            dob:new Date(registrationForm.value.doctorDOB).toDateString(),
+            address:registrationForm.value.doctorAddress,
+            city:registrationForm.value.doctorCity,
+            district:registrationForm.value.doctorDistrict,
+            nic:registrationForm.value.doctorNIC,
+            maritalStatus:registrationForm.value.maritalStatus,
+            contactNumber:registrationForm.value.doctorContactNumber,
+            email:registrationForm.value.doctorEmail,
+            doctorType:registrationForm.value.doctorType,
+            SLMCRegNo:registrationForm.value.slmcRegNo,
+            primaryQualification:{
+              degree:registrationForm.value.primaryDegree,
+              year:registrationForm.value.primaryYearObtained,
+              university:registrationForm.value.primaryUniversity,
+              country:registrationForm.value.primaryCountry,
+            },
+            postGradQualification:{
+              degree:registrationForm.value.postGradDegree,
+              specialization:registrationForm.value.postGradSpecialization,
+              year:registrationForm.value.postGradYearObtained,
+              university:registrationForm.value.postGradUniversity,
+              country:registrationForm.value.postGradCountry,
+            },
+          doctorAvailability:this.timeSlots
+          }
+        console.log(doctor);
+        this.receptionistService.registerDoctor(doctor).subscribe((responseData)=>{
+          console.log(responseData.message);
+          console.log("Added Doctor name:" +responseData.doctor);
+          this.generateRegNo();
+          registrationForm.reset();
+          this.timeSlots=[];
+          this.snackBar.open( "Doctor Added Successfuly", "OK", {
+            panelClass: ['success']
+          });
+        });
+    }
+
   }
 }

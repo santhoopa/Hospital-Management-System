@@ -20,6 +20,7 @@ import {  MatButtonModule,
           MatDatepickerModule,
           MatNativeDateModule,
           MatRadioModule,
+          MatSnackBarModule,
           } from '@angular/material';
 
 import {A11yModule} from '@angular/cdk/a11y';
@@ -71,6 +72,7 @@ import { OnlineAppointmentComponent } from './online-appointments/online-appoint
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatSnackBarModule,
   ],
   providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

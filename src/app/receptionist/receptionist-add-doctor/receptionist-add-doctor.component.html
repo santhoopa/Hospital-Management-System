@@ -24,12 +24,14 @@
      <div class="form-row">
       <div class="col-md-4 mb-3">
         <label for="doctorFirstName">First name</label>
-        <input ngModel #doctorFirstName="ngModel" type="text" class="form-control" id="doctorFirstName" name="doctorFirstName" placeholder="First name" required>
+        <input ngModel #doctorFirstName="ngModel" type="text" pattern="[a-zA-Z\s]+" class="form-control" id="doctorFirstName" name="doctorFirstName" placeholder="First name" required>
+        <div class="alert alert-danger" *ngIf="!doctorFirstName.valid && doctorFirstName.touched">Enter Valid First Name</div>
       </div>
 
       <div class="col-md-4 mb-3">
         <label for="doctorLastName">Last name</label>
-        <input ngModel #doctorLastName="ngModel" type="text" class="form-control" id="doctorLastName" name="doctorLastName" placeholder="Last name" required>
+        <input ngModel #doctorLastName="ngModel" type="text" pattern="[a-zA-Z\s]+" class="form-control" id="doctorLastName" name="doctorLastName" placeholder="Last name" required>
+        <div class="alert alert-danger" *ngIf="!doctorLastName.valid && doctorLastName.touched">Enter Valid Last Name</div>
       </div>
 
     <div class="col-md-4 mb-3" style="padding-left: 27px">
@@ -49,22 +51,25 @@
     <div class="form-row" style="padding-bottom: 10px">
       <div class="col-md-7 mb-3">
         <label for="doctorAddress">Address</label>
-        <input ngModel #doctorAddress="ngModel" type="text" class="form-control" id="doctorAddress" name="doctorAddress" placeholder="Address">
+        <input ngModel #doctorAddress="ngModel" type="text" class="form-control" id="doctorAddress" name="doctorAddress" placeholder="Address" required>
+        <div class="alert alert-danger" *ngIf="!doctorAddress.valid && doctorAddress.touched">Enter an Address</div>
       </div>
       <div class="col-md-3 mb-3">
           <label for="doctorCity">City</label>
           <input ngModel #doctorCity="ngModel" type="text" class="form-control" id="doctorCity" name="doctorCity" placeholder="City" required>
+          <div class="alert alert-danger" *ngIf="!doctorCity.valid && doctorCity.touched">Enter a city</div>
         </div>
 
         <div class="col-md-2 mb-3">
           <label for="doctorDistrict">District</label>
-          <select ngModel #doctorDistrict="ngModel"class="custom-select" name="doctorDistrict" id="doctorDistrict" required="">
+          <select ngModel #doctorDistrict="ngModel"class="custom-select" name="doctorDistrict" id="doctorDistrict" required>
               <option value="">Choose...</option>
               <option value="Colombo">Colombo</option>
               <option value="Gampaha">Gampaha</option>
               <option value="Kaluthara">Kaluthara</option>
               <option value="Kandy">Kandy</option>
-            </select>
+          </select>
+          <div class="alert alert-danger" *ngIf="!doctorDistrict.valid && doctorDistrict.touched">Select a district</div>
         </div>
     </div>
     <!-- End - Address, City, District -->
@@ -74,25 +79,28 @@
       <div class="col-md-4 mb-3" >
           <label for="doctorNIC">NIC</label>
           <div style="padding-top: 10px">
-            <input ngModel #doctorNIC="ngModel" type="text" class="form-control" id="doctorNIC" name="doctorNIC" placeholder="NIC" required>
+            <input ngModel #doctorNIC="ngModel" pattern="([0-9]{9}[x|X|v|V]|[0-9]{12})$" type="text" class="form-control" id="doctorNIC" name="doctorNIC" placeholder="NIC" required>
+            <div class="alert alert-danger" *ngIf="!doctorNIC.valid && doctorNIC.touched">Enter Valid NIC</div>
           </div>
       </div>
 
         <div class="col-md-4 mb-3" style="padding-left: 50px">
               <label for="">Date of Birth</label>
           <mat-form-field>
-              <input matInput ngModel #doctorDOB="ngModel" name="doctorDOB" type="date" >
+              <input matInput ngModel #doctorDOB="ngModel" name="doctorDOB" type="date" required>
+              <div class="alert alert-danger" *ngIf="!doctorDOB.valid && doctorDOB.touched">Enter Date of Birth</div>
             </mat-form-field>
       </div>
 
       <div class="col-md-4 mb-3" style="padding-left: 27px">
         <label for="maritalStatus">Marital Status</label><br>
 
-          <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required="">
+          <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required>
               <option value="">Choose...</option>
               <option value="Married">Married</option>
               <option value="Unmarried">Unmarried</option>
           </select>
+          <div class="alert alert-danger" *ngIf="!maritalStatus.valid && maritalStatus.touched">Select marital status</div>
       </div>
     </div>
     <!-- End - NIC, Date of Birth, Maritall Status-->
@@ -102,19 +110,21 @@
         <div class="col-md-4 mb-3" >
             <label for="doctorContactNumber">Contact Number</label>
             <div style="padding-top: 10px">
-                <input  ngModel #doctorContactNumber="ngModel" type="text" class="form-control" id="doctorContactNumber" name="doctorContactNumber" placeholder="Contact Number" required>
+                <input  ngModel #doctorContactNumber="ngModel" pattern="\d{10}" type="text" class="form-control" id="doctorContactNumber" name="doctorContactNumber" placeholder="Contact Number" required>
+                <div class="alert alert-danger" *ngIf="!doctorContactNumber.valid && doctorContactNumber.touched">Enter a valid contact number</div>
             </div>
         </div>
         <div class="col-md-4 mb-3" >
             <label for="doctorEmail">Email</label>
             <div style="padding-top: 10px">
-                <input ngModel #doctorEmail="ngModel" type="text" class="form-control" id="doctorEmail" name="doctorEmail" placeholder="Email" required>
+                <input ngModel #doctorEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="text" class="form-control" id="doctorEmail" name="doctorEmail" placeholder="Email" required>
+                <div class="alert alert-danger" *ngIf="!doctorEmail.valid && doctorEmail.touched">Enter a valid email address</div>
             </div>
         </div>
         <div class="col-md-4 mb-3" >
             <label for="doctorType">Doctor Type</label>
             <div style="padding-top: 10px">
-            <select ngModel #doctorType="ngModel"class="custom-select" id="doctorType" name="doctorType" required="">
+            <select ngModel #doctorType="ngModel"class="custom-select" id="doctorType" name="doctorType" required>
                 <option value="">Choose...</option>
                 <option value="Physician">Physician</option>
                 <option value="Pediatrician">Pediatrician</option>
@@ -123,6 +133,7 @@
                 <option value="Obstetrician">Obstetrician</option>
                 <option value="Dermatologist">Dermatologist</option>
             </select>
+            <div class="alert alert-danger" *ngIf="!doctorType.valid && doctorType.touched">Select doctor type</div>
             </div>
         </div>
     </div>
@@ -134,6 +145,7 @@
             <label for="slmcRegNo">Sri Lanka Medical Council Registration Number</label>
             <div style="padding-top: 10px">
                 <input ngModel #slmcRegNo="ngModel" type="text" class="form-control" id="slmcRegNo" name="slmcRegNo" placeholder="S.L.M.C.Registration Number" required>
+                <div class="alert alert-danger" *ngIf="!slmcRegNo.valid && slmcRegNo.touched">Enter SLMC Registration Number</div>
             </div>
         </div>
     </div>
@@ -151,10 +163,12 @@
         <div class="col-md-6 mb-3">
             <label for="primaryDegree">Degree</label>
             <input ngModel #primaryDegree="ngModel" type="text" class="form-control" id="primaryDegree" name="primaryDegree" placeholder="Degree" required>
+            <div class="alert alert-danger" *ngIf="!primaryDegree.valid && primaryDegree.touched">Enter Primary degree</div>
           </div>
           <div class="col-md-6 mb-3">
               <label for="primaryYearObtained">Year of Graduation</label>
               <input ngModel #primaryYearObtained="ngModel" type="number" class="form-control" id="primaryYearObtained" name="primaryYearObtained" placeholder="Year of Graduation" required>
+              <div class="alert alert-danger" *ngIf="!primaryYearObtained.valid && primaryYearObtained.touched">Enter Year of Graduation</div>
             </div>
     </div>
     <!-- Start - Degree, Year of Graduation -->
@@ -164,10 +178,12 @@
         <div class="col-md-6 mb-3">
             <label for="primaryUniversity">University</label>
             <input ngModel #primaryUniversity="ngModel" type="text" class="form-control" id="primaryUniversity" name="primaryUniversity" placeholder="University" required>
+            <div class="alert alert-danger" *ngIf="!primaryUniversity.valid && primaryUniversity.touched">Enter University</div>
           </div>
           <div class="col-md-6 mb-3">
               <label for="primaryCountry">Country</label>
               <input ngModel #primaryCountry="ngModel" type="text" class="form-control" id="primaryCountry" name="primaryCountry" placeholder="Country" required>
+              <div class="alert alert-danger" *ngIf="!primaryCountry.valid && primaryCountry.touched">Enter a Country</div>
             </div>
     </div>
     <!-- Start - Country, University -->
@@ -182,11 +198,11 @@
     <div class="form-group row">
         <div class="col-md-6 mb-3">
             <label for="postGradDegree">Degree/Diploma</label>
-            <input ngModel #postGradDegree="ngModel" type="text" class="form-control" id="postGradDegree" name="postGradDegree" placeholder="Degree" required>
+            <input ngModel #postGradDegree="ngModel" type="text" class="form-control" id="postGradDegree" name="postGradDegree" placeholder="Degree">
         </div>
         <div class="col-md-6 mb-3">
             <label for="postGradSpecialization">Specialization Area</label>
-            <input ngModel #postGradSpecialization="ngModel" type="text" class="form-control" id="postGradSpecialization" name="postGradSpecialization" placeholder="Specialization" required>
+            <input ngModel #postGradSpecialization="ngModel" type="text" class="form-control" id="postGradSpecialization" name="postGradSpecialization" placeholder="Specialization">
         </div>
     </div>
     <!-- Start - Degree, Year of Graduation -->
@@ -195,15 +211,15 @@
     <div class="form-group row">
           <div class="col-md-4 mb-3">
               <label for="postGradYearObtained">Year of Graduation</label>
-              <input ngModel #postGradYearObtained="ngModel" type="number" class="form-control" id="postGradYearObtained" name="postGradYearObtained" placeholder="Year of Graduation" required>
+              <input ngModel #postGradYearObtained="ngModel" type="number" class="form-control" id="postGradYearObtained" name="postGradYearObtained" placeholder="Year of Graduation">
           </div>
           <div class="col-md-5 mb-3">
               <label for="postGradUniversity">University</label>
-              <input ngModel #postGradUniversity="ngModel" type="text" class="form-control" id="postGradUniversity" name="postGradUniversity" placeholder="University" required>
+              <input ngModel #postGradUniversity="ngModel" type="text" class="form-control" id="postGradUniversity" name="postGradUniversity" placeholder="University">
           </div>
           <div class="col-md-3 mb-3">
               <label for="postGradCountry">Country</label>
-              <input ngModel #postGradCountry="ngModel" type="text" class="form-control" id="postGradCountry" name="postGradCountry" placeholder="Country" required>
+              <input ngModel #postGradCountry="ngModel" type="text" class="form-control" id="postGradCountry" name="postGradCountry" placeholder="Country">
           </div>
 
     </div>
@@ -220,7 +236,7 @@
       <div class="col-md-5 mb-3" style="padding-right: 50px; padding-left: 40px">
           <div class="form-group row">
               <label for="day">Choose day</label>
-              <select  [(ngModel)]="day" class="custom-select" id="day" name="day" required="">
+              <select  [(ngModel)]="day" class="custom-select" id="day" name="day">
                   <option value="">Choose...</option>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
@@ -233,7 +249,7 @@
             </div>
             <div class="form-group row">
                 <label for="startTime">Start Time</label>
-                <select [(ngModel)]="startTime" class="custom-select" id="startTime" name="startTime" required="">
+                <select [(ngModel)]="startTime" class="custom-select" id="startTime" name="startTime" >
                     <option value="">Choose...</option>
                     <option value="8.00 AM">8.00 AM</option>
                     <option value="9.00 AM">9.00 AM</option>
@@ -251,7 +267,7 @@
               </div>
               <div class="form-group row">
                   <label for="endTime">End Time</label>
-                  <select [(ngModel)]="endTime" class="custom-select" id="endTime" name="endTime" required="">
+                  <select [(ngModel)]="endTime" class="custom-select" id="endTime" name="endTime" >
                     <option value="">Choose...</option>
                     <option value="8.00 AM">8.00 AM</option>
                     <option value="9.00 AM">9.00 AM</option>

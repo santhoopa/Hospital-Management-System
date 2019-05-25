@@ -63,6 +63,8 @@ import { AdminComponent } from './admin/admin.component';
 import { AdminSidemenuComponent } from './admin-sidemenu/admin-sidemenu.component';
 import { AdminAddUsersComponent } from './admin-add-users/admin-add-users.component';
 import { AdminRoutingModule } from './admin-routing.module';
+import { AdminAddEmployeeComponent } from './admin-add-employee/admin-add-employee.component';
+import { AdminViewEmployeeComponent } from './admin-view-employee/admin-view-employee.component';
 @NgModule({
   imports: [
   CommonModule,
@@ -119,7 +121,11 @@ import { AdminRoutingModule } from './admin-routing.module';
 
   AdminSidemenuComponent,
 
-  AdminAddUsersComponent]
+  AdminAddUsersComponent,
+
+  AdminAddEmployeeComponent,
+
+  AdminViewEmployeeComponent]
 })
 
 

@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { Admission } from './../../models/admission.model';
 import { NgForm } from '@angular/forms';
 import { map } from 'rxjs/operators';
@@ -13,7 +14,7 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
   rooms=[];
   vacantRooms=[];
   admissionNum:any=null;
-  constructor(public receptionistService: ReceptionistService) { }
+  constructor(public receptionistService: ReceptionistService,private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getRoomAvailability()
@@ -56,7 +57,8 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     this.receptionistService.getCurrentAdmissions().subscribe(responseData => {
         responseData.result.map(admission=>{
           admission.admissionDate=new Date(admission.admissionDate).toDateString();
-          console.log(admission.admissionDate);
+          console.log(admission.patientRegistrationNumber);
+          admission.patientRegistrationNumber="PAT/"+admission.patientRegistrationNumber;
           this.currentAdmissions.push(admission);
         });
     });
@@ -67,25 +69,40 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
   admissionNum_Discharge;
   roomNumber_Discharge;
   searchAdmission(keyword:string){
-    console.log(keyword);
+    console.log(keyword=="");
+    this.searchedAdmission={};
+    if(keyword==""){
+      this.snackBar.open( "Results Not Found", null, {
+        duration:2000,
+        panelClass: ['error']
+      });
+      return
+    }
     let raw_admissionNo=keyword;
     let admissionNumber=raw_admissionNo.replace( /^\D+/g, '');
     this.receptionistService.getAdmissionDetails(admissionNumber).subscribe(result => {
-      console.log(result.admissionDetail[0]);
-      const admission={
-        admissionNumber:result.admissionDetail[0].admissionNumber,
-        patientRegistrationNumber:result.admissionDetail[0].patient[0].patientRegistrationNumber,
-        name:result.admissionDetail[0].patient[0].name.firstname +" "+result.admissionDetail[0].patient[0].name.lastname,
-        appointmentNumber:result.admissionDetail[0].appointmentNmber,
-        admissionDate:result.admissionDetail[0].admissionDate,
-        room:result.admissionDetail[0].room[0].roomNumber + " " + result.admissionDetail[0].room[0].type,
-        roomType:result.admissionDetail[0].room[0].type,
-        cause:result.admissionDetail[0].causeofAdmission,
-      };
-     this.admissionNum_Discharge=result.admissionDetail[0].admissionNumber;
-     this.roomNumber_Discharge=result.admissionDetail[0].room[0].roomNumber;
-     this.searchedAdmission={};
-     this.searchedAdmission=admission;
+      console.log(result.admissionDetail.length);
+      if(result.admissionDetail.length==0){
+        this.snackBar.open( "Results Not Found", null, {
+          duration:2000,
+          panelClass: ['error']
+        });
+      }else{
+        const admission={
+          admissionNumber:"ADM/"+result.admissionDetail[0].admissionNumber,
+          patientRegistrationNumber:"PAT/"+result.admissionDetail[0].patient[0].patientRegistrationNumber,
+          name:result.admissionDetail[0].patient[0].name.firstname +" "+result.admissionDetail[0].patient[0].name.lastname,
+          appointmentNumber:result.admissionDetail[0].appointmentNmber,
+          admissionDate:new Date(result.admissionDetail[0].admissionDate).toDateString(),
+          room:result.admissionDetail[0].room[0].roomNumber + " " + result.admissionDetail[0].room[0].type,
+          roomType:result.admissionDetail[0].room[0].type,
+          cause:result.admissionDetail[0].causeofAdmission,
+        };
+       this.admissionNum_Discharge=result.admissionDetail[0].admissionNumber;
+       this.roomNumber_Discharge=result.admissionDetail[0].room[0].roomNumber;
+       this.searchedAdmission=admission;
+      }
+
     console.log(this.searchedAdmission);
     });
   }
@@ -105,33 +122,45 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
 
 
   onPatientAdmission(admissionForm: NgForm){
-
-    let raw_admission_date=admissionForm.value.selectAdmissionDate;
-    let admission_date = raw_admission_date.getFullYear() + "-" + (raw_admission_date.getMonth() + 1) + "-" + raw_admission_date.getDate()
-
-    let raw_patientNo=admissionForm.value.patientRegistrationNumber;
-    let patientNo=raw_patientNo.replace( /^\D+/g, '');
-
-
-    let raw_admissionNo=admissionForm.value.admissionNumber;
-    let admissionNumber=raw_admissionNo.replace( /^\D+/g, '');
-
-    const admission:Admission={
-      admissionNumber:admissionNumber,
-      patientRegistrationNumber:patientNo,
-      appointmentNmber:null,
-      roomNumber:admissionForm.value.selecRoom,
-      admissionDate:admission_date,
-      causeofAdmission:admissionForm.value.causeOfAdmission
-
+    if(admissionForm.invalid)
+    {
+      this.snackBar.open("Please Enter Valid Details ", "OK", {
+        panelClass: ['error']
+      });
     }
-    console.log(admission);
-    this.receptionistService.admitPatient(admission).subscribe((responseData)=>{
-      this.getRoomAvailability()
-      this.getVacantRooms();
-      this.getNewAdmissionNumber();
-      admissionForm.reset();
-    });
+    else
+    {
+      let raw_admission_date=admissionForm.value.selectAdmissionDate;
+      let admission_date = raw_admission_date.getFullYear() + "-" + (raw_admission_date.getMonth() + 1) + "-" + raw_admission_date.getDate()
+
+      let raw_patientNo=admissionForm.value.patientRegistrationNumber;
+      let patientNo=raw_patientNo.replace( /^\D+/g, '');
+
+
+      let raw_admissionNo=admissionForm.value.admissionNumber;
+      let admissionNumber=raw_admissionNo.replace( /^\D+/g, '');
+
+      const admission:Admission={
+        admissionNumber:admissionNumber,
+        patientRegistrationNumber:patientNo,
+        appointmentNmber:null,
+        roomNumber:admissionForm.value.selecRoom,
+        admissionDate:admission_date,
+        causeofAdmission:admissionForm.value.causeOfAdmission
+
+      }
+      console.log(admission);
+      this.receptionistService.admitPatient(admission).subscribe((responseData)=>{
+        this.getRoomAvailability()
+        this.getVacantRooms();
+        this.getNewAdmissionNumber();
+        admissionForm.reset();
+        this.snackBar.open( "Patient Successfuly Admitted", "OK", {
+          panelClass: ['success']
+        });
+      });
+    }
+
   }
 
 
@@ -146,5 +175,33 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     this.getVacantRooms();
     this.getNewAdmissionNumber();
     });
+  }
+
+  admissionHistory=[];
+  searchedDate_admissionHistory;
+  showTable=false;
+  findAdmissionsHistory(date:Date){
+    console.log();
+    this.admissionHistory=[];
+    this.receptionistService.viewAdmissionHistory(date).subscribe(response =>{
+      console.log(response.admissions.length);
+      this.showTable=(response.admissions.length==0) ? false:true;
+      if(response.admissions.length==0){
+        this.snackBar.open("No admissions", null, {
+          duration: 2000,
+          panelClass: ['error']
+        });
+      }
+      if(this.showTable){
+        response.admissions.map(admission => {
+          admission.admissionDate=new Date(admission.admissionDate).toDateString();
+          admission.dischargeDate=(admission.dischargeDate==null) ? "N/A":new Date(admission.dischargeDate).toDateString();
+          admission.appointmentNmber=(admission.appointmentNmber==null) ? "N/A":admission.appointmentNmber;
+          this.admissionHistory.push(admission);
+          this.searchedDate_admissionHistory=date.toDateString();
+        });
+      }
+      console.log(this.admissionHistory);
+    })
   }
 }

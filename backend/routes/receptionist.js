@@ -101,8 +101,8 @@ router.post("/api/doctors",(req,res,next) => {
 
 //Searching Patients - By Receptionist
 router.get("/api/patients/:keyword",(req,res,next) => {
-  console.log("This is receptionist - get patients route "+req.params.keyword);
-  Patient.find({$or:[{'name.firstname':req.params.keyword},{'name.lastname':req.params.keyword}]}).then(results => {
+  console.log("This is receptionist - get patients route ");
+  Patient.find({$or:[{'name.firstname':new RegExp('^'+req.params.keyword+'$',"i")},{'name.lastname':new RegExp('^'+req.params.keyword+'$',"i")}]}).then(results => {
     res.status(200).json({
       message: "Patients fetched successfully",
       patients:results
@@ -120,6 +120,19 @@ router.get("/api/findDoctors/:keyword",(req,res,next) => {
     });
   });
 });
+
+//Updating doctor availability
+router.post("/api/doctor/updateAvailability",(req,res,next) => {
+  console.log("This is Updating doctor availability");
+  console.log(req.body);
+  DoctorAvailability.updateOne({'doctorRegistrationNumber':Number(req.body.doctorRegistrationNumber)},{$set:{'timeSlots':req.body.timeSlots}}).then(response => {
+    console.log(response);
+    res.status(200).json({
+    });
+  });
+});
+
+
 
 //Getting new patient registration number from db - By Receptionist
 router.get("/api/patient/getNewRegNumber",(req,res,next) => {
@@ -195,6 +208,39 @@ router.get("/api/onlineappointment/getNewNumber",(req,res,next) => {
     console.log(newNo);
     res.status(201).json({
       NewAppointmentNumber: newNo
+    });
+  });
+});
+
+//Viewing Scheduled Appointments - Receptionist
+router.post("/api/appointment/viewScheduledAppointments",(req,res,next) => {
+  console.log(req.body);
+  Appointment.aggregate([
+    { $match: { "doctorRegistrationNumber" : Number(req.body.doctorRegistrationNumber) } },
+    { $match: { "appointmentDate" : new Date(req.body.appointmentDate) } },
+    {
+      $lookup:
+         {
+           from: "doctors",
+           localField: "doctorRegistrationNumber",
+           foreignField: "doctorRegistrationNumber",
+           as: "doctor"
+         }
+    },
+    {
+     $lookup:
+        {
+          from: "patients",
+          localField: "patientRegistrationNumber",
+          foreignField: "patientRegistrationNumber",
+          as: "patient"
+        }
+   }
+
+  ]).then(result => {
+    console.log(result);
+    res.status(201).json({
+      appointments:result
     });
   });
 });
@@ -382,8 +428,8 @@ router.get("/api/admission/getAdmissionDetail/:admissionNumber",(req,res,next) =
 //Discharge Patient - Discharge Patient
 router.post("/api/admission/dischargePatient",(req,res,next) => {
   console.log("This is receptionist - Discharge Patient Route");
-  //console.log(req.body);
-  Admission.updateOne({'admissionNumber':Number(req.body.admissionNum)},{'status':'Discharged'}).then(result =>{
+  console.log(req.body);
+  Admission.updateOne({'admissionNumber':Number(req.body.admissionNum)},{$set:{'status':'Discharged','dischargeDate':new Date(req.body.dischargeDate)}}).then(result =>{
     console.log(result);
     Room.updateOne({'roomNumber':Number(req.body.roomNum)},{'status':'Vacant'}).then(re =>{
       console.log(re);
@@ -391,9 +437,41 @@ router.post("/api/admission/dischargePatient",(req,res,next) => {
       });
     });
   });
-
-
 });
+
+
+//View Admission History - Patient Admissions - Receptionist
+router.post("/api/admission/viewAdmissionHistory",(req,res,next) => {
+  console.log("This is View Admission History - Patient Admissions - Receptionist");
+  Admission.aggregate([
+    { $match: { "admissionDate" : new Date(req.body.admissionDate) } },
+    {
+     $lookup:
+        {
+          from: "rooms",
+          localField: "roomNumber",
+          foreignField: "roomNumber",
+          as: "room"
+        }
+   },
+   {
+    $lookup:
+       {
+         from: "patients",
+         localField: "patientRegistrationNumber",
+         foreignField: "patientRegistrationNumber",
+         as: "patient"
+       }
+  }
+    ]).then(result => {
+        console.log(result);
+        res.status(200).json({
+          admissions:result
+        });
+  })
+});
+
+
 
 //Online Appointments - Getting doctors list
 router.get("/api/onlineAppointments/getDoctorList",(req,res,next) => {
@@ -470,5 +548,54 @@ router.post("/api/onlineAppointments/linkPatient",(req,res,next) => {
       });
   })
 
+});
+
+//Getting Previous Patient Appointment Details - Receptionist
+router.post("/api/patient/getPreviousAppointmentDetails",(req,res,next) => {
+  console.log("This is Getting Previous Appointment Details - Receptionist")
+  console.log(req.body);
+  let normal_appointments=[];
+  let online_appointments=[];
+  Appointment.aggregate([
+    { $match: { "patientRegistrationNumber" : Number(req.body.patientRegistrationNumber) } },
+    {
+      $lookup:
+         {
+           from: "doctors",
+           localField: "doctorRegistrationNumber",
+           foreignField: "doctorRegistrationNumber",
+           as: "doctor"
+         }
+    }
+
+  ]).then(results => {
+    console.log(results);
+    results.map(app =>{
+      console.log(app)
+      normal_appointments.push(app);
+    });
+    OnlineAppointment.aggregate([
+      { $match: { "patientRegistrationNumber" : Number(req.body.patientRegistrationNumber) } },
+    {
+      $lookup:
+         {
+           from: "doctors",
+           localField: "doctorRegistrationNumber",
+           foreignField: "doctorRegistrationNumber",
+           as: "doctor"
+         }
+    }
+
+    ]).then(resu => {
+      resu.map(oapp =>{
+        console.log(oapp)
+        online_appointments.push(oapp);
+      });
+      res.status(200).json({
+        normal_appointments:normal_appointments,
+        online_appointments:online_appointments
+      });
+    });
+  });
 });
 module.exports=router;

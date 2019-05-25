@@ -1,0 +1,243 @@
+<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+  <div class="border border-dark employeeInfo">
+      <p class="font-weight-bold">Find Employee(s)</p>
+          <div class="form-group row">
+              <label for="searchBox" class="col-sm-4 col-form-label">Enter Employee name</label>
+              <div class="col-sm-6">
+                <input (keyup)="searchEmployee($event)" type="text" class="form-control" id="searchBox" placeholder="Search">
+              </div>
+           </div>
+  </div>
+
+  <div *ngIf="false">
+    <table mat-table [dataSource]="emloyeeSource" class="mat-elevation-z8">
+        <!-- Start -  Employee Registration Number-->
+                <ng-container matColumnDef="employeeRegistrationNumber" sticky>
+                    <th mat-header-cell *matHeaderCellDef>Registration No. </th>
+                    <td mat-cell *matCellDef="let element">EMP/{{element.employeeRegistrationNumber}}  <button class="btn btn-sm btn-info" (click)="viewPatient(element)">View Profile</button></td>
+                </ng-container>
+        <!-- End -  Employee Registration Number-->
+
+        <!-- Start -  Employee First Name Column -->
+                <ng-container matColumnDef="employeeFirstName" >
+                    <th mat-header-cell *matHeaderCellDef>First Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name.firstname}} </td>
+                </ng-container>
+        <!-- End -  Employee First Name Column -->
+
+        <!-- Start -  Employee Last Name Column -->
+                <ng-container matColumnDef="employeeLastName">
+                    <th mat-header-cell *matHeaderCellDef>Last Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name.lastname}} </td>
+                </ng-container>
+        <!-- End -  Employee Last Name Column -->
+
+        <!-- Start -  Employee Gender Column -->
+                <ng-container matColumnDef="employeeGender">
+                    <th style="width:80px"mat-header-cell *matHeaderCellDef >Gender </th>
+                    <td style="width:80px"mat-cell *matCellDef="let element"> {{element.gender}} </td>
+                </ng-container>
+        <!-- End -  Employee Gender Column -->
+        <!-- Start -  Employee Address Column -->
+        <ng-container matColumnDef="employeeAddress">
+            <th class="address"mat-header-cell *matHeaderCellDef >Adress </th>
+            <td class="address"mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+        <!-- End -  Employee Address Column -->
+        <!-- Start -  Employee City Column -->
+        <ng-container matColumnDef="employeeCity">
+            <th style="width:100px" mat-header-cell *matHeaderCellDef>City </th>
+            <td style="width:100px" mat-cell *matCellDef="let element"> {{element.city}} </td>
+        </ng-container>
+        <!-- End -  Employee City Column -->
+
+        <!-- Start -  Employee District Column -->
+        <ng-container matColumnDef="employeeDistrict">
+            <th style="width:100px" mat-header-cell *matHeaderCellDef>District </th>
+            <td style="width:100px" mat-cell *matCellDef="let element"> {{element.district}} </td>
+        </ng-container>
+        <!-- End -  Employee District Column -->
+
+        <!-- Start -  Employee NIC Column -->
+        <ng-container matColumnDef="employeeNIC">
+            <th mat-header-cell *matHeaderCellDef>NIC </th>
+            <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
+        </ng-container>
+        <!-- End -  Employee NIC Column -->
+
+        <!-- Start -  Employee DOB Column -->
+        <!-- <ng-container matColumnDef="employeeDOB">
+            <th mat-header-cell *matHeaderCellDef>Date of Birth </th>
+            <td mat-cell *matCellDef="let element"> {{element.dob}} </td>
+        </ng-container> -->
+        <!-- End -  Employee DOB Column -->
+
+        <!-- Start -  Employee Marital Status Column -->
+        <ng-container matColumnDef="employeemaritalStatus">
+            <th mat-header-cell *matHeaderCellDef>Marital Status</th>
+            <td mat-cell *matCellDef="let element"> {{element.maritalStatus}} </td>
+        </ng-container>
+        <!-- End -  Employee Marital Status Column -->
+        <!-- Start -  Employee Contact Number Column -->
+        <ng-container matColumnDef="employeeContact">
+          <th mat-header-cell *matHeaderCellDef>Contact Number</th>
+          <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+        </ng-container>
+        <!-- End -  Employee Contact Number Column -->
+        <!-- Start -  Employee email Column -->
+        <ng-container matColumnDef="employeeemail">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <!-- End -  Employee email Column -->
+        <!-- Start -  Employee Type Column -->
+        <ng-container matColumnDef="employeeType">
+          <th mat-header-cell *matHeaderCellDef>Employee Type</th>
+          <td mat-cell *matCellDef="let element"> {{element.employeeType}} </td>
+        </ng-container>
+        <!-- End -  Employee Type Column -->
+        <!-- Start -  Highest Education Column -->
+        <ng-container matColumnDef="highestEducation">
+          <th mat-header-cell *matHeaderCellDef>Higheset Qualification</th>
+          <td mat-cell *matCellDef="let element"> {{element.highestEducationalQualification}} </td>
+        </ng-container>
+        <!-- End -  Highest Education Column -->
+        <!-- Start -  Date Joined Column
+        <ng-container matColumnDef="dateJoined">
+          <th mat-header-cell *matHeaderCellDef>Date Joined</th>
+          <td mat-cell *matCellDef="let element"> {{element.guardian.NIC}} </td>
+        </ng-container> -->
+        <!-- End -  Date Joined -->
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <div class="border border-dark employeeInfo">
+        <!-- <div class="col employeeInfo"> -->
+          <div class="row">
+              <p class="font-weight-bold col-10">Employee Information</p>
+              <button class="btn btn-info col-1">Back</button>
+          </div>
+          <br>
+          <div class="form-group row">
+              <label for="patientRegistrationNumber" class="col-3 col-form-label">Employee Reg. No</label>
+              <div class="col-sm-3">
+                <input type="text"  style="font-weight:bold" class="form-control" id="patientRegistrationNumber" name="patientRegistrationNumber" readonly [(ngModel)]="a">
+              </div>
+              <label for="patientName" class="col-sm-2 col-form-label">Employee Type</label>
+              <div class="col-sm-4">
+               <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="patientName" class="col-sm-2 col-form-label">First Name</label>
+              <div class="col-sm-4">
+                <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+              </div>
+              <label for="patientName" class="col-sm-2 col-form-label">Last Name</label>
+              <div class="col-sm-4">
+                <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="patientName" class="col-sm-2 col-form-label">Full Name</label>
+              <div class="col-sm-8">
+                <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
+              <div class="col-sm-4">
+                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="a">
+              </div>
+              <label for="nic" class="col-sm-2 col-form-label">NIC</label>
+              <div class="col-sm-4">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="dob" class="col-sm-2 col-form-label">Gender</label>
+              <div class="col-sm-4">
+                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="a">
+              </div>
+              <label for="nic" class="col-sm-2 col-form-label">Marital Status</label>
+              <div class="col-sm-4">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="address" class="col-sm-2 col-form-label">Address</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="address" name="address" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="dob" class="col-sm-1 col-form-label">City</label>
+              <div class="col-sm-2">
+                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="a">
+              </div>
+              <label for="nic" class="col-sm-1 col-form-label">District</label>
+              <div class="col-sm-3">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+              </div>
+              <label for="nic" class="col-sm-2 col-form-label">Date Joined</label>
+              <div class="col-sm-3">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+              </div>
+          </div>
+      <!-- </div> -->
+
+    </div>
+
+    <div class="border border-dark employeeInfo">
+        <p class="font-weight-bold">Employee Qualifications</p>
+        <div class="form-group row">
+          <label for="patientName" class="col-sm-3 col-form-label">Highest Qualification Level</label>
+          <div class="col-sm-5">
+            <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+          </div>
+        </div>
+        <div class="card border-primary  mb-3"  *ngFor="let element of b">
+
+          <div class="card-body text-dark">
+              <div class="form-group row">
+                  <label for="symptoms_previous" class="col-2 col-form-label">Qualification</label>
+                  <div class="col-sm-6">
+                      <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="element.appointment.disease">
+                    </div>
+                  <label for="disease_previous" class="col-1 col-form-label">Year</label>
+                  <div class="col-sm-3">
+                    <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="element.appointment.disease">
+                  </div>
+              </div>
+              <div class="form-group row">
+
+              </div>
+              <div class="form-group row">
+
+                  <label for="prescription_previous" class="col-2 col-form-label">Institute</label>
+                  <div class="col-sm-10">
+                      <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="element.appointment.disease">
+                    </div>
+              </div>
+              <div class="form-group row">
+
+                  <label for="prescription_previous" class="col-2 col-form-label">Grade</label>
+                  <div class="col-sm-10">
+                    <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value="element.appointment.prescription"></textarea>
+                  </div>
+              </div>
+              <div class="form-group row">
+
+                  <label for="prescription_previous" class="col-2 col-form-label">Description</label>
+                  <div class="col-sm-10">
+                    <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value="element.appointment.prescription"></textarea>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+    </div>
+</cdk-virtual-scroll-viewport>

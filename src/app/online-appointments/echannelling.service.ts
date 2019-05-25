@@ -19,10 +19,7 @@ export class EchannelingService{
   }
 
   makeOnlineAppointment(appointmentDetails:any){
-    this.http.post("http://localhost:3000/api/onlineAppointments/makeAppointment",appointmentDetails).subscribe(response => {
-      this.router.navigate(["/echannelling"]);
-
-    });
+    return this.http.post("http://localhost:3000/api/onlineAppointments/makeAppointment",appointmentDetails);
 
   }
 

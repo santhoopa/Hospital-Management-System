@@ -12,7 +12,7 @@
     </div>
 
 
-    <div style="padding-top: 20px">
+    <div *ngIf="showForm" style="padding-top: 20px">
           <!-- Start - Doctor Information Panel -->
           <div class="container">
 
@@ -193,29 +193,111 @@
 
           </div>
           <!-- End - Post Graduate Qualification Panel -->
-
-            <p class="font-weight-bold">Doctor Availability</p>
-
-            <div class="form-row">
-              <div class="col">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Day</th>
-                      <th scope="col">From</th>
-                      <th scope="col">To</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                     <tr *ngFor="let slot of doctorAvailability">
-                       <td>{{slot.day}}</td>
-                      <td>{{slot.startTime}}</td>
-                      <td>{{slot.endTime}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div *ngIf="toggle">
+                <div class="row" style="padding-bottom: 20px">
+                    <p class="font-weight-bold col">Doctor Availability</p>
+                    <button   (click)="toggleToUpdateDoctorAvailability()" class="btn btn-sm btn-info col-3" style="margin-right: 30px">Update Doctor Availability</button>
+                  </div>
+                <div class="form-row">
+                  <div class="col">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Day</th>
+                          <th scope="col">From</th>
+                          <th scope="col">To</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                         <tr *ngFor="let slot of doctorAvailability; index as i">
+                           <td>{{slot.day}}</td>
+                          <td>{{slot.startTime}}</td>
+                          <td>{{slot.endTime}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
             </div>
+
+            <div *ngIf="!toggle" class="border border-dark" style="padding: 10px 25px 10px 10px">
+                <div class="row" style="padding-bottom: 20px">
+                  <p class="font-weight-bold col">Update Doctor Availability</p>
+                  <button (click)="toggleToViewDoctorAvailability()" class="btn btn-sm btn-info col-1">Back</button>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 mb-3" style="padding-right: 50px; padding-left: 40px">
+                        <div class="form-group row">
+                            <label for="day">Choose day</label>
+                            <select  [(ngModel)]="day" class="custom-select" id="day" name="day">
+                                <option value="">Choose...</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                          </div>
+                          <div class="form-group row">
+                              <label for="startTime">Start Time</label>
+                              <select [(ngModel)]="startTime" class="custom-select" id="startTime" name="startTime" >
+                                  <option value="">Choose...</option>
+                                  <option value="8.00 AM">8.00 AM</option>
+                                  <option value="9.00 AM">9.00 AM</option>
+                                  <option value="10.00 AM">10.00 AM</option>
+                                  <option value="11.00 AM">11.00 AM</option>
+                                  <option value="12.00 PM">12.00 PM</option>
+                                  <option value="1.00 PM">1.00 PM</option>
+                                  <option value="2.00 PM">2.00 PM</option>
+                                  <option value="3.00 PM">3.00 PM</option>
+                                  <option value="4.00 PM">4.00 PM</option>
+                                  <option value="5.00 PM">5.00 PM</option>
+                                  <option value="6.00 PM">6.00 PM</option>
+                                  <option value="7.00 PM">7.00 PM</option>
+                              </select>
+                            </div>
+                            <div class="form-group row">
+                                <label for="endTime">End Time</label>
+                                <select [(ngModel)]="endTime" class="custom-select" id="endTime" name="endTime" >
+                                  <option value="">Choose...</option>
+                                  <option value="8.00 AM">8.00 AM</option>
+                                  <option value="9.00 AM">9.00 AM</option>
+                                  <option value="10.00 AM">10.00 AM</option>
+                                  <option value="11.00 AM">11.00 AM</option>
+                                  <option value="12.00 PM">12.00 PM</option>
+                                  <option value="1.00 PM">1.00 PM</option>
+                                  <option value="2.00 PM">2.00 PM</option>
+                                  <option value="3.00 PM">3.00 PM</option>
+                                  <option value="4.00 PM">4.00 PM</option>
+                                  <option value="5.00 PM">5.00 PM</option>
+                                  <option value="6.00 PM">6.00 PM</option>
+                                  <option value="7.00 PM">7.00 PM</option>
+                                  <option value="8.00 PM">8.00 PM</option>
+                                  <option value="9.00 PM">9.00 PM</option>
+                                </select>
+                              </div>
+                              <span (click)="onAddTimeSlot()" class="btn btn-sm btn-dark" style="margin-left: 20px">Add time slot</span>
+                              <span (click)="onClearTable()" class="btn btn-sm btn-dark" style="margin-left: 20px">Clear Table</span>
+                              <button (click)="updateDoctorAvailability()" style="margin-top: 30px; margin-left: 40px"class="btn btn-success">Update Availability</button>
+
+                    </div>
+
+
+                    <div class="col-md-7 mb-3 border border-secondary" >
+                        <mat-list role="list">
+                          <mat-list-item role="listitem" *ngFor="let slot of timeSlots">
+                            <h6> {{slot.day}}</h6>
+                            <span style="margin-left: 40px">From {{slot.startTime}}</span>
+                            <span style="margin-left: 40px">To {{slot.endTime}}</span>
+                            <!-- <button class="btn btn-danger btn-sm" style="margin-left: 50px">Remove</button> -->
+                         </mat-list-item>
+                        </mat-list>
+                    </div>
+                </div>
+            </div>
+
           </div>
           <!-- End - Doctor Information Panel -->
 

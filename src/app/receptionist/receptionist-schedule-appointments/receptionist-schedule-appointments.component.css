@@ -1,6 +1,6 @@
 .mainDiv{
-  /* padding-top: 10px;
-  padding-right: 50px;
+   padding-top: 10px;
+ /* padding-right: 50px;
   padding-bottom: 15px;
   padding-left: 25px;
 
@@ -17,4 +17,65 @@
   /* margin-top: 10px; */
   /* border: 1px solid black; */
 
+}
+
+
+.alert{
+  font-size: 14px;
+}
+
+::ng-deep .error{
+  /* 4BB543 */
+  background-color: #FF9494;
+   transition-property: opacity, bottom, left, right, width, margin, border-radius;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  font-family: RobotoDraft;
+  font-size: 15px;
+  min-height: 16px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  line-height: 22px;
+  padding: 18px 24px;
+  bottom: 400px;
+  width: 900px;
+  opacity: 0;
+
+}
+
+::ng-deep .success{
+  background-color: #4BB543;
+   transition-property: opacity, bottom, left, right, width, margin, border-radius;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  font-family: RobotoDraft;
+  font-size: 15px;
+  min-height: 16px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  line-height: 22px;
+  padding: 18px 24px;
+  bottom: 400px;
+  width: 900px;
+  opacity: 0;
+
+}
+
+.example-stretched-tabs {
+  width: 1000px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+
+}
+
+.example-custom-date-class {
+  background: orange;
+  border-radius: 100%;
 }

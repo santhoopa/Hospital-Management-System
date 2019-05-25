@@ -42,11 +42,11 @@
                 <input   type="radio" id="female" name="gender" class="custom-control-input">
                 <label class="custom-control-label" for="female">Female</label>
               </div> -->
-              <mat-radio-group ngModel #genderPatient="ngModel" name="genderPatient">
+              <mat-radio-group ngModel #genderPatient="ngModel" name="genderPatient" required>
                   <mat-radio-button value="Male">Male</mat-radio-button>
                   <mat-radio-button value="Female">Female</mat-radio-button>
                </mat-radio-group>
-
+               <div class="alert alert-danger" *ngIf="!genderPatient.valid && genderPatient.touched">Please select gender </div>
             </div>
           </div>
         </div>
@@ -57,10 +57,12 @@
       <div class="col-md-7 mb-3">
         <label for="patientAddress">Address</label>
         <input ngModel #patientAddress="ngModel" type="text" class="form-control" id="patientAddress" name="patientAddress" placeholder="Address" required>
+        <div class="alert alert-danger" *ngIf="!patientAddress.valid && patientAddress.touched">Enter an address</div>
       </div>
       <div class="col-md-3 mb-3">
           <label for="patientCity">City</label>
           <input ngModel #patientCity="ngModel" type="text" class="form-control" id="patientCity" name="patientCity" placeholder="City" required>
+          <div class="alert alert-danger" *ngIf="!patientCity.valid && patientCity.touched">Enter a city </div>
         </div>
 
         <div class="col-md-2 mb-3">
@@ -94,18 +96,20 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field> -->
             <mat-form-field>
-                <input matInput ngModel #patientDOB="ngModel" name="patientDOB" type="date" >
+                <input matInput ngModel #patientDOB="ngModel" name="patientDOB" type="date" required>
+                <div class="alert alert-danger" *ngIf="!patientDOB.valid && patientDOB.touched">Enter Date of Birth</div>
               </mat-form-field>
          </div>
 
          <div class="col-md-4 mb-3" style="padding-left: 27px">
            <label for="maritalStatus">Marital Status</label><br>
 
-            <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required="">
+            <select ngModel #maritalStatus="ngModel"class="custom-select" id="maritalStatus" name="maritalStatus" required>
                 <option value="">Choose...</option>
                 <option value="Married">Married</option>
                 <option value="Unmarried">Unmarried</option>
             </select>
+            <div class="alert alert-danger" *ngIf="!maritalStatus.valid && maritalStatus.touched">Select marital status</div>
          </div>
     </div>
 <!-- End - NIC, Date of Birth, Maritall Status-->

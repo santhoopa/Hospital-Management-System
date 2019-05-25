@@ -1,6 +1,7 @@
+import { MatSnackBar } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { ReceptionistService } from '../receptionist.service';
 import { ManualAppointment } from './../../models/manual_appointment.model';
 
@@ -8,7 +9,8 @@ import { ManualAppointment } from './../../models/manual_appointment.model';
 @Component({
   selector: 'app-receptionist-schedule-appointments',
   templateUrl: './receptionist-schedule-appointments.component.html',
-  styleUrls: ['./receptionist-schedule-appointments.component.css']
+  styleUrls: ['./receptionist-schedule-appointments.component.css'],
+  // encapsulation: ViewEncapsulation.None,
 })
 export class ReceptionistScheduleAppointmentsComponent implements OnInit {
   public doctors=[];
@@ -16,7 +18,7 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
   public selectedDoctorAvailability=[];
   appointmentNum:any=null;
 
-  constructor(public receptionistService: ReceptionistService) { }
+  constructor(public receptionistService: ReceptionistService,private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     console.log("ngonit");
@@ -87,37 +89,79 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
 
 
   onScheduleAppointment(scheduleAppointmentForm: NgForm){
-    console.log(scheduleAppointmentForm.value.appointmentDate);
+    if(scheduleAppointmentForm.invalid)
+    {
+      this.snackBar.open("Please Enter Valid Details ", "OK", {
+        panelClass: ['error']
+      });
+    }
+    else
+    {
+        let raw_appNo=scheduleAppointmentForm.value.appointmentNumber;
+        let appNo=raw_appNo.replace( /^\D+/g, '');
 
-    let raw_appNo=scheduleAppointmentForm.value.appointmentNumber;
-    let appNo=raw_appNo.replace( /^\D+/g, '');
+        let raw_patientNo=scheduleAppointmentForm.value.patientRegistrationNumber;
+        let patientNo=raw_patientNo.replace( /^\D+/g, '');
 
-    let raw_patientNo=scheduleAppointmentForm.value.patientRegistrationNumber;
-    let patientNo=raw_patientNo.replace( /^\D+/g, '');
+        let raw_appointment_date=scheduleAppointmentForm.value.appointmentDate;
+        let appointment_date = raw_appointment_date.getFullYear() + "-" + (raw_appointment_date.getMonth() + 1) + "-" + raw_appointment_date.getDate()
+        //console.log(appointment_date);
 
-    let raw_appointment_date=scheduleAppointmentForm.value.appointmentDate;
-    let appointment_date = raw_appointment_date.getFullYear() + "-" + (raw_appointment_date.getMonth() + 1) + "-" + raw_appointment_date.getDate()
-    //console.log(appointment_date);
+        let current_datetime = new Date()
+        let formatted_current_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate()
+      // console.log(formatted_current_date)
 
-    let current_datetime = new Date()
-    let formatted_current_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate()
-   // console.log(formatted_current_date)
+        const appointment:ManualAppointment={
+          appointmentNumber: appNo,
+          doctorRegistrationNumber:scheduleAppointmentForm.value.selectDoctor,
+          patientRegistrationNumber: patientNo,
+          timeSlot:scheduleAppointmentForm.value.selectTimeSlot,
+          appointmentDate:new Date(scheduleAppointmentForm.value.appointmentDate).toDateString(),
+          dateCreated:formatted_current_date
 
-    const appointment:ManualAppointment={
-      appointmentNumber: appNo,
-      doctorRegistrationNumber:scheduleAppointmentForm.value.selectDoctor,
-      patientRegistrationNumber: patientNo,
-      timeSlot:scheduleAppointmentForm.value.selectTimeSlot,
-      appointmentDate:new Date(scheduleAppointmentForm.value.appointmentDate).toDateString(),
-      dateCreated:formatted_current_date
+        }
 
+        console.log(appointment);
+        this.receptionistService.scheduleAppointment(appointment).subscribe(responseData=>{
+          //    console.log(responseData.message + "Added Patient name:" +responseData.patient);
+          this.getNewAppointmentNumber();
+          scheduleAppointmentForm.resetForm();
+          this.selectedDoctorAvailability=[];
+          this.snackBar.open( "Appointment Created", "OK", {
+            panelClass: ['success']
+          });
+          });
     }
 
-    console.log(appointment);
-    this.receptionistService.scheduleAppointment(appointment).subscribe(responseData=>{
-      //    console.log(responseData.message + "Added Patient name:" +responseData.patient);
-      this.getNewAppointmentNumber();
-      scheduleAppointmentForm.resetForm();
-        });
   }
+
+  searchedAppointments_viewScheduledApps=[];
+  doctorName_viewScheduledApps;
+  searchedAppointmentDate_viewScheduledApps;
+  showTable=false;
+  findAppointments(doctorRegistrationNumber:string,date:Date){
+    this.searchedAppointments_viewScheduledApps=[]
+    this.doctorName_viewScheduledApps="";
+    this.searchedAppointmentDate_viewScheduledApps="";
+    this.showTable=true;
+    console.log(doctorRegistrationNumber);
+    console.log(date);
+    this.receptionistService.viewScheduledManualAppointments(doctorRegistrationNumber,date).subscribe(response => {
+      console.log(response);
+      response.appointments.map(app =>{
+        app.dateCreated=new Date(app.dateCreated).toDateString();
+        this.searchedAppointments_viewScheduledApps.push(app);
+
+      })
+      this.doctorName_viewScheduledApps=this.searchedAppointments_viewScheduledApps[0].doctor[0].name.firstname+" "+ this.searchedAppointments_viewScheduledApps[0].doctor[0].name.lastname;
+        this.searchedAppointmentDate_viewScheduledApps=new Date(this.searchedAppointments_viewScheduledApps[0].appointmentDate).toDateString();
+    });
+  }
+
+  // dateClass = (d: Date) => {
+  //   const date = d;
+  //   console.log(date);
+  //   // Highlight the 1st and 20th day of each month.
+  //  // return (date === 1 || date === 20) ? 'example-custom-date-class' : undefined;
+  // }
 }

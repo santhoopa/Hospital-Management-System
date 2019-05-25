@@ -19,21 +19,23 @@
                       <div class="form-group row">
                           <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Reg. No</label>
                           <div class="col-sm-8">
-                            <input (keyup)="onSearchPatient($event)" type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number">
+                            <input (keyup)="onSearchPatient($event)" type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number" required>
+                            <div  style="margin-bottom: 0px"class="alert alert-danger" *ngIf="!patientRegistrationNumber.valid && patientRegistrationNumber.touched && !patientName.valid">Enter Valid Registration Number</div>
                           </div>
                       </div>
 
                       <div class="form-group row">
                           <label for="patientName" class="col-sm-4 col-form-label">Patient Name</label>
                           <div class="col-sm-8">
-                            <input type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="name">
+                            <input type="text" ngModel #patientName="ngModel" class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="name" required>
+                            <div style="margin-bottom: -10px" class="alert alert-danger" *ngIf="!patientName.valid && patientRegistrationNumber.touched">Invalid Patient</div>
                           </div>
                       </div>
 
                       <div class="form-group row">
                           <label for="selectAppointmentNumber" class="col-sm-4 col-form-label">Select Appointment No. (If any)</label>
                           <div class="col-sm-8" style="padding-top: 20px">
-                              <select ngModel #selectAppointmentNumber="ngModel"class="custom-select" name="selectAppointmentNumber" id="selectAppointmentNumber" required="">
+                              <select ngModel #selectAppointmentNumber="ngModel"class="custom-select" name="selectAppointmentNumber" id="selectAppointmentNumber">
                                   <option value="">Choose...</option>
 
                               </select>
@@ -44,29 +46,31 @@
                           <label for="selectAdmissionDate" class="col-sm-4 col-form-label" style="padding-top: 5px">Date of Admission</label>
                           <div class="col-sm-8">
                               <mat-form-field >
-                                  <input matInput ngModel #selectAdmissionDate="ngModel" name="selectAdmissionDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose admission date">
+                                  <input matInput ngModel #selectAdmissionDate="ngModel" name="selectAdmissionDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose admission date" required>
                                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                   <mat-datepicker #picker></mat-datepicker>
                               </mat-form-field>
-
+                              <div class="alert alert-danger" *ngIf="!selectAdmissionDate.valid && selectAdmissionDate.touched">Select date</div>
                           </div>
                       </div>
 
                       <div class="form-group row">
                           <label for="selecRoom" class="col-sm-4 col-form-label">Select Room</label>
                           <div class="col-sm-8">
-                              <select ngModel #selecRoom="ngModel"class="custom-select" name="selecRoom" id="selecRoom" required="">
+                              <select ngModel #selecRoom="ngModel"class="custom-select" name="selecRoom" id="selecRoom" required>
                                   <option value="">Choose...</option>
                                   <option *ngFor="let room of vacantRooms" value="{{room.roomNumber}}">Room {{room.roomNumber}}</option>
 
                               </select>
+                              <div class="alert alert-danger" *ngIf="!selecRoom.valid && selecRoom.touched">Select a room</div>
                           </div>
                       </div>
 
                       <div class="form-group row">
                           <label for="causeOfAdmission" class="col-sm-4 col-form-label">Cause of Admission</label>
                           <div class="col-sm-8">
-                            <input type="text" ngModel #causeOfAdmission="ngModel" class="form-control" id="causeOfAdmission"  name="causeOfAdmission" placeholder="Enter cause">
+                            <input type="text" ngModel #causeOfAdmission="ngModel" class="form-control" id="causeOfAdmission"  name="causeOfAdmission" placeholder="Enter cause" required>
+                            <div class="alert alert-danger" *ngIf="!causeOfAdmission.valid && causeOfAdmission.touched">Invalid</div>
                           </div>
                       </div>
 
@@ -121,7 +125,7 @@
                   <div class="form-group row border border-secondary" style="margin-left: 10px; margin-right: 10px; padding-top: 10px; padding-bottom: 10px">
                       <label for="searchAdmissionNumber" class="col-sm-5 col-form-label">Enter Admission No.</label>
                       <div class="col-sm-5">
-                        <input  #searchBox type="text" class="form-control" id="searchAdmissionNumber" name="searchAdmissionNumber">
+                        <input  #searchBox type="text" class="form-control" id="searchAdmissionNumber" name="searchAdmissionNumber" required>
                       </div>
                       <button (click)="searchAdmission(searchBox.value)"type="button" class="btn btn-sm btn-outline-success">Search</button>
                   </div>
@@ -222,11 +226,79 @@
       </mat-tab>
      <!-- End Discharge Patient Tab -->
 
-     <!-- Start View Admissions Tab -->
-      <mat-tab label="View Patient Admissions"> Content 3
+     <!-- Start View Admissions History Tab -->
+      <mat-tab label="View Patient Admission History">
+          <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+            <div class="" style="padding:15px 10px 20px 20px ">
+              <p class="font-weight-bold">Find Admission(s)</p>
+              <div class="form-group row border border-dark" style="padding-left: 170px; padding-top: 30px">
+                  <div class="col">
+                      <div class="form-group row">
+                        <label for="selectDate_admissionHistory" class="col-sm-5 col-form-label">Select Admission Date</label>
+                        <div class="col-sm-7" style="margin-top: -15px">
+                          <mat-form-field >
+                              <input matInput ngModel #selectDate_admissionHistory="ngModel" name="selectDate_admissionHistory"[min]="" [max]="" [matDatepicker]="picker1" placeholder="Choose a date" required>
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                            <!-- <div class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select Date</div> -->
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                    <button class="btn btn-success" (click)="findAdmissionsHistory(selectDate_admissionHistory.value)">Find</button>
+                  </div>
+              </div>
 
+              <div *ngIf="showTable">
+                <div class="row">
+                  <div class="col-5">
+                      <div class="form-group row">
+                        <label for="admissionDate_admissionHistory" class="col-sm-5 col-form-label">Admission Date</label>
+                        <div class="col-sm-6">
+                          <label style="padding-top: 5px" class="font-weight-bold">{{searchedDate_admissionHistory}}</label>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                  <div class="form-group row">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Admission No.</th>
+                            <th scope="col">Patient No</th>
+                            <th scope="col">Patient Name</th>
+                            <th scope="col">NIC</th>
+                            <th scope="col">Cause of Admission</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Discharged Date</th>
+                            <th scope="col">Room</th>
+                            <th scope="col">Room Type</th>
+                            <th scope="col">Appointment No.</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let admission of admissionHistory">
+                            <td>ADM/{{admission.admissionNumber}}</td>
+                            <td>PAT/{{admission.patientRegistrationNumber}}</td>
+                            <td>{{admission.patient[0].name.firstname}} {{admission.patient[0].name.lastname}}</td>
+                            <td>{{admission.patient[0].nic}}</td>
+                            <td>{{admission.causeofAdmission}}</td>
+                            <td>{{admission.status}}</td>
+                            <td>{{admission.dischargeDate}}</td>
+                            <td>{{admission.room[0].roomNumber}}</td>
+                            <td>{{admission.room[0].type}}</td>
+                            <td>{{admission.appointmentNmber}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+              </div>
+            </div>
+            </cdk-virtual-scroll-viewport>
       </mat-tab>
-    <!-- End View Admissions Tab -->
+    <!-- End View Admissions Hostory Tab -->
 
     </mat-tab-group>
 

@@ -40,8 +40,8 @@ export class ReceptionistRegisterPatientComponent implements OnInit{
 
     if(registrationForm.invalid)
     {
-      this.snackBar.open("Please Enter Valid Details ", null, {
-        duration: 4000,
+      this.snackBar.open("Please Enter Valid Details ", "OK", {
+        //duration: 4000,
         panelClass: ['error']
       });
     }
@@ -76,11 +76,15 @@ export class ReceptionistRegisterPatientComponent implements OnInit{
         }
       }
       console.log(patient);
-      // this.receptionistService.registerPatient(patient).subscribe(responseData=>{
-      //   console.log(responseData.message + "Added Patient name:" +responseData.patient);
-      //   registrationForm.reset();
-      //   this.generateRegNo();
-      // });
+      this.receptionistService.registerPatient(patient).subscribe(responseData=>{
+        console.log(responseData.message + "Added Patient name:" +responseData.patient);
+        registrationForm.reset();
+        this.generateRegNo();
+        this.snackBar.open( "Patient Added Successfuly", "OK", {
+            //duration: 4000,
+            panelClass: ['success']
+          });
+      });
     }
 
 
