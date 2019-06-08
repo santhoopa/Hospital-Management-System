@@ -1,3 +1,4 @@
+import { DoctorViewPatientComponent } from './doctor-view-patient/doctor-view-patient.component';
 import { DoctorAppointmentsComponent } from './doctor-appointments/doctor-appointments.component';
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
@@ -9,7 +10,7 @@ const doctorRoutes: Routes = [
     component:DoctorComponent,
     children: [
       { path: 'appointment', component: DoctorAppointmentsComponent },
-
+      { path: 'ViewPatient', component: DoctorViewPatientComponent }
     ]
   },
 

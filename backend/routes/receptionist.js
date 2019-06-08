@@ -11,25 +11,36 @@ const OnlineAppointment=require('../models/online_appointment');
 //Getting patient name to schedule appointment - By Receptionist
 router.get("/api/patient/getPatientName/:regNo",(req,res,next) => {
   console.log("This is receptionist - Get patient name route");
+  //console.log(req.params.regNo)
+  req.params.regNo=(req.params.regNo=="null")? 0:req.params.regNo;
+  //console.log(req.params.regNo)
   Patient.findOne({"patientRegistrationNumber":req.params.regNo},'name patientRegistrationNumber').then(results => {
     res.status(201).json({
       PatientFirstName: results.name.firstname,
       PatientLastName: results.name.lastname,
       PatientNo:results.patientRegistrationNumber
     });
-  });
+  }).catch(err =>{
+    console.log("Error");
+    res.status(201).json({
+      PatientFirstName: "",
+      PatientLastName: "",
+      PatientNo:""
+    });  })
 });
 
 //Getting new Doctor registration number from db - By Receptionist
 router.get("/api/doctor/getNewRegNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new Doctor ID route");
   Doctor.find(null,'doctorRegistrationNumber').sort('-doctorRegistrationNumber').limit(1).then(result => {
-    console.log(result[0].doctorRegistrationNumber);
+   // console.log(result[0].doctorRegistrationNumber);
     const newRegNo=result[0].doctorRegistrationNumber +1;
-    console.log(newRegNo);
+    //console.log(newRegNo);
     res.status(201).json({
       NewDoctorRegistrationNumber: newRegNo
     });
+  }).catch(err=>{
+    console.log("Error: "+err);
   });
 
 });
@@ -39,7 +50,7 @@ router.get("/api/doctor/getNewRegNumber",(req,res,next) => {
 //Adding Doctors - By Receptionist
 router.post("/api/doctors",(req,res,next) => {
   console.log("This is receptionist - add doctors route ");
-  console.log(req.body.doctorAvailability);
+  //console.log(req.body.doctorAvailability);
 
     const doctor=new Doctor({
     doctorRegistrationNumber:  req.body.doctorRegistrationNumber,
@@ -72,8 +83,8 @@ router.post("/api/doctors",(req,res,next) => {
       country:req.body.postGradQualification.country
     }
     });
-    console.log(doctor);
-    console.log(new Date(req.body.dob));
+   // console.log(doctor);
+   // console.log(new Date(req.body.dob));
 
 
     doctor.save().then(createdDoctor => {
@@ -86,13 +97,15 @@ router.post("/api/doctors",(req,res,next) => {
       },
       timeSlots:req.body.doctorAvailability
     });
-    console.log(doctorAvailability);
+    //console.log(doctorAvailability);
     doctorAvailability.save();
 
       res.status(201).json({
         message:"Doctor Successfull Added",
         doctor: createdDoctor.name.firstname
       });
+    }).catch(err=>{
+      console.log("Error: "+err);
     });
 
 
@@ -102,11 +115,13 @@ router.post("/api/doctors",(req,res,next) => {
 //Searching Patients - By Receptionist
 router.get("/api/patients/:keyword",(req,res,next) => {
   console.log("This is receptionist - get patients route ");
-  Patient.find({$or:[{'name.firstname':new RegExp('^'+req.params.keyword+'$',"i")},{'name.lastname':new RegExp('^'+req.params.keyword+'$',"i")}]}).then(results => {
+  Patient.find({$or:[{'name.firstname':new RegExp('^'+req.params.keyword,"i")},{'name.lastname':new RegExp('^'+req.params.keyword,"i")}]}).then(results => {
     res.status(200).json({
       message: "Patients fetched successfully",
       patients:results
     });
+  }).catch(err=>{
+    console.log("Error: "+err);
   });
 });
 
@@ -114,22 +129,26 @@ router.get("/api/patients/:keyword",(req,res,next) => {
 router.get("/api/findDoctors/:keyword",(req,res,next) => {
   console.log("This is receptionist - get doctors route "+req.params.keyword);
   Doctor.findOne({'doctorRegistrationNumber':Number(req.params.keyword)}).then(results => {
-    console.log(results)
+    //console.log(results)
     res.status(200).json({
       doctor:results
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Updating doctor availability
 router.post("/api/doctor/updateAvailability",(req,res,next) => {
   console.log("This is Updating doctor availability");
-  console.log(req.body);
+  //console.log(req.body);
   DoctorAvailability.updateOne({'doctorRegistrationNumber':Number(req.body.doctorRegistrationNumber)},{$set:{'timeSlots':req.body.timeSlots}}).then(response => {
-    console.log(response);
+    //console.log(response);
     res.status(200).json({
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 
@@ -138,13 +157,15 @@ router.post("/api/doctor/updateAvailability",(req,res,next) => {
 router.get("/api/patient/getNewRegNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new patient ID route");
   Patient.find(null,'patientRegistrationNumber').sort('-patientRegistrationNumber').limit(1).then(result => {
-    console.log(result[0].patientRegistrationNumber);
+   // console.log(result[0].patientRegistrationNumber);
     const newRegNo=result[0].patientRegistrationNumber +1;
-    console.log(newRegNo);
+   // console.log(newRegNo);
     res.status(201).json({
       NewPatientRegistrationNumber: newRegNo
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Adding Patients - By Receptionist
@@ -152,8 +173,8 @@ router.post("/api/patient/register",(req,res,next) => {
   console.log("This is receptionist - register patient route");
  // const patient=new Patient();
  // patients=req.body;
-  console.log(req.body);
-  console.log(new Date(req.body.dob));
+  //console.log(req.body);
+  //console.log(new Date(req.body.dob));
   const patient=new Patient({
     patientRegistrationNumber:req.body.patientRegistrationNumber,
     name:{
@@ -183,38 +204,44 @@ router.post("/api/patient/register",(req,res,next) => {
       message:"Patient Successfull Added",
       patient: createdPatient.name.firstname
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Getting new appointment number from db - By Receptionist
 router.get("/api/appointment/getNewNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new appointment number route");
   Appointment.find(null,'appointmentNumber').sort('-appointmentNumber').limit(1).then(result => {
-    console.log(result[0].appointmentNumber);
+   // console.log(result[0].appointmentNumber);
     const newNo=result[0].appointmentNumber +1;
-    console.log(newNo);
+   // console.log(newNo);
     res.status(201).json({
       NewAppointmentNumber: newNo
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Getting new Online Appointment number from db - By Receptionist
 router.get("/api/onlineappointment/getNewNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new Online appointment number route");
   OnlineAppointment.find(null,'appointmentNumber').sort('-appointmentNumber').limit(1).then(result => {
-    console.log(result[0]);
+   // console.log(result[0]);
     const newNo=result[0].appointmentNumber +1;
-    console.log(newNo);
+   // console.log(newNo);
     res.status(201).json({
       NewAppointmentNumber: newNo
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Viewing Scheduled Appointments - Receptionist
 router.post("/api/appointment/viewScheduledAppointments",(req,res,next) => {
-  console.log(req.body);
+  console.log("This is Viewing Scheduled Appointments - Receptionist");
   Appointment.aggregate([
     { $match: { "doctorRegistrationNumber" : Number(req.body.doctorRegistrationNumber) } },
     { $match: { "appointmentDate" : new Date(req.body.appointmentDate) } },
@@ -238,18 +265,20 @@ router.post("/api/appointment/viewScheduledAppointments",(req,res,next) => {
    }
 
   ]).then(result => {
-    console.log(result);
+    //console.log(result);
     res.status(201).json({
       appointments:result
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 
 //Schedule Appointment - Receptionist - Creating appointment
 router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
   console.log("Schedule Appointments");
-  console.log(req.body);
+ // console.log(req.body);
   const appointment=new Appointment({
     appointmentNumber:  req.body.appointmentNumber,
     doctorRegistrationNumber:req.body.doctorRegistrationNumber,
@@ -263,36 +292,46 @@ router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
     disease:null,
     prescription:null
   });
-  console.log(appointment);
+  //console.log(appointment);
   appointment.save().then(createdAppointment => {
     res.status(201).json({
       message:"Appointment Successfull Added"
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Schedule Appointments - Receptionist - Getting Doctor Names List
 router.get("/api/doctors/getdoctorNames",(req,res,next) => {
   console.log("Schedule Appointments - Getting Doctor Names List");
   Doctor.find(null,'name doctorRegistrationNumber').then(results => {
-   console.log(results);
+   //console.log(results);
     res.status(200).json({
       message: "Doctor Names successfully fetched",
       doctorNames:results
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Schedule Appointments - Receptionist - Getting Doctor Available Time Slots
 router.get("/api/doctors/getdoctorAvailability/:doctorRegistrationNumber",(req,res,next) => {
-  console.log(req.params.firstName);
+  //console.log(req.params.firstName);
   DoctorAvailability.findOne({'doctorRegistrationNumber':Number(req.params.doctorRegistrationNumber)}).then(results =>{
     //  console.log(results);
       res.status(200).json({
         message: "Doctor Availabilities successfully fetched",
         timeSlots:results.timeSlots
       });
-  });
+  }).catch(err =>{
+    console.log("Error:" + err)
+    res.status(200).json({
+      message: "Error",
+      timeSlots:null
+    });
+  })
 });
 
 //Getting room availability - Admit Patient
@@ -302,7 +341,9 @@ router.get("/api/rooms",(req,res,next) => {
     res.status(200).json({
       rooms:results
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Getting vacant rooms
@@ -312,16 +353,18 @@ router.get("/api/rooms/getVacant",(req,res,next) => {
     res.status(200).json({
       VacantRooms:results
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 
 });
 //Getting new admission ID - Admit Patient
 router.get("/api/admission/getNewNumber",(req,res,next) => {
   console.log("This is receptionist - Getting new admission number route");
   Admission.find(null,'admissionNumber').sort('-admissionNumber').limit(1).then(result => {
-    console.log(result[0].admissionNumber);
+    //console.log(result[0].admissionNumber);
     const newNo=result[0].admissionNumber+1;
-    console.log(newNo);
+   // console.log(newNo);
     res.status(201).json({
       NewAdmissionNumber: newNo
     });
@@ -345,15 +388,17 @@ router.post("/api/patient/admit",(req,res,next) => {
     causeofAdmission:req.body.causeofAdmission,
     status:"Admitted",
   });
-  console.log(req.body);
+  //console.log(req.body);
   admission.save().then( createdAdmission=>{
     Room.updateOne({'roomNumber':Number(req.body.roomNumber)},{'status':'Occupied'}).then(result =>{
-      console.log(result);
+      //console.log(result);
     });
     res.status(201).json({
       message:"Patient Successfull Admitted"
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 
@@ -381,13 +426,13 @@ router.get("/api/admission/getCurrentAdmissions",(req,res,next) => {
        }
   }
     ]).then(results => {
-      console.log(results);
+     // console.log(results);
         res.status(201).json({
           result:results
         });
-    }).catch(err =>{
-      console.log(err);
-    });
+    }).catch( err => {
+      console.log("Error: "+err);
+    })
 
 });
 
@@ -416,27 +461,29 @@ router.get("/api/admission/getAdmissionDetail/:admissionNumber",(req,res,next) =
        }
   }
     ]).then(result => {
-      console.log(result);
+    //  console.log(result);
         res.status(201).json({
           admissionDetail:result
         });
-    }).catch(err =>{
-      console.log(err);
+    }).catch( err => {
+      console.log("Error: "+err);
     })
 });
 
 //Discharge Patient - Discharge Patient
 router.post("/api/admission/dischargePatient",(req,res,next) => {
   console.log("This is receptionist - Discharge Patient Route");
-  console.log(req.body);
+ // console.log(req.body);
   Admission.updateOne({'admissionNumber':Number(req.body.admissionNum)},{$set:{'status':'Discharged','dischargeDate':new Date(req.body.dischargeDate)}}).then(result =>{
-    console.log(result);
+   // console.log(result);
     Room.updateOne({'roomNumber':Number(req.body.roomNum)},{'status':'Vacant'}).then(re =>{
-      console.log(re);
+    //  console.log(re);
       res.status(201).json({
       });
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 
@@ -464,10 +511,12 @@ router.post("/api/admission/viewAdmissionHistory",(req,res,next) => {
        }
   }
     ]).then(result => {
-        console.log(result);
+        //console.log(result);
         res.status(200).json({
           admissions:result
         });
+  }).catch( err => {
+    console.log("Error: "+err);
   })
 });
 
@@ -481,14 +530,16 @@ Doctor.find(null,'name doctorRegistrationNumber SLMCRegNo doctorType').then(resu
    res.status(200).json({
      doctors:results
    });
- });
+ }).catch( err => {
+  console.log("Error: "+err);
+})
 });
 
 //Online Appointment - Making Online Appointment
 router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
   console.log("This is Online Appointment - Making Online Appointment");
-  console.log(req.body);
-  console.log(req.body.appointmentNumber);
+  //console.log(req.body);
+ // console.log(req.body.appointmentNumber);
   const onlineApp=new OnlineAppointment({
     appointmentNumber:req.body.appointmentNumber,
     doctorRegistrationNumber:req.body.doctorRegistrationNumber,
@@ -509,9 +560,11 @@ router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
     prescription:null
   })
   onlineApp.save().then(result =>{
-    console.log(result);
+    //console.log(result);
     res.status(200).json({
     });
+  }).catch( err => {
+    console.log("Error: "+err);
   })
 
 });
@@ -520,32 +573,38 @@ router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
 router.post("/api/onlineAppointments/viewByDoctor",(req,res,next) => {
   console.log("This is Viewing Online Appointments - View By Doctor - Receptionist");
   OnlineAppointment.find({'doctorRegistrationNumber':req.body.doctorRegistrationNumber}).then(results => {
-    console.log(results);
+   // console.log(results);
      res.status(200).json({
       onlineAppointments:results
      });
-   });
+   }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 router.post("/api/onlineAppointments/viewByDoctor_LinkPatient",(req,res,next) => {
   console.log("This is Viewing Online Appointments for Linking Patient- View By Doctor - Receptionist");
   // Patient.find({$or:[{'name.firstname':req.params.keyword},{'name.lastname':req.params.keyword}]}).then(results => {
     OnlineAppointment.find({$and:[{'doctorRegistrationNumber':req.body.doctorRegistrationNumber},{'appointmentStatus':'Pending'}]}).then(results => {
-      console.log(results);
+    //  console.log(results);
       res.status(200).json({
        onlineAppointments:results
       });
-    });
+    }).catch( err => {
+      console.log("Error: "+err);
+    })
 });
 
 router.post("/api/onlineAppointments/linkPatient",(req,res,next) => {
   console.log("This is Linking Patient with Online Appointment - Receptionist");
-  console.log(req.body);
+ // console.log(req.body);
   OnlineAppointment.updateOne({'_id':req.body.patientID},{$set:{'appointmentStatus':'Linked','patientRegistrationNumber':Number(req.body.patientRegistrationNumber)}}).then(results =>{
-    console.log(results);
+   // console.log(results);
       res.status(200).json({
        results:results
       });
+  }).catch( err => {
+    console.log("Error: "+err);
   })
 
 });
@@ -553,7 +612,7 @@ router.post("/api/onlineAppointments/linkPatient",(req,res,next) => {
 //Getting Previous Patient Appointment Details - Receptionist
 router.post("/api/patient/getPreviousAppointmentDetails",(req,res,next) => {
   console.log("This is Getting Previous Appointment Details - Receptionist")
-  console.log(req.body);
+ // console.log(req.body);
   let normal_appointments=[];
   let online_appointments=[];
   Appointment.aggregate([
@@ -569,9 +628,9 @@ router.post("/api/patient/getPreviousAppointmentDetails",(req,res,next) => {
     }
 
   ]).then(results => {
-    console.log(results);
+   // console.log(results);
     results.map(app =>{
-      console.log(app)
+     // console.log(app)
       normal_appointments.push(app);
     });
     OnlineAppointment.aggregate([
@@ -588,14 +647,18 @@ router.post("/api/patient/getPreviousAppointmentDetails",(req,res,next) => {
 
     ]).then(resu => {
       resu.map(oapp =>{
-        console.log(oapp)
+       // console.log(oapp)
         online_appointments.push(oapp);
       });
       res.status(200).json({
         normal_appointments:normal_appointments,
         online_appointments:online_appointments
       });
-    });
-  });
+    }).catch( err => {
+      console.log("Error: "+err);
+    })
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 module.exports=router;

@@ -4,6 +4,34 @@ const Doctor=require('../models/doctor');
 const Employee=require('../models/employee');
 const router=express.Router();
 
+// router.get("/api/user/userNameValidity/:keyword",(req,res,next) => {
+//   User.find({'username':req.params.keyword}).then((response)=>{
+//     res.status(201).json({
+//       searchResults:response.length
+//     });
+
+//   })
+// });
+router.get("/api/user/userDetails",(req,res,next) => {
+  console.log("This is getting System user deatials - Admin");
+  User.aggregate([
+    {
+      $lookup:
+         {
+           from: "doctors",
+           localField: "registrationNumber",
+           foreignField: "doctorRegistrationNumber",
+           as: "doctor"
+         }
+    }
+
+  ]).then(response=>{
+    console.log(response);
+    res.status(201).json({
+     users:response
+    });
+  })
+});
 router.post("/api/user/signup",(req,res,next) => {
   console.log("This is Add user route - Admin");
   console.log(req.body);
@@ -16,9 +44,16 @@ router.post("/api/user/signup",(req,res,next) => {
   user.save().then((addedUser) => {
     console.log(addedUser);
     res.status(201).json({
-      message:"User Successfull Added"
+      message:"User Successfull Added",
+      userAdded:true
     });
-  });
+  }).catch(err =>{
+    console.log("Error");
+    res.status(201).json({
+      message:"User Cannot Added",
+      userAdded:false
+    });
+  })
 });
 
 
@@ -34,19 +69,29 @@ router.post("/api/doctor/signup",(req,res,next) => {
   user.save().then((addedUser) => {
     console.log(addedUser);
     res.status(201).json({
-      message:"User Successfull Added"
+      message:"User Successfull Added",
+      userAdded:true
+
     });
-  });
+  }).catch(err =>{
+    console.log("Error");
+    res.status(201).json({
+      message:"User Cannot Added",
+      userAdded:false
+    });
+  })
 });
 
 router.get("/api/doctor/getDoctorName/:regNo",(req,res,next) => {
-  console.log("This is getting doctor name  - Adding doctor as a system user");
+  console.log("This is getting doctor name  - Adding doctor as a system user/For Sidemenu");
   Doctor.findOne({"doctorRegistrationNumber":req.params.regNo},'name doctorRegistrationNumber').then(results => {
     res.status(201).json({
       DoctorFirstName: results.name.firstname,
       DoctorLastName: results.name.lastname,
       DoctorNo:results.doctorRegistrationNumber
     });
+  }).catch(err =>{
+    console.log("Error: "+err);
   });
 });
 
@@ -99,7 +144,7 @@ router.get("/api/employee/generateRegistrationNumber",(req,res,next) => {
 //Searching Employees - Admin
 router.get("/api/employee/getEmployees/:keyword",(req,res,next) => {
   console.log("This is Admin - get employees route ");
-  Employee.find({$or:[{'name.firstname':new RegExp('^'+req.params.keyword+'$',"i")},{'name.lastname':new RegExp('^'+req.params.keyword+'$',"i")}]}).then(results => {
+  Employee.find({$or:[{'name.firstname':new RegExp('^'+req.params.keyword,"i")},{'name.lastname':new RegExp('^'+req.params.keyword,"i")}]}).then(results => {
     res.status(200).json({
       employees:results
     });

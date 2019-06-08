@@ -1,0 +1,389 @@
+<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+  <div class="border border-dark divPatientInfo">
+      <p class="font-weight-bold">Find Patient(s)</p>
+          <div class="form-group row">
+              <label for="searchBox" class="col-sm-4 col-form-label">Enter patient name</label>
+              <div class="col-sm-6">
+                <input (keyup)="searchPatient($event)" type="text" class="form-control" id="searchBox" placeholder="Search">
+              </div>
+           </div>
+  </div>
+  <br>
+  <div *ngIf="showTable">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Start -  Patient Registration Number-->
+                <ng-container matColumnDef="patientRegistrationNumber" sticky>
+                    <th mat-header-cell *matHeaderCellDef>Registration No. </th>
+                    <td mat-cell *matCellDef="let element">PAT/{{element.patientRegistrationNumber}} <button class="btn btn-sm btn-info" (click)="viewPatient(element)">View Profile</button></td>
+                </ng-container>
+        <!-- End -  Patient Registration Number-->
+
+        <!-- Start -  Patient First Name Column -->
+                <ng-container matColumnDef="patientFirstName" >
+                    <th mat-header-cell *matHeaderCellDef>First Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name.firstname}} </td>
+                </ng-container>
+        <!-- End -  Patient First Name Column -->
+
+        <!-- Start -  Patient Last Name Column -->
+                <ng-container matColumnDef="patientLastName">
+                    <th mat-header-cell *matHeaderCellDef>Last Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name.lastname}} </td>
+                </ng-container>
+        <!-- End -  Patient Last Name Column -->
+
+        <!-- Start -  Patient Gender Column -->
+                <ng-container matColumnDef="patientGender">
+                    <th style="width:80px"mat-header-cell *matHeaderCellDef >Gender </th>
+                    <td style="width:80px"mat-cell *matCellDef="let element"> {{element.gender}} </td>
+                </ng-container>
+        <!-- End -  Patient Gender Column -->
+        <!-- Start -  Patient Address Column -->
+        <ng-container matColumnDef="patientAddress">
+            <th class="address"mat-header-cell *matHeaderCellDef >Adress </th>
+            <td class="address"mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+        <!-- End -  Patient Address Column -->
+        <!-- Start -  Patient City Column -->
+        <ng-container matColumnDef="patientCity">
+            <th style="width:100px" mat-header-cell *matHeaderCellDef>City </th>
+            <td style="width:100px" mat-cell *matCellDef="let element"> {{element.city}} </td>
+        </ng-container>
+        <!-- End -  Patient City Column -->
+
+        <!-- Start -  Patient District Column -->
+        <ng-container matColumnDef="patientDistrict">
+            <th style="width:100px" mat-header-cell *matHeaderCellDef>District </th>
+            <td style="width:100px" mat-cell *matCellDef="let element"> {{element.district}} </td>
+        </ng-container>
+        <!-- End -  Patient District Column -->
+
+        <!-- Start -  Patient NIC Column -->
+        <ng-container matColumnDef="patientNIC">
+            <th mat-header-cell *matHeaderCellDef>NIC </th>
+            <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
+        </ng-container>
+        <!-- End -  Patient NIC Column -->
+
+        <!-- Start -  Patient DOB Column -->
+        <ng-container matColumnDef="patientDOB">
+            <th mat-header-cell *matHeaderCellDef>Date of Birth </th>
+            <td mat-cell *matCellDef="let element"> {{element.dob}} </td>
+        </ng-container>
+        <!-- End -  Patient DOB Column -->
+
+        <!-- Start -  Patient Marital Status Column -->
+        <ng-container matColumnDef="patientmaritalStatus">
+            <th mat-header-cell *matHeaderCellDef>Marital Status</th>
+            <td mat-cell *matCellDef="let element"> {{element.maritalStatus}} </td>
+        </ng-container>
+        <!-- End -  Patient Marital Status Column -->
+        <!-- Start -  Patient Contact Number Column -->
+        <ng-container matColumnDef="patientContact">
+          <th mat-header-cell *matHeaderCellDef>Contact Number</th>
+          <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+        </ng-container>
+        <!-- End -  Patient Contact Number Column -->
+        <!-- Start -  Patient email Column -->
+        <ng-container matColumnDef="patientemail">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <!-- End -  Patient email Column -->
+        <!-- Start -  Guardian Name Column -->
+        <ng-container matColumnDef="guardianName">
+          <th mat-header-cell *matHeaderCellDef>Guardian Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.guardian.firstname}} {{element.guardian.lastname}} </td>
+        </ng-container>
+        <!-- End -  Guardian Name Column -->
+        <!-- Start -  Guardian Gender Column -->
+        <ng-container matColumnDef="guardianGender">
+          <th mat-header-cell *matHeaderCellDef>Guardian Gender</th>
+          <td mat-cell *matCellDef="let element"> {{element.guardian.gender}} </td>
+        </ng-container>
+        <!-- End -  Guardian Gender Column -->
+        <!-- Start -  Guardian NIC Column -->
+        <ng-container matColumnDef="guardianNIC">
+          <th mat-header-cell *matHeaderCellDef>Guardian NIC</th>
+          <td mat-cell *matCellDef="let element"> {{element.guardian.NIC}} </td>
+        </ng-container>
+        <!-- End -  Guardian Gender NIC -->
+        <!-- Start -  Guardian Contact Number Column -->
+        <ng-container matColumnDef="guardianContact">
+          <th mat-header-cell *matHeaderCellDef>Guardian Contact Number</th>
+          <td mat-cell *matCellDef="let element"> {{element.guardian.contactNumber}} </td>
+        </ng-container>
+        <!-- End -  Guardian Contact Number NIC -->
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div *ngIf="showForm" style="">
+              <div class="container border border-secondary divPatientInfo">
+                  <div class="form-group row">
+                    <div class="col-11">
+                        <p class="font-weight-bold">Patient Information</p>
+
+                    </div>
+                    <div class="col-1">
+                      <button class="btn btn-info" (click)="back()">Back</button>
+                    </div>
+                  </div>
+                <!-- Start - Patient Registration Number row -->
+                  <div class="form-group row">
+                        <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Registration Number:</label>
+                      <div class="col-sm-3 input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text col" id="basic-addon3">PAT/</span>
+                          </div>
+                        <input style="font-weight:bold" ngModel #patientRegistrationNumber="ngModel" type="text" readonly class="form-control" id="patientRegistrationNumber" name="patientRegistrationNumber" [(ngModel)]="clickedPatient.patientRegistrationNumber" >
+                      </div>
+                  </div>
+                <!-- End - Patient Registration Number row -->
+
+                <!-- Start - First Name, Last Name, Gender -->
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label for="patientFirstName">First name</label>
+                        <input readonly type="text" class="form-control" id="patientFirstName" name="patientFirstName" [(ngModel)]="clickedPatient.name.firstname">
+                      </div>
+
+                      <div class="col-md-4 mb-3">
+                        <label for="patientLastName">Last name</label>
+                        <input readonly type="text" class="form-control" id="patientLastName" name="patientLastName" [(ngModel)]="clickedPatient.name.lastname">
+                      </div>
+
+                    <div class="col-md-4 mb-3" style="padding-left: 27px">
+                        <label >Gender</label>
+                        <input readonly type="text" class="form-control" id="patientGender" name="patientGender" [(ngModel)]="clickedPatient.gender">
+                      </div>
+                    </div>
+            <!-- End - First Name, Last Name, Gender -->
+
+            <!-- Start - Address, City, District -->
+                <div class="form-row" style="padding-bottom: 10px">
+                  <div class="col-md-7 mb-3">
+                    <label for="patientAddress">Address</label>
+                    <input readonly type="text" class="form-control" id="patientAddress" name="patientAddress" [(ngModel)]="clickedPatient.address">
+                  </div>
+                  <div class="col-md-3 mb-3">
+                      <label for="patientCity">City</label>
+                      <input readonly type="text" class="form-control" id="patientCity" name="patientCity" [(ngModel)]="clickedPatient.city">
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                      <label for="patientDistrict">District</label>
+                      <input readonly type="text" class="form-control" id="patientDistrict" name="patientDistrict" [(ngModel)]="clickedPatient.district">
+                    </div>
+              </div>
+            <!-- End - Address, City, District -->
+
+            <!-- Start - NIC, Date of Birth, Maritall Status-->
+                <div class="form-row">
+                    <div class="col-md-4 mb-3" >
+                        <label for="patientNIC">NIC</label>
+                        <div >
+                          <input readonly type="text" class="form-control" id="patientNIC" name="patientNIC" [(ngModel)]="clickedPatient.nic">
+                        </div>
+                    </div>
+
+                      <div class="col-md-4 mb-3" style="padding-left: 50px">
+                            <label for="">Date of Birth</label>
+                            <input  readonly type="text" class="form-control" id="dob" name="dob" [(ngModel)]="clickedPatient.dob">
+
+                    </div>
+
+                    <div class="col-md-4 mb-3" style="padding-left: 27px">
+                      <label for="maritalStatus">Marital Status</label><br>
+                      <input  readonly type="text" class="form-control" id="maritalStatus" name="maritalStatus" [(ngModel)]="clickedPatient.maritalStatus">
+                    </div>
+                </div>
+            <!-- End - NIC, Date of Birth, Maritall Status-->
+
+            <!-- Start - Contact Number, Email-->
+                <div class="form-row">
+                    <div class="col-md-4 mb-3" >
+                        <label for="patientContactNumber">Contact Number</label>
+                        <div style="padding-top: 10px">
+                            <input  readonly type="text" class="form-control" id="patientContactNumber" name="patientContactNumber" [(ngModel)]="clickedPatient.contactNumber">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3" >
+                        <label for="patientEmail">Email</label>
+                        <div style="padding-top: 10px">
+                            <input readonly type="text" class="form-control" id="patientEmail" name="patientEmail" [(ngModel)]="clickedPatient.email">
+                        </div>
+                    </div>
+                </div>
+            <!-- End - Contact Number, Email-->
+            </div>
+            <!-- End - Patient Information Panel -->
+
+            <!-- Start - Guardian Information Panel -->
+            <div class="container border border-secondary divGuardianInfo">
+              <p class="font-weight-bold">Responsible Party</p>
+            <!-- Start - Responsible party type -->
+              <div class="form-group row">
+                 <div class="col-2">
+                  <label for="responsibleParty" class="form-label">Responsible Party</label>
+                </div>
+                <div c lass="col-3">
+                    <input readonly type="text" class="form-control" id="responsibleParty" name="responsibleParty" [(ngModel)]="clickedPatient.guardian.guardianType">
+                </div>
+              </div>
+                <!-- End - Responsible party type -->
+                <!-- Start - First Name, Last Name, Gender -->
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                      <label for="guardianFirstName">First name</label>
+                      <input readonly type="text" class="form-control" id="guardianFirstName" name="guardianFirstName" [(ngModel)]="clickedPatient.guardian.firstname">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                      <label for="guardianLastName">Last name</label>
+                      <input readonly type="text" class="form-control" id="guardianLastName" name="guardianLastName" [(ngModel)]="clickedPatient.guardian.lastname">
+                    </div>
+
+                  <div class="col-md-4 mb-3" style="padding-left: 27px">
+                      <label >Gender</label>
+                      <div>
+                          <input readonly type="text" class="form-control" id="guardianGender" name="guardianGender" [(ngModel)]="clickedPatient.guardian.gender">
+                      </div>
+                    </div>
+                  </div>
+            <!-- End - First Name, Last Name, Gender -->
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="guardianNIC">NIC</label>
+                    <input readonly type="text" class="form-control" id="guardianNIC" name="guardianNIC" [(ngModel)]="clickedPatient.guardian.NIC">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="guardianContactNumber">Contact Number</label>
+                    <input readonly type="text" class="form-control" id="guardianContactNumber" name="guardianContactNumber" [(ngModel)]="clickedPatient.guardian.contactNumber">
+                </div>
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 " style="margin-right: 5px; margin-top: 10px; padding-top: 10px">
+                  <p class="font-weight-bold">Appointment History of the Patient </p>
+                  <div class="card border-primary  mb-3"  *ngFor="let element of clickedPatientNormalAppointments">
+                      <div class="card-header">
+                          <div class="row">
+                              <div class="col-sm-4">
+                                  <div class="form-group row">
+                                      <label for="appointmentDate_previous" class="col-sm-7 col-form-label">Appointment Date</label>
+                                      <div class="col-sm-5">
+                                        <label style="padding-top: 5px" class="font-weight-bold">{{element.appointmentDate}}</label>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="form-group row">
+                                      <label for="appointmentNumber_previous" class="col-sm-6 col-form-label">Appointment No.</label>
+                                      <div class="col-sm-6">
+                                        <label style="padding-top: 5px" class="font-weight-bold">APP/{{element.appointmentNumber}}</label>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="form-group row">
+                                      <label for="doctor" class="col-sm-4 col-form-label">Doctor</label>
+                                      <div class="col-sm-8">
+                                        <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.doctor[0].name.firstname}} {{element.doctor[0].name.lastname}}</label>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-body text-dark">
+                          <div class="form-group row">
+                              <label for="appointmentStatus" class="col-sm-3 col-form-label">Appointment Status</label>
+                              <div class="col-sm-5">
+                                  <input readonly type="text" class="form-control" id="appointmentStatus" name="appointmentStatus"  placeholder="" value={{element.appointmentStatus}}>
+                                </div>
+                          </div>
+                          <div class="form-group row">
+                              <label for="symptoms_previous" class="col-sm-2 col-form-label">Symptoms</label>
+                              <div class="col-sm-10">
+                                <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"   value={{element.symptoms}}></textarea>
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <label for="disease_previous" class="col-sm-2 col-form-label">Disease</label>
+                              <div class="col-sm-10">
+                                <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"   value={{element.disease}}>
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <label for="prescription_previous" class="col-sm-2 col-form-label">Drug Prescription</label>
+                              <div class="col-sm-10">
+                                <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"   value={{element.prescription}}></textarea>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+                  <div class="card border-primary  mb-3"  *ngFor="let element of clickedPatientOnlineAppointments">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="appointmentDate_previous" class="col-sm-7 col-form-label">Appointment Date</label>
+                                    <div class="col-sm-5">
+                                      <label style="padding-top: 5px" class="font-weight-bold">{{element.appointmentDate}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="appointmentNumber_previous" class="col-sm-6 col-form-label">Appointment No.</label>
+                                    <div class="col-sm-6">
+                                      <label style="padding-top: 5px" class="font-weight-bold">eAPP/{{element.appointmentNumber}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="doctor" class="col-sm-4 col-form-label">Doctor</label>
+                                    <div class="col-sm-8">
+                                      <label style="padding-top: 5px" class="font-weight-bold">Dr. {{element.doctor[0].name.firstname}} {{element.doctor[0].name.lastname}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body text-dark">
+                        <div class="form-group row">
+                            <label for="appointmentStatus" class="col-sm-3 col-form-label">Appointment Status</label>
+                            <div class="col-sm-5">
+                                <input readonly type="text" class="form-control" id="appointmentStatus" name="appointmentStatus"  value={{element.appointmentStatus}}>
+                              </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="symptoms_previous" class="col-sm-2 col-form-label">Symptoms</label>
+                            <div class="col-sm-10">
+                              <textarea readonly type="text" class="form-control" id="symptoms_previous" name="symptoms_previous"  value={{element.symptoms}}></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="disease_previous" class="col-sm-2 col-form-label">Disease</label>
+                            <div class="col-sm-10">
+                              <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  value={{element.disease}}>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="prescription_previous" class="col-sm-2 col-form-label">Drug Prescription</label>
+                            <div class="col-sm-10">
+                              <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  value={{element.prescription}}></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+              </div>
+          </div>
+    </div>
+</cdk-virtual-scroll-viewport>

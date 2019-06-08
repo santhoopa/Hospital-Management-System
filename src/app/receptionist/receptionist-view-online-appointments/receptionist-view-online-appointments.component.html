@@ -12,7 +12,7 @@
                 </select>
                </div>
           </div>
-              <div class="form-group row">
+              <div class="form-group row" *ngIf="showTable_ViewAppointments">
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -68,7 +68,7 @@
                             </select>
                           </div>
                       </div>
-                          <div class="form-group row">
+                          <div class="form-group row" *ngIf="showTable_LinkPatient">
                             <table class="table table-striped">
                               <thead>
                                 <tr>
@@ -133,8 +133,11 @@
                 <form (submit)="linkPatient(form)" #form="ngForm">
                   <div class="form-group row" style="padding-top: 20px">
                       <label for="patientRegistrationNumber" class="col-sm-6 col-form-label">Enter the Registration Number of the patient to be linked</label>
-                      <div class="col-sm-4">
-                        <input (keyup)="onSearchPatient($event)"type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number">
+                      <div class="col-sm-4 input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text col" id="basic-addon3">PAT/</span>
+                            </div>
+                        <input (keyup)="onSearchPatient($event)"type="number" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number">
                       </div>
                   </div>
 
@@ -153,7 +156,7 @@
             </mat-horizontal-stepper>
 
   </mat-tab>
-  <mat-tab label="View Online Appointments">
+  <!-- <mat-tab label="View Online Appointments">
 
-  </mat-tab>
+  </mat-tab> -->
 </mat-tab-group>

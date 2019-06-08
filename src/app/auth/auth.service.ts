@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Router } from "@angular/router";
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService{
@@ -17,14 +18,13 @@ export class AuthService{
     return this.isAuthenticated;
   }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,private snackBar: MatSnackBar) {}
 
   createUser(){
    /**/
   }
 
   loginUser(username:string, role:string, password:string){
-    console.log("Reached Front");
     const user:user={
       username:username,
       role:role,
@@ -33,11 +33,9 @@ export class AuthService{
     this.http.post<{ token: string,username: string, role: string,registrationNumber:string}>
     ("http://localhost:3000/api/user/login", user)
     .subscribe(response => {
-      console.log("Making HTTP POST request to /api/user/login");
 
       const token = response.token;
       this.token = token;
-    //  console.log(this.token + "Front");
       if (token) {
         this.isAuthenticated = true;
 
@@ -55,7 +53,12 @@ export class AuthService{
         }
       }
 
-    });
+    },
+    err=>{
+      console.log(err);
+      this.snackBar.open("Authentication Failed! Invalid username or password", "OK", {
+      });
+    })
   }
 
 

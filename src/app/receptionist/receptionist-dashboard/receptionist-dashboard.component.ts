@@ -17,7 +17,6 @@ export class ReceptionistDashboardComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.click("sasa","sasa");
   }
 
 

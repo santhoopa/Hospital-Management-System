@@ -3,7 +3,7 @@ const mongoose=require('mongoose');
 const admissionSchema=mongoose.Schema({
   admissionNumber:Number,
   patientRegistrationNumber:Number,
-  appointmentNmber:Number,
+  appointmentNmber:String,
   roomNumber:Number,
   admissionDate:Date,
   dischargeDate:Date,

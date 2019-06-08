@@ -49,7 +49,7 @@ router.post("/api/user/login",(req,res,next) => {
       }
      })
      .catch(err => {
-
+      console.log("Error: "+err)
     })
 
 

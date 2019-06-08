@@ -1,105 +1,32 @@
-import { MatSnackBar } from '@angular/material';
 import { Patient } from './../../models/patient.model';
+import { MatSnackBar } from '@angular/material';
+import { DoctorService } from './../doctor.service';
 import { Component, OnInit } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import { ReceptionistService } from '../receptionist.service';
 import { Subscription } from 'rxjs';
 
-// const patientData: Patient[]=[
-//   { patientRegistrationNumber: "PAT/001",
-//     name:{
-//     firstname:"Santhoopa",
-//     lastname:"Jayawardhana",
-//     },
-//     gender:"Male",
-//     address:"139/3,Kandy",
-//     dob:"1995/12/04",
-//     city:"Gampaha",
-//     district:"Colombo",
-//     nic:"95339440",
-//     maritalStatus:"Married",
-//     contactNumber:123,
-//     email:"santhoopa@gmail.com",
-//     guardian:{
-//       guardianType:"self",
-//       firstname:"null",
-//       lastname:"null",
-//       gender:"null",
-//       NIC:"null",
-//       contactNumber: 123,
-//      },
-//     },
-//     { patientRegistrationNumber: "PAT/001",
-//     name:{
-//     firstname:"Santhoopa",
-//     lastname:"Jayawardhana",
-//     },
-//     gender:"Male",
-//     address:"139/3,Kandy",
-//     dob:"1995/12/04",
-//     city:"Gampaha",
-//     district:"Colombo",
-//     nic:"95339440",
-//     maritalStatus:"Married",
-//     contactNumber:123,
-//     email:"santhoopa@gmail.com",
-//     guardian:{
-//       guardianType:"self",
-//       firstname:"null",
-//       lastname:"null",
-//       gender:"null",
-//       NIC:"null",
-//       contactNumber: 123,
-//      },
-//     },
-//     { patientRegistrationNumber: "PAT/001",
-//     name:{
-//     firstname:"Santhoopa",
-//     lastname:"Jayawardhana",
-//     },
-//     gender:"Male",
-//     address:"139/3,Kandy",
-//     dob:"1995/12/04",
-//     city:"Gampaha",
-//     district:"Colombo",
-//     nic:"95339440",
-//     maritalStatus:"Married",
-//     contactNumber:123,
-//     email:"santhoopa@gmail.com",
-//     guardian:{
-//       guardianType:"Father",
-//       firstname:"B",
-//       lastname:"Jayawardhana",
-//       gender:"Male",
-//       NIC:"56565656",
-//       contactNumber: 123,
-//      },
-//     },
-//     ]
-
-
 @Component({
-  selector: 'app-receptionist-view-patient-details',
-  templateUrl: './receptionist-view-patient-details.component.html',
-  styleUrls: ['./receptionist-view-patient-details.component.css'],
+  selector: 'app-doctor-view-patient',
+  templateUrl: './doctor-view-patient.component.html',
+  styleUrls: ['./doctor-view-patient.component.css']
 })
-export class ReceptionistViewPatientDetailsComponent implements OnInit {
-  displayedColumns: string[] = ['patientRegistrationNumber','patientFirstName','patientLastName','patientGender','patientAddress','patientCity','patientDistrict','patientNIC','patientDOB','patientmaritalStatus','patientContact','patientemail','guardianName','guardianGender','guardianNIC','guardianContact'];
-  dataSource = null;
-  private patientsSub: Subscription;
-  apps=[{},{}]
-  showTable=true;
-  showForm=false;
-  constructor(public receptionistService: ReceptionistService,private snackBar: MatSnackBar) { }
+export class DoctorViewPatientComponent implements OnInit {
+
+  constructor(public doctorService: DoctorService,private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
+
+  displayedColumns: string[] = ['patientRegistrationNumber','patientFirstName','patientLastName','patientGender','patientAddress','patientCity','patientDistrict','patientNIC','patientDOB','patientmaritalStatus','patientContact','patientemail','guardianName','guardianGender','guardianNIC','guardianContact'];
+  dataSource = null;
+  showTable=true;
+  showForm=false;
+  private patientsSub: Subscription;
   private newPatients:Patient[]=[];
 
   searchPatient(keyupevent:KeyboardEvent){
     //console.log((<HTMLInputElement>keyupevent.target).value.charCodeAt);
-    this.receptionistService.searchPatients((<HTMLInputElement>keyupevent.target).value);
-    this.patientsSub=this.receptionistService.getPatienttUpdateListner()
+    this.doctorService.searchPatients((<HTMLInputElement>keyupevent.target).value);
+    this.patientsSub=this.doctorService.getPatienttUpdateListner()
     .subscribe((patients:Patient[])=> {
       this.dataSource=patients;
       // console.log("This is postUpdateListener ");
@@ -126,7 +53,7 @@ export class ReceptionistViewPatientDetailsComponent implements OnInit {
      this.showTable=false;
      this.clickedPatientNormalAppointments=[];
      this.clickedPatientOnlineAppointments=[]
-     this.receptionistService.getPreviousAppointments_ViewPatient(patient.patientRegistrationNumber).subscribe(response =>{
+     this.doctorService.getPreviousAppointments_ViewPatient(patient.patientRegistrationNumber).subscribe(response =>{
       response.normal_appointments.map(normalApp => {
         normalApp.appointmentDate=new Date(normalApp.appointmentDate).toDateString();
         normalApp.disease=(normalApp.disease==null) ? "N/A":normalApp.disease;

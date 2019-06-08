@@ -54,6 +54,7 @@ import { DoctorComponent } from './doctor/doctor.component';
 import { DoctorSidemenuComponent } from './doctor-sidemenu/doctor-sidemenu.component';
 import { DoctorRoutingModule } from './doctor-routing.module';
 import { DoctorAppointmentsComponent } from './doctor-appointments/doctor-appointments.component';
+import { DoctorViewPatientComponent } from './doctor-view-patient/doctor-view-patient.component';
 
 
 @NgModule({
@@ -112,6 +113,8 @@ import { DoctorAppointmentsComponent } from './doctor-appointments/doctor-appoin
 
   DoctorSidemenuComponent,
 
-  DoctorAppointmentsComponent]
+  DoctorAppointmentsComponent,
+
+  DoctorViewPatientComponent]
 })
 export class DoctorModule{}

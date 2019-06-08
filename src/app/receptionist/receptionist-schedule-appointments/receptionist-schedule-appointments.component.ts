@@ -89,6 +89,7 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
 
 
   onScheduleAppointment(scheduleAppointmentForm: NgForm){
+    console.log(scheduleAppointmentForm.value)
     if(scheduleAppointmentForm.invalid)
     {
       this.snackBar.open("Please Enter Valid Details ", "OK", {
@@ -100,8 +101,8 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
         let raw_appNo=scheduleAppointmentForm.value.appointmentNumber;
         let appNo=raw_appNo.replace( /^\D+/g, '');
 
-        let raw_patientNo=scheduleAppointmentForm.value.patientRegistrationNumber;
-        let patientNo=raw_patientNo.replace( /^\D+/g, '');
+        // let raw_patientNo=scheduleAppointmentForm.value.patientRegistrationNumber;
+        // let patientNo=raw_patientNo.replace( /^\D+/g, '');
 
         let raw_appointment_date=scheduleAppointmentForm.value.appointmentDate;
         let appointment_date = raw_appointment_date.getFullYear() + "-" + (raw_appointment_date.getMonth() + 1) + "-" + raw_appointment_date.getDate()
@@ -114,7 +115,7 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
         const appointment:ManualAppointment={
           appointmentNumber: appNo,
           doctorRegistrationNumber:scheduleAppointmentForm.value.selectDoctor,
-          patientRegistrationNumber: patientNo,
+          patientRegistrationNumber: scheduleAppointmentForm.value.patientRegistrationNumber,
           timeSlot:scheduleAppointmentForm.value.selectTimeSlot,
           appointmentDate:new Date(scheduleAppointmentForm.value.appointmentDate).toDateString(),
           dateCreated:formatted_current_date

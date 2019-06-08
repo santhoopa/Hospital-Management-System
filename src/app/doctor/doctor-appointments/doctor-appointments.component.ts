@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { DoctorService } from './../doctor.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +12,7 @@ import { Router } from "@angular/router";
 })
 export class DoctorAppointmentsComponent implements OnInit {
 
-  constructor(public activate:ActivatedRoute,public doctorService: DoctorService,private router: Router) { }
+  constructor(public activate:ActivatedRoute,public doctorService: DoctorService,private router: Router,private snackBar: MatSnackBar) { }
   onlineAppointments_ByDate=[];
   normalAppointments_ByDate=[];
   currentDoctorRegNo;
@@ -33,6 +34,12 @@ export class DoctorAppointmentsComponent implements OnInit {
     this.normalAppointments_ByDate=[];
     this.doctorService.getAppointments_ByDate(this.currentDoctorRegNo,appointmentDate).subscribe(response => {
      // console.log(response);
+      if(response.normal_appointments.length==0 && response.online_appointments==0){
+        this.snackBar.open( "No results", "OK", {
+          panelClass: ['error']
+        });
+        return
+      }
       response.normal_appointments.map(normalApp => {
         //console.log(normalApp)
         //console.log("he")

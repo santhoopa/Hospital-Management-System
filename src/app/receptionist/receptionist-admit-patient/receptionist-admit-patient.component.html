@@ -18,10 +18,13 @@
                       </div>
                       <div class="form-group row">
                           <label for="patientRegistrationNumber" class="col-sm-4 col-form-label">Patient Reg. No</label>
-                          <div class="col-sm-8">
-                            <input (keyup)="onSearchPatient($event)" type="text" ngModel #patientRegistrationNumber="ngModel" class="form-control" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number" required>
-                            <div  style="margin-bottom: 0px"class="alert alert-danger" *ngIf="!patientRegistrationNumber.valid && patientRegistrationNumber.touched && !patientName.valid">Enter Valid Registration Number</div>
+                          <div class="col-sm-8 input-group">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text col" id="basic-addon3">PAT/</span>
+                                </div>
+                            <input (keyup)="onSearchPatient($event)" type="number" ngModel #patientRegistrationNumber="ngModel" class="form-control col" id="patientRegistrationNumber"  name="patientRegistrationNumber" placeholder="Enter Patient Registration Number" required>
                           </div>
+                          <div  style="margin-bottom: 0px; margin-left: 204px"class="alert alert-danger" *ngIf="!patientRegistrationNumber.valid && patientRegistrationNumber.touched && !patientName.valid">Enter Valid Registration Number</div>
                       </div>
 
                       <div class="form-group row">
@@ -34,11 +37,17 @@
 
                       <div class="form-group row">
                           <label for="selectAppointmentNumber" class="col-sm-4 col-form-label">Select Appointment No. (If any)</label>
-                          <div class="col-sm-8" style="padding-top: 20px">
-                              <select ngModel #selectAppointmentNumber="ngModel"class="custom-select" name="selectAppointmentNumber" id="selectAppointmentNumber">
+                          <div class="col-sm-4" style="padding-top: 20px">
+                              <!-- <select ngModel #selectAppointmentNumber="ngModel"class="custom-select" name="selectAppointmentNumber" id="selectAppointmentNumber">
                                   <option value="">Choose...</option>
-
-                              </select>
+                              </select> -->
+                              <mat-radio-group ngModel #appointmentType="ngModel" name="appointmentType">
+                                <mat-radio-button value="APP/">APP</mat-radio-button>
+                                <mat-radio-button value="eAPP/">eAPP</mat-radio-button>
+                             </mat-radio-group>
+                          </div>
+                          <div class="col-sm-3" style="padding-top: 15px">
+                            <input type="number" ngModel #appointmentNumber="ngModel" class="form-control" id="appointmentNumber" name="appointmentNumber">
                           </div>
                       </div>
 
@@ -122,12 +131,15 @@
                 <div class="col-sm-6 border border-secondary" style="padding-top: 10px">
                 <form>
                     <p class="font-weight-bold">Discharge Patients</p>
-                  <div class="form-group row border border-secondary" style="margin-left: 10px; margin-right: 10px; padding-top: 10px; padding-bottom: 10px">
+                  <div class="form-group row border border-secondary" style="margin-left: 10px; padding-right:10px; margin-right: 10px; padding-top: 10px; padding-bottom: 10px">
                       <label for="searchAdmissionNumber" class="col-sm-5 col-form-label">Enter Admission No.</label>
-                      <div class="col-sm-5">
-                        <input  #searchBox type="text" class="form-control" id="searchAdmissionNumber" name="searchAdmissionNumber" required>
+                      <div class="col-sm-5 input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text col" id="basic-addon3">ADM/</span>
+                            </div>
+                        <input  #searchBox type="number" class="form-control" id="searchAdmissionNumber" name="searchAdmissionNumber" required>
                       </div>
-                      <button (click)="searchAdmission(searchBox.value)"type="button" class="btn btn-sm btn-outline-success">Search</button>
+                      <button (click)="searchAdmission(searchBox.value)" type="button" class="btn btn-sm btn-outline-success col-2" style="padding-top: 5px;">Search</button>
                   </div>
 
                   <div class="form-group row">

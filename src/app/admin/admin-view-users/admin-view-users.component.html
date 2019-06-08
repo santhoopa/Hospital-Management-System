@@ -1,0 +1,25 @@
+<div class=" container info border border-dark">
+    <p class="font-weight-bold">System User Information</p>
+    <div class="form-row">
+      <div class="col">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">User Type</th>
+              <th scope="col">Registration Number</th>
+              <th scope="col">Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of systemUsers">
+              <td>{{user.username}}</td>
+              <td><p class="text-capitalize">{{user.role}}</p></td>
+              <td>{{user.registrationNumber}}</td>
+              <td>{{user.doctor[0].name.firstname}} {{user.doctor[0].name.lastname}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>

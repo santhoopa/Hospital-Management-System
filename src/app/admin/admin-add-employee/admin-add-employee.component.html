@@ -1,6 +1,14 @@
+<!-- <p class="text-center font-weight-bold">Register Employee</p> -->
+<!-- <p class="text-lg-center h5">Register Employee</p> -->
+<!-- <div class="p-3 mb-2 bg-secondary text-white" style="margin-top: 5px;  width: 1055px">Register Employee</div> -->
 
 <div class="container scroll" style="border-top: 1000px">
   <!-- <p class="font-weight-bold">Doctor Registration</p> -->
+  <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h5 mb-0 text-gray-800">Register Employee</h1>
+  </div> -->
+
+
   <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
 
 <form  (submit)="onRegisterEmployee(employeeRegistrationForm)" #employeeRegistrationForm="ngForm">
@@ -97,11 +105,6 @@
               <option value="Trincomalee">Trincomalee</option>
               <option value="Vavuniya">Vavuniya</option>
 
-
-              <option value="Colombo">Colombo</option>
-              <option value="Gampaha">Gampaha</option>
-              <option value="Kaluthara">Kaluthara</option>
-              <option value="Kandy">Kandy</option>
           </select>
           <div class="alert alert-danger" *ngIf="!employeeDistrict.valid && employeeDistrict.touched">Select a district</div>
         </div>

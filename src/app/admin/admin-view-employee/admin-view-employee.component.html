@@ -9,12 +9,12 @@
            </div>
   </div>
 
-  <div *ngIf="false">
+  <div *ngIf="showTable">
     <table mat-table [dataSource]="emloyeeSource" class="mat-elevation-z8">
         <!-- Start -  Employee Registration Number-->
                 <ng-container matColumnDef="employeeRegistrationNumber" sticky>
                     <th mat-header-cell *matHeaderCellDef>Registration No. </th>
-                    <td mat-cell *matCellDef="let element">EMP/{{element.employeeRegistrationNumber}}  <button class="btn btn-sm btn-info" (click)="viewPatient(element)">View Profile</button></td>
+                    <td mat-cell *matCellDef="let element">EMP/{{element.employeeRegistrationNumber}}  <button class="btn btn-sm btn-info" (click)="viewEmployee(element)">View Profile</button></td>
                 </ng-container>
         <!-- End -  Employee Registration Number-->
 
@@ -114,102 +114,109 @@
       </table>
     </div>
 
-    <div class="border border-dark employeeInfo">
+    <div *ngIf="showForm" class="border border-dark employeeInfo">
         <!-- <div class="col employeeInfo"> -->
           <div class="row">
               <p class="font-weight-bold col-10">Employee Information</p>
-              <button class="btn btn-info col-1">Back</button>
+              <button (click)="onBack()" class="btn btn-info col-1">Back</button>
           </div>
           <br>
           <div class="form-group row">
-              <label for="patientRegistrationNumber" class="col-3 col-form-label">Employee Reg. No</label>
-              <div class="col-sm-3">
-                <input type="text"  style="font-weight:bold" class="form-control" id="patientRegistrationNumber" name="patientRegistrationNumber" readonly [(ngModel)]="a">
+              <label for="employeeRegistrationNumber" class="col-3 col-form-label">Employee Reg. No</label>
+              <div class="col-sm-3 input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text col" id="basic-addon3">EMP/</span>
+                    </div>
+                <input type="text"  style="font-weight:bold" class="form-control" id="employeeRegistrationNumber" name="employeeRegistrationNumber" readonly [(ngModel)]="clickedEmployee.employeeRegistrationNumber">
               </div>
-              <label for="patientName" class="col-sm-2 col-form-label">Employee Type</label>
+              <label for="employeeType" class="col-sm-2 col-form-label">Employee Type</label>
               <div class="col-sm-4">
-               <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+               <input type="text"  class="form-control" id="employeeType" name="employeeType" readonly placeholder="" [(ngModel)]="clickedEmployee.employeeType">
               </div>
           </div>
           <div class="form-group row">
-              <label for="patientName" class="col-sm-2 col-form-label">First Name</label>
+              <label for="employeeFirstName" class="col-sm-2 col-form-label">First Name</label>
               <div class="col-sm-4">
-                <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="employeeFirstName" name="employeeFirstName" readonly placeholder="" [(ngModel)]="clickedEmployee.name.firstname">
               </div>
-              <label for="patientName" class="col-sm-2 col-form-label">Last Name</label>
+              <label for="employeeLastName" class="col-sm-2 col-form-label">Last Name</label>
               <div class="col-sm-4">
-                <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="employeeLastName" name="employeeLastName" readonly placeholder="" [(ngModel)]="clickedEmployee.name.lastname">
               </div>
           </div>
           <div class="form-group row">
-              <label for="patientName" class="col-sm-2 col-form-label">Full Name</label>
+              <label for="employeeFullname" class="col-sm-2 col-form-label">Full Name</label>
               <div class="col-sm-8">
-                <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="employeeFullname" name="employeeFullname" readonly placeholder="" [(ngModel)]="clickedEmployee.name.fullname">
               </div>
           </div>
           <div class="form-group row">
               <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
               <div class="col-sm-4">
-                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="clickedEmployee.dob">
               </div>
               <label for="nic" class="col-sm-2 col-form-label">NIC</label>
               <div class="col-sm-4">
-                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="clickedEmployee.nic">
               </div>
           </div>
           <div class="form-group row">
-              <label for="dob" class="col-sm-2 col-form-label">Gender</label>
+              <label for="gender" class="col-sm-2 col-form-label">Gender</label>
               <div class="col-sm-4">
-                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="gender" name="gender" readonly placeholder="" [(ngModel)]="clickedEmployee.gender">
               </div>
-              <label for="nic" class="col-sm-2 col-form-label">Marital Status</label>
+              <label for="maritalStatus" class="col-sm-2 col-form-label">Marital Status</label>
               <div class="col-sm-4">
-                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="maritalStatus" name="maritalStatus" readonly placeholder="" [(ngModel)]="clickedEmployee.maritalStatus">
               </div>
           </div>
           <div class="form-group row">
               <label for="address" class="col-sm-2 col-form-label">Address</label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="address" name="address" readonly placeholder="" [(ngModel)]="a">
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="address" name="address" readonly placeholder="" [(ngModel)]="clickedEmployee.address">
+              </div>
+              <label for="contactNumber" class="col-sm-2 col-form-label">Contact Number</label>
+              <div class="col-sm-2">
+                <input type="text"  class="form-control" id="contactNumber" name="contactNumber" readonly placeholder="" [(ngModel)]="clickedEmployee.contactNumber">
               </div>
           </div>
           <div class="form-group row">
-              <label for="dob" class="col-sm-1 col-form-label">City</label>
+              <label for="city" class="col-sm-1 col-form-label">City</label>
               <div class="col-sm-2">
-                <input type="text"  class="form-control" id="dob" name="dob" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="city" name="city" readonly placeholder="" [(ngModel)]="clickedEmployee.city">
               </div>
-              <label for="nic" class="col-sm-1 col-form-label">District</label>
+              <label for="district" class="col-sm-1 col-form-label">District</label>
               <div class="col-sm-3">
-                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="clickedEmployee.district">
               </div>
               <label for="nic" class="col-sm-2 col-form-label">Date Joined</label>
               <div class="col-sm-3">
-                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="a">
+                <input type="text"  class="form-control" id="nic" name="nic" readonly placeholder="" [(ngModel)]="clickedEmployee.joinedDate">
               </div>
           </div>
       <!-- </div> -->
 
     </div>
 
-    <div class="border border-dark employeeInfo">
+    <div *ngIf="showForm" class="border border-dark employeeInfo">
         <p class="font-weight-bold">Employee Qualifications</p>
         <div class="form-group row">
           <label for="patientName" class="col-sm-3 col-form-label">Highest Qualification Level</label>
           <div class="col-sm-5">
-            <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="a">
+            <input type="text"  class="form-control" id="patientName" name="patientName" readonly placeholder="" [(ngModel)]="clickedEmployee.highestEducationalQualification">
           </div>
         </div>
-        <div class="card border-primary  mb-3"  *ngFor="let element of b">
+        <div class="card border-primary  mb-3"  *ngFor="let element of clickedEmployeeQualifications">
 
           <div class="card-body text-dark">
               <div class="form-group row">
                   <label for="symptoms_previous" class="col-2 col-form-label">Qualification</label>
                   <div class="col-sm-6">
-                      <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="element.appointment.disease">
+                      <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="{{element.qualification}}">
                     </div>
                   <label for="disease_previous" class="col-1 col-form-label">Year</label>
                   <div class="col-sm-3">
-                    <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="element.appointment.disease">
+                    <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="{{element.year}}">
                   </div>
               </div>
               <div class="form-group row">
@@ -219,21 +226,21 @@
 
                   <label for="prescription_previous" class="col-2 col-form-label">Institute</label>
                   <div class="col-sm-10">
-                      <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="element.appointment.disease">
+                      <input readonly type="text" class="form-control" id="disease_previous" name="disease_previous"  placeholder="" value="{{element.institute}}">
                     </div>
               </div>
               <div class="form-group row">
 
                   <label for="prescription_previous" class="col-2 col-form-label">Grade</label>
                   <div class="col-sm-10">
-                    <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value="element.appointment.prescription"></textarea>
+                    <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value="{{element.grade}}"></textarea>
                   </div>
               </div>
               <div class="form-group row">
 
                   <label for="prescription_previous" class="col-2 col-form-label">Description</label>
                   <div class="col-sm-10">
-                    <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value="element.appointment.prescription"></textarea>
+                    <textarea readonly type="text" class="form-control" id="prescription_previous" name="prescription_previous"  placeholder="" value="{{element.description}}"></textarea>
                   </div>
               </div>
 

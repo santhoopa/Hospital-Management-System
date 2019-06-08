@@ -11,10 +11,7 @@ export class AdminService{
   constructor(private http: HttpClient, private router: Router) {}
 
   signupUser(user:User){
-    console.log("This is user");
-    this.http.post("http://localhost:3000/api/user/signup",user).subscribe((responseData)=>{
-
-    });
+    return this.http.post<{message:string, userAdded:boolean}>("http://localhost:3000/api/user/signup",user);
 
   }
 
@@ -30,10 +27,7 @@ export class AdminService{
   }
 
   signupDoctor(user:User){
-    console.log("This is doctor");
-    this.http.post("http://localhost:3000/api/doctor/signup",user).subscribe((responseData)=>{
-
-    });
+    return this.http.post<{message:string, userAdded:boolean}>("http://localhost:3000/api/doctor/signup",user);
   }
 
   registerEmployee(employee:any){
@@ -57,5 +51,9 @@ export class AdminService{
     return this.http.get<{employees:any}>("http://localhost:3000/api/employee/getEmployees/"+keyword);
 
 
+  }
+
+  getSystemUsers(){
+    return this.http.get<{users:any}>("http://localhost:3000/api/user/userDetails");
   }
 }

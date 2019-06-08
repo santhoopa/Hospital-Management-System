@@ -4,8 +4,11 @@
       <p class="font-weight-bold">Find Doctor</p>
           <div class="form-group row">
               <label for="searchBox" class="col-sm-4 col-form-label">Enter Doctor Registration Number</label>
-              <div class="col-sm-5">
-                <input  #searchBox type="text" class="form-control" id="searchBox" placeholder="Search">
+              <div class="col-sm-5 input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text col" id="basic-addon3">DR/</span>
+                    </div>
+                <input  #searchBox type="number" class="form-control" id="searchBox" placeholder="Enter Registration No ">
               </div>
               <button (click)="searchDoctor(searchBox.value)" type="button" class="btn btn-outline-success">Search</button>
           </div>
@@ -19,7 +22,10 @@
           <!-- Start - Doctor Registration Number row -->
           <div class="form-group row">
                 <label for="doctorRegistrationNumber" class="col-sm-4 col-form-label">Doctor Registration Number:</label>
-              <div class="col-sm-3">
+              <div class="col-sm-3 input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text col" id="basic-addon3">DR/</span>
+                    </div>
                 <input readonly type="text" class="form-control" id="doctorRegistrationNumber" name="doctorRegistrationNumber" [(ngModel)]="doctor.doctorRegistrationNumber">
               </div>
           </div>

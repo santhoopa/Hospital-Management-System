@@ -12,18 +12,11 @@ const OnlineAppointment=require('../models/online_appointment');
 router.post("/api/profiles/doctor/getAppointmentsByDate",(req,res,next) => {
   let normal_appointments=[];
   let online_appointments=[];
-  //console.log()
-  // var raw_appointment_date=new Date(req.body.appointmentDate);
-  //console.log(new Date(String(req.body.appointmentDate)));
   let date=new Date(req.body.appointmentDate);
-  // console.log(req.body)
-   console.log(new Date(req.body.appointmentDate));
-   //console.log(req.bo)
-  console.log(req.body)
+  //console.log(new Date(req.body.appointmentDate));
+  //console.log(req.body)
   var today = new Date();
-   console.log(today);
-  //console.log(new Date(date.getUTCFullYear()+"-"+date.getUTCMonth()+"-"+date.getUTCDate()));
-  // console.log(req.body.appointmentDate);
+   //console.log(today);
   Appointment.aggregate([
     { $match: { "doctorRegistrationNumber" : Number(req.body.doctorRegistrationNumber) } },
     { $match: { "appointmentDate" : new Date(req.body.appointmentDate)}},
@@ -79,7 +72,9 @@ router.post("/api/profiles/doctor/saveTreatmentInformation_Normal",(req,res,next
     res.status(200).json({
      results:results
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 //Doctor - Saving Treament Information - Online Appointments
@@ -91,7 +86,9 @@ router.post("/api/profiles/doctor/saveTreatmentInformation_Online",(req,res,next
     res.status(200).json({
      results:results
     });
-  });
+  }).catch( err => {
+    console.log("Error: "+err);
+  })
 });
 
 

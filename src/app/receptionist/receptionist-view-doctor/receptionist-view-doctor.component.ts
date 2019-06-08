@@ -53,15 +53,15 @@ export class ReceptionistViewDoctorComponent implements OnInit {
     this.showForm=false;
     console.log(keyword);
     let raw_doctorNo=keyword;
-    let doctorNo=raw_doctorNo.replace( /^\D+/g, '');
-    console.log(doctorNo=="")
+    // let doctorNo=raw_doctorNo.replace( /^\D+/g, '');
+    // console.log(doctorNo=="")
 
-    if(doctorNo==""){
+    if(raw_doctorNo==""){
       this.snackBar.open( "Invalid Input", "OK", {
         panelClass: ['error']
       });
     }else{
-      this.receptionistService.getDoctor(doctorNo).subscribe(result =>{
+      this.receptionistService.getDoctor(raw_doctorNo).subscribe(result =>{
         console.log(result.doctor==null);
         console.log("sdadja")
          if(result.doctor==null){
@@ -108,7 +108,7 @@ export class ReceptionistViewDoctorComponent implements OnInit {
      //  console.log(this.doctor.doctorRegistrationNumber);
       });
       this.doctorAvailability=[];
-      this.receptionistService.getDoctorAvailability(doctorNo).subscribe(results =>{
+      this.receptionistService.getDoctorAvailability(raw_doctorNo).subscribe(results =>{
         //console.log(results.timeSlots);
         results.timeSlots.map(timeSlot => {
           //console.log(timeSlot);

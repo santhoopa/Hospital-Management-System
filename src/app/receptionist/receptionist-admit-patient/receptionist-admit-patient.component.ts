@@ -122,6 +122,7 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
 
 
   onPatientAdmission(admissionForm: NgForm){
+    console.log(admissionForm.value);
     if(admissionForm.invalid)
     {
       this.snackBar.open("Please Enter Valid Details ", "OK", {
@@ -133,8 +134,8 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
       let raw_admission_date=admissionForm.value.selectAdmissionDate;
       let admission_date = raw_admission_date.getFullYear() + "-" + (raw_admission_date.getMonth() + 1) + "-" + raw_admission_date.getDate()
 
-      let raw_patientNo=admissionForm.value.patientRegistrationNumber;
-      let patientNo=raw_patientNo.replace( /^\D+/g, '');
+      let patientNo=admissionForm.value.patientRegistrationNumber;
+      //let patientNo=raw_patientNo.replace( /^\D+/g, '');
 
 
       let raw_admissionNo=admissionForm.value.admissionNumber;
@@ -143,7 +144,7 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
       const admission:Admission={
         admissionNumber:admissionNumber,
         patientRegistrationNumber:patientNo,
-        appointmentNmber:null,
+        appointmentNmber:admissionForm.value.appointmentType+""+admissionForm.value.appointmentNumber,
         roomNumber:admissionForm.value.selecRoom,
         admissionDate:admission_date,
         causeofAdmission:admissionForm.value.causeOfAdmission
@@ -174,6 +175,9 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
     this.getRoomAvailability()
     this.getVacantRooms();
     this.getNewAdmissionNumber();
+    this.snackBar.open( "Patient Successfuly Discharged", "OK", {
+      panelClass: ['success']
+    });
     });
   }
 

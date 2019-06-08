@@ -1,6 +1,7 @@
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ReceptionistService } from '../receptionist.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-receptionist-view-online-appointments',
@@ -9,7 +10,7 @@ import { ReceptionistService } from '../receptionist.service';
 })
 export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
 
-  constructor(public receptionistService: ReceptionistService) { }
+  constructor(public receptionistService: ReceptionistService,private snackBar: MatSnackBar) { }
   public doctors=[];
 
   ngOnInit() {
@@ -24,10 +25,20 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
     });
   }
   public onlineAppointment_byDoctor=[];
+  showTable_ViewAppointments=false;
   onChangeChooseDoctor_ViewOnlineAppointments(doctorRegistrationNumber:any){
     this.onlineAppointment_byDoctor=[];
+    this.showTable_ViewAppointments=false;
     this.receptionistService.viewOnlineAppointments_ByDoctor(doctorRegistrationNumber,"").subscribe(results =>{
-      results.onlineAppointments.map(appointment =>{
+      if(results.onlineAppointments.length!=0){
+        this.showTable_ViewAppointments=true;
+      }else{
+        this.snackBar.open("No results", null, {
+          duration:2000,
+          panelClass: ['error']
+        });
+      }
+        results.onlineAppointments.map(appointment =>{
         //console.log(appointment);
         const app={
           appointment:appointment,
@@ -42,9 +53,19 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
   }
 
   public onlineAppointments_LinkPatient=[];
+  showTable_LinkPatient=false;
   onChangeChooseDoctor_LinkPatient(doctorRegistrationNumber:any){
+    this.showTable_LinkPatient=false;
     this.onlineAppointments_LinkPatient=[];
     this.receptionistService.viewOnlineAppointments_ByDoctor_LinkPatient(doctorRegistrationNumber).subscribe(results =>{
+      if(results.onlineAppointments.length!=0){
+        this.showTable_LinkPatient=true;
+      }else{
+        this.snackBar.open("No online appointments to link", null, {
+          duration:2000,
+          panelClass: ['error']
+        });
+      }
       results.onlineAppointments.map(appointment =>{
         const app={
           appointment:appointment,
@@ -73,6 +94,12 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
 
   linkPatient(form:NgForm){
     console.log(form.value);
+    if(!this.isPatientFound){
+      this.snackBar.open("Please Select a valid Patient Registration Number", "OK", {
+        panelClass: ['error']
+      });
+      return
+    }
     this.receptionistService.linkPatient_OnlineAppointment(this.app_id,form.value.patientRegistrationNumber).subscribe(results => {
       console.log(results);
       this.firstName_LinkPatient="";
@@ -83,13 +110,17 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
       form.reset();
       this.onlineAppointment_byDoctor=[];
       this.onlineAppointments_LinkPatient=[]
-
+      this.isPatientFound=false;
+      this.snackBar.open("Patient Successfully Linked", "OK", {
+        panelClass: ['success']
+      });
     });
   }
 
 
   name:string;
   patientRegNo:string="";
+  isPatientFound=false;
  onSearchPatient(keyupevent:KeyboardEvent){
    this.name="";
    this.patientRegNo="";
@@ -99,6 +130,12 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
    this.receptionistService.getPatientName(enteredKeyword_num).subscribe(result =>{
      this.name=String(result.PatientFirstName)+" "+String(result.PatientLastName);
      this.patientRegNo=result.PatientNo;
+    console.log(result.PatientNo=="")
+    if(result.PatientNo==""){
+      this.isPatientFound=false;
+    }else{
+      this.isPatientFound=true;
+    }
    });
 
  }

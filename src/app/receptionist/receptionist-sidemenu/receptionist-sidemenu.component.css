@@ -1,6 +1,7 @@
 .blue{
-  background: #4bacb8 ;
-
+  background: #3b7a83 ;
+  /* background: #4bacb8 ; */
+  color:#ffffff;
 }
 .example-card {
   max-width: 400px;

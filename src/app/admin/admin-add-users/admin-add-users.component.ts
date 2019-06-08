@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { User } from './../../models/user.model';
 import { NgForm } from '@angular/forms';
 import { AdminService } from './../admin.service';
@@ -11,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class AdminAddUsersComponent implements OnInit {
 
-  constructor(public adminService: AdminService) { }
+  constructor(public adminService: AdminService,private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -24,7 +25,18 @@ export class AdminAddUsersComponent implements OnInit {
       registrationNumber: null,
       password: addUserForm.value.password,
     }
-    this.adminService.signupUser(user);
+    this.adminService.signupUser(user).subscribe((responseData)=>{
+      console.log(responseData.userAdded);
+      if(responseData.userAdded==true){
+        this.snackBar.open( "User Added", "OK", {
+          panelClass: ['success']
+        });
+      }else if(responseData.userAdded==false){
+        this.snackBar.open( "User Cannot be addded, username already exist. Enter Another Username", "OK", {
+          panelClass: ['error']
+        });
+      }
+    });
   }
 
   onAddDoctor(addDoctorForm : NgForm){
@@ -34,8 +46,18 @@ export class AdminAddUsersComponent implements OnInit {
       registrationNumber: Number(this.doctorRegNo),
       password: addDoctorForm.value.password,
     }
-    this.adminService.signupDoctor(user);
-    addDoctorForm.reset();
+    this.adminService.signupDoctor(user).subscribe((responseData)=>{
+      if(responseData.userAdded==true){
+        this.snackBar.open( "User Added", "OK", {
+          panelClass: ['success']
+        });
+        addDoctorForm.reset();
+      }else if(responseData.userAdded==false){
+        this.snackBar.open( "User Cannot be addded, username already exist. Enter Another Username", "OK", {
+          panelClass: ['error']
+        });
+      }
+    });
 
   }
 

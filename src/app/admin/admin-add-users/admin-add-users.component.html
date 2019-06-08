@@ -49,8 +49,11 @@
         <form (submit)="onAddDoctor(addDoctorForm)" #addDoctorForm="ngForm">
             <div class="form-group row">
               <label for="doctorRegistrationNumber" class="col-sm-3 col-form-label">Doctor Reg. No</label>
-              <div class="col-sm-5">
-                <input (keyup)="onSearchDoctor($event)" type="text" ngModel #doctorRegistrationNumber="ngModel" class="form-control" id="doctorRegistrationNumber"  name="doctorRegistrationNumber" placeholder="Enter Doctor Registration Number">
+              <div class="col-sm-5 input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text col" id="basic-addon3">DR/</span>
+                    </div>
+                <input (keyup)="onSearchDoctor($event)" type="number" ngModel #doctorRegistrationNumber="ngModel" class="form-control" id="doctorRegistrationNumber"  name="doctorRegistrationNumber" placeholder="Enter Doctor Reg. No.">
               </div>
           </div>
 
