@@ -152,13 +152,15 @@ export class ReceptionistAdmitPatientComponent implements OnInit {
       }
       console.log(admission);
       this.receptionistService.admitPatient(admission).subscribe((responseData)=>{
-        this.getRoomAvailability()
         this.getVacantRooms();
         this.getNewAdmissionNumber();
         admissionForm.reset();
         this.snackBar.open( "Patient Successfuly Admitted", "OK", {
           panelClass: ['success']
         });
+        this.rooms=[];
+        this.getRoomAvailability();
+
       });
     }
 

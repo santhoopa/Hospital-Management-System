@@ -1,9 +1,13 @@
  <mat-card class="card">
+
+
   <mat-card-header class="header">
-    <mat-card-title>Hospital Management System - Login</mat-card-title>
+    <mat-card-title><i class="fa fa-hospital-o fa-2x center" style="padding-right: 20px"></i>Medical Center Management System</mat-card-title>
+    <mat-card-title style="padding-left: 155px">Login</mat-card-title>
+
   </mat-card-header>
 
-  <mat-card-content>
+  <mat-card-content style="padding-left: 68px">
     <form class="form" (submit)="onLogin(loginForm)" #loginForm="ngForm">
          <mat-form-field class="full-width">
            <input
@@ -15,7 +19,7 @@
            required>
          </mat-form-field>
          <br>
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" >
           <mat-label >Select Role</mat-label>
           <mat-select  name="role" ngModel required>
             <mat-option value="admin">Admin</mat-option>
@@ -36,7 +40,7 @@
           required>
         </mat-form-field>
         <br>
-      <button class="login-button" mat-raised-button  color="primary">Login</button>
+      <button class="login-button btn btn-success"><i class="fa fa-sign-in" style="padding-right: 13px"></i>Login</button>
 
 
     </form>

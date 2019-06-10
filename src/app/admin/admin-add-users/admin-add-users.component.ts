@@ -31,6 +31,7 @@ export class AdminAddUsersComponent implements OnInit {
         this.snackBar.open( "User Added", "OK", {
           panelClass: ['success']
         });
+        addUserForm.reset();
       }else if(responseData.userAdded==false){
         this.snackBar.open( "User Cannot be addded, username already exist. Enter Another Username", "OK", {
           panelClass: ['error']

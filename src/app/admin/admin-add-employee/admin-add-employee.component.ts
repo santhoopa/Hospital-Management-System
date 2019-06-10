@@ -83,6 +83,7 @@ onRegisterEmployee(form:NgForm){
       panelClass: ['success']
     });
     form.resetForm();
+    this.onClearTable();
   })
 }
 

@@ -1,3 +1,4 @@
+<div class="p-3 mb-2 bg-info text-white text-center" style="">Medical Center Management System - eChanneling</div>
 
 <div class="container">
   <mat-horizontal-stepper>
@@ -34,7 +35,7 @@
                   </div>
 
                   <div class="col-sm-4" style="padding-top: 50px; padding-left: 60px">
-                    <button type="buttton" matStepperNext class="btn btn-success" (click)="onBookNow(doctor.doctorRegistrationNumber,doctor.name.firstname,doctor.name.lastname)">Book Now</button>
+                    <button type="buttton" matStepperNext class="btn btn-success" (click)="onBookNow(doctor.doctorRegistrationNumber,doctor.name.firstname,doctor.name.lastname)">Book Now<i class="fa fa-arrow-right" style="padding-left: 10px"></i></button>
                   </div>
 
             </div>
@@ -78,7 +79,7 @@
           </div>
 
           <div class="col-sm-4" style="padding-left: 50px">
-            <button type="buttton" matStepperNext class="btn btn-success" (click)="onSelectTime(element.day,element.startTime)">Select</button>
+            <button type="buttton" matStepperNext class="btn btn-success" (click)="onSelectTime(element.day,element.startTime)">Select<i class="fa fa-hand-pointer-o" style="padding-left: 15px"></i></button>
           </div>
         </div>
       </mat-card>

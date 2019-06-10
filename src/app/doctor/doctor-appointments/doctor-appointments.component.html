@@ -25,7 +25,7 @@
                     </div>
                 </div> -->
                 <div class="form-group row" style="padding-left: 300px; padding-top: 20px">
-                      <button (click)="onSearchAppointments(appointmentDate.value)" class="btn  btn-primary" style="margin-left: 60px">Search Appointments</button>
+                      <button (click)="onSearchAppointments(appointmentDate.value)" class="btn  btn-primary" style="margin-left: 60px"><i class="fa fa-calendar" style="padding-right: 13px"></i>Search Appointments</button>
                 </div>
                 <mat-card class="border border-dark" *ngFor="let element of normalAppointments_ByDate" style="margin-bottom:10px; margin-right: 5px;">
                     <div class="row">
@@ -136,8 +136,8 @@
                       </div>
 
                     </div> -->
-                      <div class="form-group row" style="padding-left: 300px">
-                          <button type="buttton" (click)="onViewAppointment(element,'Normal')" matStepperNext class="btn btn-sm btn-success" >View Appointment</button>
+                      <div class="form-group row" style="padding-left: 320px">
+                          <button type="buttton" (click)="onViewAppointment(element,'Normal')" matStepperNext class="btn btn-sm btn-success" >View Appointment<i class="fa fa-arrow-right" style="padding-left: 10px"></i></button>
                       </div>
                   </mat-card>
                   <mat-card class="border border-dark" *ngFor="let element of onlineAppointments_ByDate" style="margin-bottom:10px; margin-right: 5px;">
@@ -249,8 +249,8 @@
                         </div>
 
                       </div> -->
-                        <div class="form-group row" style="padding-left: 300px">
-                            <button type="buttton" (click)="onViewAppointment(element,'Online')" matStepperNext class="btn btn-sm btn-success" >View Appointment</button>
+                        <div class="form-group row" style="padding-left: 320px">
+                            <button type="buttton" (click)="onViewAppointment(element,'Online')" matStepperNext class="btn btn-sm btn-success" >View Appointment<i class="fa fa-arrow-right" style="padding-left: 10px"></i></button>
                         </div>
                     </mat-card>
 
@@ -301,7 +301,7 @@
                                       </div>
                                   </div>
 
-                                  <button type="submit" class="btn btn-success" style="margin-left:200px;margin-top:10px; padding-left: 30px; padding-right: 30px; margin-bottom: 30px">Save</button>
+                                  <button type="submit" class="btn btn-success" style="margin-left:200px;margin-top:10px; padding-left: 20px; padding-right: 30px; margin-bottom: 30px"><i class="fa fa-floppy-o" style="padding-right: 18px"></i>Save</button>
                                 </form>
                           </div>
                           <div class="col border border-dark" style="padding-top: 10px">
