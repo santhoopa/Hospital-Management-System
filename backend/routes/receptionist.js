@@ -6,6 +6,7 @@ const DoctorAvailability=require('../models/doctor_availability');
 const Appointment=require('../models/appointment');
 const Room=require('../models/room');
 const Admission=require('../models/admission');
+const Employee=require('../models/employee');
 const OnlineAppointment=require('../models/online_appointment');
 
 //Getting patient name to schedule appointment - By Receptionist
@@ -661,4 +662,82 @@ router.post("/api/patient/getPreviousAppointmentDetails",(req,res,next) => {
     console.log("Error: "+err);
   })
 });
+
+//Counting Number of patients registered
+router.get("/api/dashboard/countPatients",(req,res,next) => {
+  console.log("This is getting number of patients - Receptionist Dashboard");
+  Patient.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
+//Counting Number of doctors registered
+router.get("/api/dashboard/countDoctors",(req,res,next) => {
+  console.log("This is getting number of doctors - Receptionist Dashboard");
+  Doctor.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
+//Counting Number of admissions registered
+router.get("/api/dashboard/countAdmissions",(req,res,next) => {
+  console.log("This is getting number of admissions - Receptionist Dashboard");
+  Admission.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
+//Counting Number of normal appointments
+router.get("/api/dashboard/countNormalAppointments",(req,res,next) => {
+  console.log("This is getting number of normal appointments - Receptionist Dashboard");
+  Appointment.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
+//Counting Number of online appointments
+router.get("/api/dashboard/countOnlineAppointments",(req,res,next) => {
+  console.log("This is getting number of online appointments - Receptionist Dashboard");
+  OnlineAppointment.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
+//Counting Number of rooms
+router.get("/api/dashboard/countRooms",(req,res,next) => {
+  console.log("This is getting number of rooms - Receptionist Dashboard");
+  Room.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
+//Counting Number of Employees
+router.get("/api/dashboard/countEmployees",(req,res,next) => {
+  console.log("This is getting number of Employees - Receptionist Dashboard");
+  Employee.countDocuments().then(response=> {
+    console.log(response);
+    res.status(200).json({
+      count:response
+    });
+  });
+});
+
 module.exports=router;

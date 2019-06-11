@@ -66,6 +66,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminAddEmployeeComponent } from './admin-add-employee/admin-add-employee.component';
 import { AdminViewEmployeeComponent } from './admin-view-employee/admin-view-employee.component';
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
+import { AdminAddRoomsComponent } from './admin-add-rooms/admin-add-rooms.component';
 @NgModule({
   imports: [
   CommonModule,
@@ -128,7 +129,9 @@ import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.com
 
   AdminViewEmployeeComponent,
 
-  AdminViewUsersComponent]
+  AdminViewUsersComponent,
+
+  AdminAddRoomsComponent]
 })
 
 

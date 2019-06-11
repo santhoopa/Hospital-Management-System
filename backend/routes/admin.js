@@ -2,6 +2,7 @@ const express=require('express');
 const User=require('../models/user');
 const Doctor=require('../models/doctor');
 const Employee=require('../models/employee');
+const Room=require('../models/room');
 const router=express.Router();
 
 // router.get("/api/user/userNameValidity/:keyword",(req,res,next) => {
@@ -148,7 +149,39 @@ router.get("/api/employee/getEmployees/:keyword",(req,res,next) => {
     res.status(200).json({
       employees:results
     });
+  }).catch(err =>{
+    console.log("Error: "+err);
   });
 });
 
+//Get new room number
+router.get("/api/admin/getNewRoomNumber",(req,res,next) => {
+  Room.countDocuments().then(response=>{
+    count=Number(response)+1;
+    res.status(200).json({
+      roomNumber:count
+    });
+  }).catch(err =>{
+    console.log("Error: "+err);
+  });
+});
+
+//Adding Rooms - Admin
+router.post("/api/admin/addRooms",(req,res,next) => {
+  console.log("This is adding new rooms");
+  const room=new Room({
+    roomNumber:req.body.roomNumber,
+    type:req.body.type,
+    status:'Vacant'
+  });
+
+  room.save().then(response => {
+    console.log(response);
+    res.status(201).json({
+    });
+
+  }).catch(err =>{
+    console.log("Error: "+err);
+  });
+});
 module.exports=router;

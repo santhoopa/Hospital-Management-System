@@ -56,4 +56,19 @@ export class AdminService{
   getSystemUsers(){
     return this.http.get<{users:any}>("http://localhost:3000/api/user/userDetails");
   }
+
+  getRoomAvailability(){
+    return this.http.get<{rooms:any}>("http://localhost:3000/api/rooms");
+  }
+
+  getNewRoomNumber(){
+    return this.http.get<{roomNumber:any}>("http://localhost:3000/api/admin/getNewRoomNumber");
+
+  }
+
+  addRoom(room:any){
+
+    return this.http.post("http://localhost:3000/api/admin/addRooms",room);
+
+  }
 }

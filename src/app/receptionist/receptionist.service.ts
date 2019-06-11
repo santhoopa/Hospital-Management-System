@@ -222,4 +222,32 @@ export class ReceptionistService{
     return this.http.post<{normal_appointments:any,online_appointments:any}>("http://localhost:3000/api/patient/getPreviousAppointmentDetails",load);
 
   }
+
+  countPatients(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countPatients");
+  }
+
+  countDoctors(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countDoctors");
+  }
+
+  countAdmissions(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countAdmissions");
+  }
+
+  countNormalAppointments(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countNormalAppointments");
+  }
+
+  countOnlineAppointments(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countOnlineAppointments");
+  }
+
+  countRooms(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countRooms");
+  }
+
+  countEmployees(){
+    return this.http.get<{count:any}>("http://localhost:3000/api/dashboard/countEmployees");
+  }
 }

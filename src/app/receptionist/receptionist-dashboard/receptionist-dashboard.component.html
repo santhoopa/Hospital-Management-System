@@ -29,7 +29,7 @@
     </div>
   </div> -->
 
-<div class="row" style="margin-top: -200px">
+<div class="row" style="margin-top: -70px">
 
   <div class="col">
     <div class="card border-left-success shadow h-100 py-2">
@@ -37,7 +37,7 @@
         <div class="row no-gutters align-items-center">
           <div class="col ">
             <div class="text font-weight-bold text-success text-uppercase mb-1">Patients Registered</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{patientsRegistered}}</div>
           </div>
           <div class="col-auto">
               <i class="fa fa-user fa-4x text-gray-500"></i>
@@ -54,7 +54,7 @@
         <div class="row no-gutters align-items-center">
           <div class="col">
             <div class="text font-weight-bold text-info text-uppercase mb-1">Doctors Registered</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{doctorsRegistered}}</div>
           </div>
           <div class="col-auto">
               <i class="fa fa-user-md fa-4x text-gray-500"></i>
@@ -92,7 +92,7 @@
             <div class="row no-gutters align-items-center">
               <div class="col">
                 <div class="text font-weight-bold text-primary text-uppercase mb-1">Appointments Scheduled</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{appointmentsScheduled}}</div>
               </div>
               <div class="col-auto">
                   <i class="fa fa-calendar fa-4x text-gray-500"></i>
@@ -108,7 +108,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col ">
               <div class="text font-weight-bold text-danger text-uppercase mb-1">Patients Admissions</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{patientAdmissions}}</div>
             </div>
             <div class="col-auto">
                 <i class="fa fa-wheelchair fa-4x text-gray-500"></i>
@@ -120,3 +120,40 @@
     </div>
 
  </div>
+
+ <div class="row" style="margin-top: 10px; width:850px">
+
+  <div class="col-6">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col">
+              <div class="text font-weight-bold text-warning text-uppercase mb-1">Total Rooms</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{roomsAdded}}</div>
+            </div>
+            <div class="col-auto">
+                <i class="fa fa-tags fa-4x text-gray-500"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="col-6">
+    <div class="card border-left-secondary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col ">
+            <div class="text font-weight-bold text-secondary text-uppercase mb-1">Employees Registered</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{employeesRegistered}}</div>
+          </div>
+          <div class="col-auto">
+              <i class="fa fa-user-secret fa-4x text-gray-500"></i>
+              <!-- <i class="fa fa-user"></i> -->
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

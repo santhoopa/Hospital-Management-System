@@ -1,3 +1,4 @@
+import { AdminAddRoomsComponent } from './admin-add-rooms/admin-add-rooms.component';
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminViewEmployeeComponent } from './admin-view-employee/admin-view-employee.component';
 import { AdminAddEmployeeComponent } from './admin-add-employee/admin-add-employee.component';
@@ -16,6 +17,7 @@ const adminRoutes: Routes = [
       { path: 'AddEmployee', component: AdminAddEmployeeComponent },
       { path: 'ViewEmployee', component: AdminViewEmployeeComponent },
       { path: 'ViewUser', component: AdminViewUsersComponent },
+      { path: 'addRooms', component: AdminAddRoomsComponent },
 
     ]
 
