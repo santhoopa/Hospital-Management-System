@@ -1,0 +1,117 @@
+<div class="container scroll" style="border-top: 1000px">
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+      <div class="row" style="margin-left: -15px">
+        <div class="col-6">
+            <div class="container border border-dark divDoctorInfo" style="width: 495px">
+                <p class="font-weight-bold col-6" style="padding-top: 10px">Total Appointments</p>
+                <div class="row container" style="padding-bottom: 20px; padding-top: 5px;">
+                  <label for="employeeDistrict" class="col-4" style="padding-top: 8px">Select Year</label>
+                  <select ngModel #yearApp="ngModel"class="custom-select col-4" name="yearApp" id="yearApp">
+                      <option value="">Year</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                      <option value="2017">2017</option>
+                  </select>
+                  <button class="btn btn-sm btn-success" style="margin-left: 20px" (click)="onSearchTotalAppointments(yearApp.value)">Search</button>
+                </div>
+                <canvas id="totalAppointments" height="200"></canvas>
+            </div>
+        </div>
+        <div class="col-6" style="margin-left: -10px">
+            <div class="container border border-dark divDoctorInfo" style="width: 495px">
+                <p class="font-weight-bold" style="padding-top: 10px">Total Appointments per Doctor</p>
+                <div class="row" style="padding-bottom: 20px; padding-top: 5px;">
+                  <label for="employeeDistrict" class="col-2" style="padding-top: 8px">Year</label>
+                  <select ngModel #yearAppD="ngModel"class="custom-select col-2" name="yearAppD" id="yearAppD">
+                      <option value="">Year</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                      <option value="2017">2017</option>
+                  </select>
+                  <label for="employeeDistrict" class="col-2" style="padding-top: 8px">Doctor</label>
+                  <select ngModel #selectDoctor="ngModel"class="custom-select col-4" name="selectDoctor" id="selectDoctor" required>
+                    <option value="null">Choose...</option>
+                    <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
+                  </select>
+                  <button class="btn btn-sm btn-success" style="margin-left: 10px" (click)="onSearchTotalAppointmentsByDoctor(yearAppD.value,selectDoctor.value)">Search</button>
+                </div>
+                <canvas id="totalAppointments_doctor" height="200"></canvas>
+            </div>
+        </div>
+      </div>
+      <br>
+      <div class="row" style="margin-left: -15px">
+        <div class="col-6">
+            <div class="container border border-dark divDoctorInfo" style="width: 495px">
+                <p class="font-weight-bold col-6" style="padding-top: 10px">Total Admissions</p>
+                <div class="row container" style="padding-bottom: 20px; padding-top: 5px;">
+                  <label for="employeeDistrict" class="col-4" style="padding-top: 8px">Select Year</label>
+                  <select ngModel #yearAdm="ngModel"class="custom-select col-4" name="yearAdm" id="yearAdm">
+                      <option value="">Year</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                      <option value="2017">2017</option>
+                  </select>
+                  <button class="btn btn-sm btn-success" style="margin-left: 20px" (click)="onSearchTotalAdmissions(yearAdm.value)">Search</button>
+                </div>
+                <canvas id="totalAdmissions" height="200"></canvas>
+            </div>
+        </div>
+        <div class="col-6" style="margin-left: -10px">
+            <div class="container border border-dark divDoctorInfo" style="width: 495px">
+                <p class="font-weight-bold" style="padding-top: 10px">Number of Patients by Age</p>
+                <!-- <div class="row" style="padding-bottom: 20px; padding-top: 5px;">
+                  <label for="employeeDistrict" class="col-2" style="padding-top: 8px">Year</label>
+                  <select ngModel #yearAdm="ngModel"class="custom-select col-2" name="yearAdm" id="yearAdm">
+                      <option value="">Year</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                      <option value="2017">2017</option>
+                  </select>
+                  <label for="employeeDistrict" class="col-2" style="padding-top: 8px">Doctor</label>
+                  <select ngModel #selectDoctor="ngModel"class="custom-select col-4" name="selectDoctor" id="selectDoctor" required>
+                    <option value="null">Choose...</option>
+                    <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
+                  </select>
+                  <button class="btn btn-sm btn-success" style="margin-left: 10px" (click)="onSearchTotalAppointmentsByDoctor(yearAdm.value,selectDoctor.value)">Search</button>
+                </div> -->
+                <canvas id="patientsAge" height="240"></canvas>
+                <br>
+
+            </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-left: -15px">
+        <div class="col-6">
+            <div class="container border border-dark divDoctorInfo" style="width: 495px">
+                <p class="font-weight-bold col-6" style="padding-top: 10px">Number of Patients By City</p>
+                <canvas id="patientsByCity" height="200"></canvas>
+            </div>
+        </div>
+        <!-- <div class="col-6" style="margin-left: -10px">
+            <div class="container border border-dark divDoctorInfo" style="width: 495px">
+                <p class="font-weight-bold" style="padding-top: 10px">Patients by Age</p>
+                <div class="row" style="padding-bottom: 20px; padding-top: 5px;">
+                  <label for="employeeDistrict" class="col-2" style="padding-top: 8px">Year</label>
+                  <select ngModel #yearAdm="ngModel"class="custom-select col-2" name="yearAdm" id="yearAdm">
+                      <option value="">Year</option>
+                      <option value="2019">2019</option>
+                      <option value="2018">2018</option>
+                      <option value="2017">2017</option>
+                  </select>
+                  <label for="employeeDistrict" class="col-2" style="padding-top: 8px">Doctor</label>
+                  <select ngModel #selectDoctor="ngModel"class="custom-select col-4" name="selectDoctor" id="selectDoctor" required>
+                    <option value="null">Choose...</option>
+                    <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
+                  </select>
+                  <button class="btn btn-sm btn-success" style="margin-left: 10px" (click)="onSearchTotalAppointmentsByDoctor(yearAdm.value,selectDoctor.value)">Search</button>
+                </div>
+                <canvas id="patientsCity" height="240"></canvas>
+                <br>
+
+            </div>
+        </div> -->
+      </div>
+  </cdk-virtual-scroll-viewport>
+</div>

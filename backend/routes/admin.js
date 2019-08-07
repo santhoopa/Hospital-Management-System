@@ -2,7 +2,11 @@ const express=require('express');
 const User=require('../models/user');
 const Doctor=require('../models/doctor');
 const Employee=require('../models/employee');
+const Patient=require('../models/patient');
 const Room=require('../models/room');
+const Appointment=require('../models/appointment');
+const OnlineAppointment=require('../models/online_appointment');
+const Admission=require('../models/admission');
 const router=express.Router();
 
 // router.get("/api/user/userNameValidity/:keyword",(req,res,next) => {
@@ -13,6 +17,76 @@ const router=express.Router();
 
 //   })
 // });
+
+//This is getting age for pie chart - Admin
+router.get("/api/reports/getAge",(req,res,next) => {
+  Patient.aggregate([
+    {
+      $project:
+        {
+          year: { $year: "$dob" },
+          month: { $month: "$dob" }
+        }
+    }
+  ]).then(response => {
+    console.log(response);
+   let age=[];
+   let ages={};
+   let group1=0;
+   let group2=0;
+   let group3=0;
+   let group4=0;
+   let group5=0;
+   let group6=0;
+    let array=[2017,2017,2012,2012,2002,2002,2002,1995,1995,1995,1995,1975,1975,1975,1975,1975,1960,1960,1960,1960,1960,1960]
+    response.forEach(r => {
+      var thisYear = new Date().getFullYear();
+      //console.log(thisYear);
+      var x=thisYear-r.year;
+      if(x>0 && x<6){
+        group1++;
+      }else if(x>5 && x<11){
+        group2++;
+      }else if(x>10 && x<19){
+        group3++;
+      }else if(x>18 && x<31){
+        group4++;
+      }else if(x>30 && x<51){
+        group5++;
+      }else if(x>50){
+        group6++;
+      }
+      //age.push(x);
+    });
+
+    ages={
+      1:group1,
+      2:group2,
+      3:group3,
+      4:group4,
+      5:group5,
+      6:group6,
+    }
+      age.push(group1);
+      age.push(group2);
+      age.push(group3);
+      age.push(group4);
+      age.push(group5);
+      age.push(group6);
+      console.log(group1);
+      console.log(group2);
+      console.log(group3);
+      console.log(group4);
+      console.log(group5);
+      console.log(group6);
+    res.status(201).json({
+     res:age
+    });
+  });
+});
+
+
+
 router.get("/api/user/userDetails",(req,res,next) => {
   console.log("This is getting System user deatials - Admin");
   User.aggregate([
@@ -183,5 +257,151 @@ router.post("/api/admin/addRooms",(req,res,next) => {
   }).catch(err =>{
     console.log("Error: "+err);
   });
+});
+
+//Getting total appointments by year - For Reports
+router.get("/api/admin/reports/getAppointmentsByYear/:year",(req,res,next) => {
+  console.log("This is Getting total appointments by year")
+  result=[];
+  sorted=[0,0,0,0,0,0,0,0,0,0,0,0];
+  Appointment.aggregate([
+    {$project: { "month":{$month: '$appointmentDate'},"year" : {$year: '$appointmentDate'}}},
+    {$match: { year: Number(req.params.year)}}
+  ]).then(response =>{
+    result=response;
+
+    result.forEach(element => {
+      for(var x=0; x<12; x++){
+        if(element.month==(x+1)){
+          sorted[x]+=1;
+        }
+      }
+    });
+    OnlineAppointment.aggregate([
+      {$project: { "month":{$month: '$appointmentDate'},"year" : {$year: '$appointmentDate'}}},
+      {$match: { year: Number(req.params.year)}}
+    ]).then(response1 =>{
+      result=response1;
+
+      result.forEach(element => {
+        for(var x=0; x<12; x++){
+          if(element.month==(x+1)){
+            sorted[x]+=1;
+          }
+        }
+      });
+      console.log(sorted);
+      res.status(200).json({
+        data:sorted
+      });
+    });
+  });
+});
+
+//Getting total appointments by year per doctor - For Reports
+router.get("/api/admin/reports/getAppointmentsByDoctor/:year&:doctor",(req,res,next) => {
+  console.log("This is Getting total appointments by doctor - For Reports")
+  console.log(req.params.doctor);
+  result=[];
+  sorted=[0,0,0,0,0,0,0,0,0,0,0,0];
+  Appointment.aggregate([
+    {$match: {"doctorRegistrationNumber":Number(req.params.doctor)}},
+    {$project: { "month":{$month: '$appointmentDate'},"year" : {$year: '$appointmentDate'}}},
+    {$match: { year: Number(req.params.year)}},
+
+  ]).then(response =>{
+    console.log(response);
+    result=response;
+    result.forEach(element => {
+      for(var x=0; x<12; x++){
+        if(element.month==(x+1)){
+          sorted[x]+=1;
+        }
+      }
+    });
+    OnlineAppointment.aggregate([
+      {$match: {"doctorRegistrationNumber":Number(req.params.doctor)}},
+      {$project: { "month":{$month: '$appointmentDate'},"year" : {$year: '$appointmentDate'}}},
+      {$match: { year: Number(req.params.year)}},
+
+    ]).then(response1 =>{
+      console.log(response1);
+      result=response1;
+      result.forEach(element => {
+        for(var x=0; x<12; x++){
+          if(element.month==(x+1)){
+            sorted[x]+=1;
+          }
+        }
+      });
+      console.log(sorted);
+      res.status(200).json({
+        data:sorted
+      });
+    });
+  });
+});
+
+//Getting total appointments by year per doctor - For Reports
+router.get("/api/admin/reports/getAdmissionData/:year",(req,res,next) => {
+  console.log("This is Getting total admissions - For Reports");
+  result=[];
+  sorted=[0,0,0,0,0,0,0,0,0,0,0,0];
+  Admission.aggregate([
+    {$project: { "month":{$month: '$admissionDate'},"year" : {$year: '$admissionDate'}}},
+    {$match: { year: Number(req.params.year)}},
+
+  ]).then(response =>{
+    //console.log(response);
+    result=response;
+    result.forEach(element => {
+      for(var x=0; x<12; x++){
+        if(element.month==(x+1)){
+          sorted[x]+=1;
+        }
+      }
+    });
+    console.log(sorted);
+    res.status(200).json({
+      data:sorted
+    });
+  });
+});
+
+
+//Getting Patients By City - For Reports
+router.get("/api/admin/reports/getPatientsByCity",(req,res,next) => {
+  data=[0,0,0,0,0,0,0,0,0,0];
+  Patient.find().then(result => {
+    //console.log(result);
+    result.forEach( element => {
+      console.log(element.city);
+      if(element.city=="Kelaniya"){
+        data[0]++;
+      }else if (element.city=="Peliyagoda"){
+        data[1]++;
+      }else if (element.city=="Makola"){
+        data[2]++;
+      }else if (element.city=="Kiribathgoda"){
+        data[3]++;
+      }else if (element.city=="Kadawatha"){
+        data[4]++;
+      }else if (element.city=="Gampaha"){
+        data[5]++;
+      }else if (element.city=="Ganemulla"){
+        data[6]++;
+      }else if (element.city=="Balummahara"){
+        data[7]++;
+      }else if (element.city=="Waththala"){
+        data[8]++;
+      }else if (element.city=="Ragama"){
+        data[9]++;
+      }
+    });
+
+    res.status(200).json({
+      data:data
+    });
+  })
 });
 module.exports=router;
