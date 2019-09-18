@@ -14,6 +14,9 @@ export class EchannelingService{
     return this.http.get<{doctors:any}>("http://localhost:3000/api/onlineAppointments/getDoctorList");
   }
 
+  getDoctor(keyword:string){
+    return this.http.get<{message:string; doctors:any}>("http://localhost:3000/api/onlineAppointments/searchDoctor/"+keyword);
+  }
   getDoctorAvailability(regno:string){
     return this.http.get<{ message:string; timeSlots:any}>("http://localhost:3000/api/doctors/getdoctorAvailability/"+regno);
   }

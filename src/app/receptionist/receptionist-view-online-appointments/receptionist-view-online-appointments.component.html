@@ -4,13 +4,26 @@
 
       <div class="col" style="padding-top: 15px">
           <div class="form-group row border border-secondary" style="padding: 20px 10px 20px 10px">
-              <label for="chooseDoctor" class="col-sm-5 col-form-label">Choose Doctor to View Online Appointment</label>
-              <div class="col-sm-5">
-                <select  (change)="onChangeChooseDoctor_ViewOnlineAppointments($event.target.value)"class="custom-select" name="chooseDoctor" id="chooseDoctor" required="">
+              <label for="chooseDoctor" class="col-sm-2 col-form-label">Select Doctor</label>
+              <div class="col-sm-3">
+                <select  #selectDoctor class="custom-select" name="chooseDoctor" id="chooseDoctor" required="">
                   <option value="null">Choose Doctor</option>
                   <option *ngFor="let doctor of doctors" value="{{doctor.doctorRegistrationNumber}}">Dr.{{doctor.firstName}} {{doctor.lastName}}</option>
                 </select>
                </div>
+               <label for="chooseDoctor" class="col-sm-2 col-form-label">Select Date</label>
+               <div class="col-sm-3" style="margin-top: -15px">
+                  <mat-form-field >
+                      <input matInput ngModel #selectDate_view="ngModel" name="selectDate_view"[min]="" [max]="" [matDatepicker]="picker1" placeholder="Choose a date" required>
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                    <!-- <div class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select Date</div> -->
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-success" (click)="onChangeChooseDoctor_ViewOnlineAppointments(selectDoctor.value,selectDate_view.value)">Find</button>
+                  </div>
+
           </div>
               <div class="form-group row" *ngIf="showTable_ViewAppointments">
                 <table class="table table-striped">

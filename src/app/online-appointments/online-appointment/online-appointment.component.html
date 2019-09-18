@@ -4,7 +4,73 @@
   <mat-horizontal-stepper>
     <mat-step label="Select Doctor">
       <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+          <div *ngIf="showHome" class="row" style="margin-left: 350px; margin-top: 50px">
+              <div class="col-3">
+                <button class="btn btn-success" (click)="gotoSearchAll()">View All Doctors</button>
+              </div>
+              <div class="col-3">
+                  <button class="btn btn-success" style="padding-left: 20px; padding-right: 20px" (click)="gotoSearchOne()">Search Doctor</button>
+              </div>
 
+          </div>
+          <div *ngIf="showSearchDoctor">
+              <div class="border border-dark" style="padding-left: 20px; padding-top: 20px;">
+                <div class="row">
+                    <p class="font-weight-bold col-3">Find Doctor(s)</p>
+                    <div class="col">
+                        <button class="btn btn-danger" (click)="gotoHome()" style="margin-left: 670px; margin-bottom: 20px">Back</button>
+                    </div>
+                </div>
+
+
+               <div class="form-group row">
+                  <label for="searchBox" class="col-sm-4 col-form-label">Enter Doctor name</label>
+                    <div class="col-sm-6">
+                        <input (keyup)="searchDoctor($event)" type="text" class="form-control" id="searchBox" placeholder="Search">
+                    </div>
+               </div>
+              </div>
+              <br>
+              <mat-card class="border border-secondary" *ngFor="let doctor of doctor" style="margin-bottom:10px; margin-right: 5px;">
+                  <div class="row">
+                          <div class="col-sm-8">
+
+                            <div style="max-width: 600px">
+                                <div class="form-group row">
+                                  <label for="doctorName" class="col-sm-5 col-form-label">Doctor Name</label>
+                                  <div class="col-sm-7">
+                                    <input readonly type="text"  class="form-control" id="doctorName" name="doctorName" readonly placeholder="" value="Dr. {{doctor.name.firstname}} {{doctor.name.lastname}}">
+                                  </div>
+                                </div>
+
+                                <div class="form-group row">
+                                  <label for="doctorType" class="col-sm-5 col-form-label">Doctor Type</label>
+                                  <div class="col-sm-7">
+                                    <input readonly type="text"  class="form-control" id="doctorType" name="doctorType" readonly placeholder="" value="{{doctor.doctorType}}">
+                                  </div>
+                                </div>
+
+                                <div class="form-group row">
+                                  <label for="slmcRegNo" class="col-sm-5 col-form-label">SLMC Registration Number</label>
+                                  <div class="col-sm-7">
+                                    <input readonly type="text"  class="form-control" id="slmcRegNo" name="slmcRegNo" readonly placeholder="" value="{{doctor.SLMCRegNo}}">
+                                  </div>
+                                </div>
+
+                              </div>
+                        </div>
+
+                        <div class="col-sm-4" style="padding-top: 50px; padding-left: 60px">
+                          <button type="buttton" matStepperNext class="btn btn-success" (click)="onBookNow(doctor.doctorRegistrationNumber,doctor.name.firstname,doctor.name.lastname)">Book Now<i class="fa fa-arrow-right" style="padding-left: 10px"></i></button>
+                        </div>
+
+                  </div>
+                </mat-card>
+
+          </div>
+
+          <div *ngIf="showAll">
+          <button class="btn btn-danger" (click)="gotoHome()" style="margin-left: 970px; margin-bottom: 20px">Back</button>
           <mat-card class="border border-secondary" *ngFor="let doctor of doctorDetails" style="margin-bottom:10px; margin-right: 5px;">
             <div class="row">
                     <div class="col-sm-8">
@@ -40,7 +106,7 @@
 
             </div>
           </mat-card>
-
+          </div>
 
         </cdk-virtual-scroll-viewport>
 

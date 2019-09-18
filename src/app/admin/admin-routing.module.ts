@@ -1,3 +1,4 @@
+import { AdminReports2Component } from './admin-reports2/admin-reports2.component';
 import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { AdminAddRoomsComponent } from './admin-add-rooms/admin-add-rooms.component';
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
@@ -19,7 +20,8 @@ const adminRoutes: Routes = [
       { path: 'ViewEmployee', component: AdminViewEmployeeComponent },
       { path: 'ViewUser', component: AdminViewUsersComponent },
       { path: 'addRooms', component: AdminAddRoomsComponent },
-      { path: 'reports', component: AdminReportsComponent }
+      { path: 'reports', component: AdminReportsComponent },
+      { path: 'reports2', component: AdminReports2Component }
 
     ]
 

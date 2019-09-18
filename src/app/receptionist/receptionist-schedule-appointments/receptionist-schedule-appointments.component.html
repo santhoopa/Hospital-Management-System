@@ -39,6 +39,8 @@
 
 
 
+
+
                     <div class="form-group row">
                         <label for="selectDay" class="col-sm-4 col-form-label">Select Time Slot</label>
                         <div class="col-sm-8">
@@ -51,6 +53,18 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                      <label for="selectDate" class="col-sm-4 col-form-label">Select Date</label>
+                      <div class="col-sm-8">
+                          <mat-form-field >
+                              <input matInput ngModel (dateChange)="getAppointmentCount($event.target.value,selectDoctor.value,selectTimeSlot.value)"  #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date" required>
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select Date</div>
+                      </div>
+                   </div>
+
                     <!-- <div class="form-group row">
                         <label for="selectTimeSlot" class="col-sm-4 col-form-label">Select Time Slot</label>
                         <div class="col-sm-8">
@@ -62,17 +76,15 @@
                         </div>
                     </div> -->
 
-                    <div class="form-group row">
-                      <label for="selectDate" class="col-sm-4 col-form-label">Select Date</label>
-                      <div class="col-sm-8">
-                          <mat-form-field >
-                              <input matInput ngModel #appointmentDate="ngModel" name="appointmentDate"[min]="" [max]="" [matDatepicker]="picker" placeholder="Choose a date" required>
-                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                              <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
-                            <div class="alert alert-danger" *ngIf="!appointmentDate.valid && appointmentDate.touched">Select Date</div>
-                      </div>
-                   </div>
+
+
+                   <div class="form-group row">
+                    <label for="patientName" class="col-sm-5 col-form-label">Appointment Time</label>
+                    <div class="col-sm-7">
+                      <input type="text" ngModel #appointmentTime="ngModel" style="font-weight:bold" class="form-control-plaintext" id="appointmentTime" name="appointmentTime" readonly [(ngModel)]="appointmentTime_Calculated">
+                      <!-- <div style="margin-bottom: -10px" class="alert alert-danger" *ngIf="!patientName.valid && patientRegistrationNumber.touched">Invalid Patient</div> -->
+                    </div>
+                  </div>
 
                     <div class="form-group row">
                         <label for="appointmentNumber" class="col-sm-4 col-form-label">Appointment No</label>

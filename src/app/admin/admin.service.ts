@@ -1,9 +1,11 @@
+import { Patient } from './../models/patient.model';
 import { User } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
-import { Observable } from 'rxjs';
-
+// import { Observable } from 'rxjs';
+import { map} from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
@@ -96,5 +98,61 @@ export class AdminService{
 
   getPatientsDataByCity(){
     return this.http.get<{ data:any}>("http://localhost:3000/api/admin/reports/getPatientsByCity");
+  }
+
+  patients:Patient[];
+  private patientUpdated=new Subject<Patient[]>();
+  searchPatients(keyword:string){
+    if (keyword=="")
+     { keyword=null;}
+
+    this.http.get<{ message:string; patients:any}>("http://localhost:3000/api/patients/"+keyword)
+    .pipe(map((response)=>{
+      return response.patients.map(patient =>{
+        return {
+          patientRegistrationNumber: patient.patientRegistrationNumber,
+           name:{
+            firstname:patient.name.firstname,
+            lastname:patient.name.lastname,
+            },
+            gender:patient.gender,
+            address:patient.address,
+            dob:new Date(patient.dob).toDateString(),
+            city:patient.city,
+            district:patient.district,
+            nic:patient.nic,
+            maritalStatus:patient.maritalStatus,
+            contactNumber:patient.contactNumber,
+            email:patient.email,
+            guardian:{
+              guardianType:patient.guardian.guardianType,
+              firstname:patient.guardian.firstname,
+              lastname:patient.guardian.lastname,
+              gender:patient.guardian.gender,
+              NIC:patient.guardian.NIC,
+              contactNumber:patient.guardian.contactNumber ,
+             }
+       }
+      })
+    }))
+    .subscribe(response =>{
+      this.patients=response;
+      this.patientUpdated.next([...this.patients]);
+
+
+    });
+  }
+
+  getPatienttUpdateListner(){
+    return this.patientUpdated.asObservable();
+  }
+
+  getPreviousAppointments_ViewPatient(patientRegistrationNumber:string){
+    const load={
+      patientRegistrationNumber:patientRegistrationNumber
+    }
+
+    return this.http.post<{normal_appointments:any,online_appointments:any}>("http://localhost:3000/api/patient/getPreviousAppointmentDetails",load);
+
   }
 }

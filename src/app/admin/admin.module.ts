@@ -68,6 +68,7 @@ import { AdminViewEmployeeComponent } from './admin-view-employee/admin-view-emp
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminAddRoomsComponent } from './admin-add-rooms/admin-add-rooms.component';
 import { AdminReportsComponent } from './admin-reports/admin-reports.component';
+import { AdminReports2Component } from './admin-reports2/admin-reports2.component';
 @NgModule({
   imports: [
   CommonModule,
@@ -134,7 +135,9 @@ import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 
   AdminAddRoomsComponent,
 
-  AdminReportsComponent]
+  AdminReportsComponent,
+
+  AdminReports2Component]
 })
 
 

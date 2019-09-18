@@ -137,7 +137,10 @@ export class ReceptionistService{
 
   }
 
+  getAppointmentCount(load:any){
+    return this.http.post<{ count: string}>("http://localhost:3000/api/appointment/getAppointmentCount_ScheduleAppointment",load);
 
+  }
   scheduleAppointment(appointment:ManualAppointment){
 
     return this.http.post<{ message: string, patient:string}>("http://localhost:3000/api/appointment/scheduleAppointment",appointment);
@@ -180,10 +183,11 @@ export class ReceptionistService{
 
   }
 
-  viewOnlineAppointments_ByDoctor(doctorRegistrationNumber:string,status:string){
+  viewOnlineAppointments_ByDoctor(doctorRegistrationNumber:string,status:string,appDate:Date){
     const load={
       doctorRegistrationNumber:doctorRegistrationNumber,
       status:status,
+      appointmentDate:appDate.toDateString()
     }
     return this.http.post<{onlineAppointments:any}>("http://localhost:3000/api/onlineAppointments/viewByDoctor",load);
   }

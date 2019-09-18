@@ -85,8 +85,72 @@ export class ReceptionistScheduleAppointmentsComponent implements OnInit {
       });
     });
   }
+  appointmentTime_Calculated;
+  generateAppointmentTime(time:string){
+
+    this.appointmentTime_Calculated="";
+    var text:any=time;
+    var numb_hour = text.match(/\d/g);
+    numb_hour = numb_hour.join("");
+    var numb_ampm = time.replace( /^\D+/g, '');
+    var hour;
+    var time_am_pm:string;
+    if(numb_hour.length==3){
+      // console.log("length is 3");
+      hour=numb_hour[0];
+      time_am_pm=numb_ampm[5]+""+numb_ampm[6];
+    }else if (numb_hour.length==4){
+      // console.log("length is 4");
+      hour=numb_hour[0]+""+numb_hour[1];
+      time_am_pm=numb_ampm[6]+""+numb_ampm[7];
+    }
+    var minutes=0;
+    var count=this.appointmentCount;
+    var time:string;
+    if(count==1){
+      time=hour+"."+15;
+    }else if (count==2){
+      time=hour+"."+30;
+    }else if (count==3){
+      time=hour+"."+45;
+    }else if(count==4){
+      hour++;
+      time=hour+"."+"00";
+    }else if (count==5){
+      hour++;
+      time=hour+"."+15;
+    }else if (count==6){
+      hour++;
+      time=hour+"."+30;
+    }else if (count==7){
+      hour++;
+      time=hour+"."+45;
+    }else if(count==0){
+      time=hour+"."+"00";
+    }
+    time+=time_am_pm;
+    console.log(time);
+    this.appointmentTime_Calculated=time;
 
 
+  }
+
+  appointmentCount;
+  getAppointmentCount(date:Date,doctorRegistrationNumber:Number,timeSlot:string){
+    console.log(doctorRegistrationNumber);
+    console.log(timeSlot);
+
+    const object={
+      appointmentDate:new Date(date).toDateString(),
+      doctorRegistrationNumber:doctorRegistrationNumber,
+      timeSlot:timeSlot
+    }
+    this.receptionistService.getAppointmentCount(object).subscribe(response => {
+      console.log(response.count);
+      this.appointmentCount=response.count;
+      this.generateAppointmentTime(timeSlot);
+    });
+  }
 
   onScheduleAppointment(scheduleAppointmentForm: NgForm){
     console.log(scheduleAppointmentForm.value)

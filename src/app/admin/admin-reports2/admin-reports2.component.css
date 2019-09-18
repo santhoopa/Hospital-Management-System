@@ -1,0 +1,30 @@
+.example-stretched-tabs {
+  width: 1000px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+
+}
+.divPatientInfo{
+  padding-top: 10px;
+  padding-right: 50px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  width: 975px;
+
+  /* margin-top: 10px; */
+  margin-bottom: 10px;
+  border-right: 100px
+}
+
+table {
+  width: 2200px;
+}
+
+th, td {
+  overflow: hidden;
+  /* width: 250px; */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  align-content: center;
+}

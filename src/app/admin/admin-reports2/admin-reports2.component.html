@@ -1,0 +1,129 @@
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+    <mat-tab label="Patient Reports">
+        <div class="border border-dark divPatientInfo">
+            <p class="font-weight-bold">Find Patient(s)</p>
+                <div class="form-group row">
+                    <label for="searchBox" class="col-sm-4 col-form-label">Enter patient name</label>
+                    <div class="col-sm-6">
+                      <input (keyup)="searchPatient($event)" type="text" class="form-control" id="searchBox" placeholder="Search">
+                    </div>
+                 </div>
+        </div>
+        <div *ngIf="showTable">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- Start -  Patient Registration Number-->
+                        <ng-container matColumnDef="patientRegistrationNumber" sticky>
+                            <th mat-header-cell *matHeaderCellDef>Registration No. </th>
+                            <td mat-cell *matCellDef="let element">PAT/{{element.patientRegistrationNumber}} <button class="btn btn-sm btn-success" (click)="generateReport(element)">Generate Report</button></td>
+                        </ng-container>
+                <!-- End -  Patient Registration Number-->
+
+                <!-- Start -  Patient First Name Column -->
+                        <ng-container matColumnDef="patientFirstName" >
+                            <th mat-header-cell *matHeaderCellDef>First Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name.firstname}} </td>
+                        </ng-container>
+                <!-- End -  Patient First Name Column -->
+
+                <!-- Start -  Patient Last Name Column -->
+                        <ng-container matColumnDef="patientLastName">
+                            <th mat-header-cell *matHeaderCellDef>Last Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name.lastname}} </td>
+                        </ng-container>
+                <!-- End -  Patient Last Name Column -->
+
+                <!-- Start -  Patient Gender Column -->
+                        <ng-container matColumnDef="patientGender">
+                            <th style="width:80px"mat-header-cell *matHeaderCellDef >Gender </th>
+                            <td style="width:80px"mat-cell *matCellDef="let element"> {{element.gender}} </td>
+                        </ng-container>
+                <!-- End -  Patient Gender Column -->
+                <!-- Start -  Patient Address Column -->
+                <ng-container matColumnDef="patientAddress">
+                    <th class="address"mat-header-cell *matHeaderCellDef >Adress </th>
+                    <td class="address"mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+                <!-- End -  Patient Address Column -->
+                <!-- Start -  Patient City Column -->
+                <ng-container matColumnDef="patientCity">
+                    <th style="width:100px" mat-header-cell *matHeaderCellDef>City </th>
+                    <td style="width:100px" mat-cell *matCellDef="let element"> {{element.city}} </td>
+                </ng-container>
+                <!-- End -  Patient City Column -->
+
+                <!-- Start -  Patient District Column -->
+                <ng-container matColumnDef="patientDistrict">
+                    <th style="width:100px" mat-header-cell *matHeaderCellDef>District </th>
+                    <td style="width:100px" mat-cell *matCellDef="let element"> {{element.district}} </td>
+                </ng-container>
+                <!-- End -  Patient District Column -->
+
+                <!-- Start -  Patient NIC Column -->
+                <ng-container matColumnDef="patientNIC">
+                    <th mat-header-cell *matHeaderCellDef>NIC </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
+                </ng-container>
+                <!-- End -  Patient NIC Column -->
+
+                <!-- Start -  Patient DOB Column -->
+                <ng-container matColumnDef="patientDOB">
+                    <th mat-header-cell *matHeaderCellDef>Date of Birth </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dob}} </td>
+                </ng-container>
+                <!-- End -  Patient DOB Column -->
+
+                <!-- Start -  Patient Marital Status Column -->
+                <ng-container matColumnDef="patientmaritalStatus">
+                    <th mat-header-cell *matHeaderCellDef>Marital Status</th>
+                    <td mat-cell *matCellDef="let element"> {{element.maritalStatus}} </td>
+                </ng-container>
+                <!-- End -  Patient Marital Status Column -->
+                <!-- Start -  Patient Contact Number Column -->
+                <ng-container matColumnDef="patientContact">
+                  <th mat-header-cell *matHeaderCellDef>Contact Number</th>
+                  <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+                </ng-container>
+                <!-- End -  Patient Contact Number Column -->
+                <!-- Start -  Patient email Column -->
+                <ng-container matColumnDef="patientemail">
+                  <th mat-header-cell *matHeaderCellDef>Email</th>
+                  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+                <!-- End -  Patient email Column -->
+                <!-- Start -  Guardian Name Column -->
+                <ng-container matColumnDef="guardianName">
+                  <th mat-header-cell *matHeaderCellDef>Guardian Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.guardian.firstname}} {{element.guardian.lastname}} </td>
+                </ng-container>
+                <!-- End -  Guardian Name Column -->
+                <!-- Start -  Guardian Gender Column -->
+                <ng-container matColumnDef="guardianGender">
+                  <th mat-header-cell *matHeaderCellDef>Guardian Gender</th>
+                  <td mat-cell *matCellDef="let element"> {{element.guardian.gender}} </td>
+                </ng-container>
+                <!-- End -  Guardian Gender Column -->
+                <!-- Start -  Guardian NIC Column -->
+                <ng-container matColumnDef="guardianNIC">
+                  <th mat-header-cell *matHeaderCellDef>Guardian NIC</th>
+                  <td mat-cell *matCellDef="let element"> {{element.guardian.NIC}} </td>
+                </ng-container>
+                <!-- End -  Guardian Gender NIC -->
+                <!-- Start -  Guardian Contact Number Column -->
+                <ng-container matColumnDef="guardianContact">
+                  <th mat-header-cell *matHeaderCellDef>Guardian Contact Number</th>
+                  <td mat-cell *matCellDef="let element"> {{element.guardian.contactNumber}} </td>
+                </ng-container>
+                <!-- End -  Guardian Contact Number NIC -->
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+
+    </mat-tab>
+    <!-- <mat-tab label="Doctor Reports">
+
+
+
+      </mat-tab> -->
+</mat-tab-group>

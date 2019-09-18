@@ -26,10 +26,10 @@ export class ReceptionistViewOnlineAppointmentsComponent implements OnInit {
   }
   public onlineAppointment_byDoctor=[];
   showTable_ViewAppointments=false;
-  onChangeChooseDoctor_ViewOnlineAppointments(doctorRegistrationNumber:any){
+  onChangeChooseDoctor_ViewOnlineAppointments(doctorRegistrationNumber:any,date:Date){
     this.onlineAppointment_byDoctor=[];
     this.showTable_ViewAppointments=false;
-    this.receptionistService.viewOnlineAppointments_ByDoctor(doctorRegistrationNumber,"").subscribe(results =>{
+    this.receptionistService.viewOnlineAppointments_ByDoctor(doctorRegistrationNumber,"",date).subscribe(results =>{
       if(results.onlineAppointments.length!=0){
         this.showTable_ViewAppointments=true;
       }else{

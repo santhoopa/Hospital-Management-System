@@ -18,6 +18,9 @@ export class OnlineAppointmentComponent implements OnInit {
   selectedDoctorNo;
   selectedDay;
   selectedTime;
+  showAll:boolean=false;
+  showSearchDoctor:boolean=false;
+  showHome:boolean=true;
   constructor(public echannellingService: EchannelingService,private snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -27,13 +30,39 @@ export class OnlineAppointmentComponent implements OnInit {
   }
   appointmentNum:any=null;
 
+  gotoSearchAll(){
+    this.showHome=false;
+    this.showAll=true;
+  }
+
+  gotoHome(){
+    this.showHome=true;
+    this.showSearchDoctor=false;
+    this.showAll=false;
+  }
+
+
+  gotoSearchOne(){
+    this.showHome=false;
+    this.showSearchDoctor=true;
+  }
   getAppointmentNumber(){
     this.echannellingService.getNewAppointmentNumber().subscribe(responseData =>{
       this.appointmentNum="eAPP/"+responseData.NewAppointmentNumber;
 
     });
   }
-
+  doctor=[];
+  searchDoctor(keyupevent:KeyboardEvent){
+    this.doctor=[];
+    this.echannellingService.getDoctor((<HTMLInputElement>keyupevent.target).value).subscribe(response => {
+      response.doctors.map(doctor => {
+        //console.log(doctor);
+        this.doctor.push(doctor);
+       });
+       console.log(this.doctor);
+    });
+  }
   getDoctorsList(){
     this.echannellingService.getDoctorsList().subscribe(response => {
 

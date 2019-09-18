@@ -275,6 +275,18 @@ router.post("/api/appointment/viewScheduledAppointments",(req,res,next) => {
   })
 });
 
+//Schedule Appointment - Get Appointment Count
+router.post("/api/appointment/getAppointmentCount_ScheduleAppointment",(req,res,next) => {
+  console.log("Schedule Appointment - Getting Appointments Count");
+  console.log(req.body);
+  Appointment.countDocuments({'doctorRegistrationNumber':req.body.doctorRegistrationNumber,'timeSlot':req.body.timeSlot,'appointmentDate':new Date(req.body.appointmentDate)}).then(response =>{
+    console.log(response);
+    res.status(201).json({
+      count:response
+    });
+  });
+});
+
 
 //Schedule Appointment - Receptionist - Creating appointment
 router.post("/api/appointment/scheduleAppointment",(req,res,next) => {
@@ -536,6 +548,21 @@ Doctor.find(null,'name doctorRegistrationNumber SLMCRegNo doctorType').then(resu
 })
 });
 
+//Online Appointments - Search by doctor name
+router.get("/api/onlineAppointments/searchDoctor/:keyword",(req,res,next) => {
+  console.log("This is online appointments -Search by doctor");
+  //console.log(keyword);
+  Doctor.find({$or:[{'name.firstname':new RegExp('^'+req.params.keyword,"i")},{'name.lastname':new RegExp('^'+req.params.keyword,"i")}]}).then(results => {
+    res.status(200).json({
+      message: "Patients fetched successfully",
+      doctors:results
+    });
+  }).catch(err=>{
+    console.log("Error: "+err);
+  });
+
+});
+
 //Online Appointment - Making Online Appointment
 router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
   console.log("This is Online Appointment - Making Online Appointment");
@@ -573,8 +600,8 @@ router.post("/api/onlineAppointments/makeAppointment",(req,res,next) => {
 //Receptionist - Online Appointment - View By Doctor - View Online Appointments
 router.post("/api/onlineAppointments/viewByDoctor",(req,res,next) => {
   console.log("This is Viewing Online Appointments - View By Doctor - Receptionist");
-  OnlineAppointment.find({'doctorRegistrationNumber':req.body.doctorRegistrationNumber}).then(results => {
-   // console.log(results);
+  OnlineAppointment.find({$and:[{'doctorRegistrationNumber':req.body.doctorRegistrationNumber,"appointmentDate" : new Date(req.body.appointmentDate)}]}).then(results => {
+    //console.log(results);
      res.status(200).json({
       onlineAppointments:results
      });
